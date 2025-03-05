@@ -7,8 +7,6 @@
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 #![no_std]
 
-extern crate alloc;
-
 use alloy_hardforks::{hardfork, EthereumHardforks, ForkCondition};
 
 hardfork!(
@@ -101,6 +99,8 @@ pub trait OpHardforks: EthereumHardforks {
 mod tests {
     use super::*;
     use core::str::FromStr;
+
+    extern crate alloc;
 
     #[test]
     fn check_op_hardfork_from_str() {
