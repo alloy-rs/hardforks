@@ -98,8 +98,8 @@ impl ForkCondition {
     /// - The condition is satisfied by the timestamp;
     /// - or the condition is satisfied by the total difficulty
     pub fn active_at_head(&self, head: &Head) -> bool {
-        self.active_at_timestamp_or_number(head.timestamp, head.number) ||
-            self.active_at_ttd(head.total_difficulty, head.difficulty)
+        self.active_at_timestamp_or_number(head.timestamp, head.number)
+            || self.active_at_ttd(head.total_difficulty, head.difficulty)
     }
 
     /// Get the total terminal difficulty for this fork condition.

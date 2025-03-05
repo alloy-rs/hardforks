@@ -4,7 +4,6 @@
 macro_rules! hardfork {
     ($(#[$enum_meta:meta])* $enum:ident { $( $(#[$meta:meta])* $variant:ident ),* $(,)? }) => {
         $(#[$enum_meta])*
-        #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
         #[derive(Debug, Copy, Clone, Eq, PartialEq, PartialOrd, Ord, Hash)]
         pub enum $enum {
             $( $(#[$meta])* $variant ),*
@@ -19,27 +18,27 @@ macro_rules! hardfork {
             }
         }
 
-        impl FromStr for $enum {
-            type Err = String;
+        impl core::str::FromStr for $enum {
+            type Err = alloc::string::String;
 
             fn from_str(s: &str) -> Result<Self, Self::Err> {
                 match s.to_lowercase().as_str() {
                     $(
                         s if s == stringify!($variant).to_lowercase() => Ok($enum::$variant),
                     )*
-                    _ => return Err(format!("Unknown hardfork: {s}")),
+                    _ => return Err(alloc::format!("Unknown hardfork: {s}")),
                 }
             }
         }
 
-        impl Hardfork for $enum {
+        impl $crate::Hardfork for $enum {
             fn name(&self) -> &'static str {
                 self.name()
             }
         }
 
-        impl Display for $enum {
-            fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        impl core::fmt::Display for $enum {
+            fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
                 write!(f, "{self:?}")
             }
         }

@@ -1,17 +1,10 @@
-use crate::{hardfork, ChainHardforks, ForkCondition, Hardfork};
-use alloc::{boxed::Box, format, string::String};
+use crate::{hardfork, ForkCondition};
 use alloy_chains::Chain;
 use alloy_primitives::{uint, U256};
-use core::{
-    fmt,
-    fmt::{Display, Formatter},
-    str::FromStr,
-};
-#[cfg(feature = "serde")]
-use serde::{Deserialize, Serialize};
 
 hardfork!(
     /// The name of an Ethereum hardfork.
+    #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     EthereumHardfork {
         /// Frontier: <https://blog.ethereum.org/2015/03/03/ethereum-launch-process>.
         Frontier,
@@ -45,9 +38,9 @@ hardfork!(
         Paris,
         /// Shanghai: <https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/shanghai.md>.
         Shanghai,
-        /// Cancun.
+        /// Cancun: <https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md>
         Cancun,
-        /// Prague: <https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/prague.md>
+        /// Prague.
         Prague,
         /// Osaka: <https://eips.ethereum.org/EIPS/eip-7607>
         Osaka,
@@ -58,13 +51,13 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the given chain.
     pub fn activation_block(&self, chain: Chain) -> Option<u64> {
         if chain == Chain::mainnet() {
-            return self.mainnet_activation_block()
+            return self.mainnet_activation_block();
         }
         if chain == Chain::sepolia() {
-            return self.sepolia_activation_block()
+            return self.sepolia_activation_block();
         }
         if chain == Chain::holesky() {
-            return self.holesky_activation_block()
+            return self.holesky_activation_block();
         }
 
         None
@@ -99,20 +92,20 @@ impl EthereumHardfork {
             Self::Paris => Some(1450409),
             Self::Shanghai => Some(2990908),
             Self::Cancun => Some(5187023),
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier => Some(0),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier => Some(0),
             _ => None,
         }
     }
@@ -120,19 +113,19 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the holesky testnet.
     const fn holesky_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(0),
+            Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(0),
             Self::Shanghai => Some(6698),
             Self::Cancun => Some(894733),
             _ => None,
@@ -142,21 +135,21 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the Arbitrum Sepolia testnet.
     pub const fn arbitrum_sepolia_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(0),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(0),
             Self::Shanghai => Some(10653737),
             // Hardfork::ArbOS11 => Some(10653737),
             Self::Cancun => Some(18683405),
@@ -168,21 +161,21 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the Arbitrum One mainnet.
     pub const fn arbitrum_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(0),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(0),
             Self::Shanghai => Some(184097479),
             // Hardfork::ArbOS11 => Some(184097479),
             Self::Cancun => Some(190301729),
@@ -194,13 +187,13 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the given chain.
     pub fn activation_timestamp(&self, chain: Chain) -> Option<u64> {
         if chain == Chain::mainnet() {
-            return self.mainnet_activation_timestamp()
+            return self.mainnet_activation_timestamp();
         }
         if chain == Chain::sepolia() {
-            return self.sepolia_activation_timestamp()
+            return self.sepolia_activation_timestamp();
         }
         if chain == Chain::holesky() {
-            return self.holesky_activation_timestamp()
+            return self.holesky_activation_timestamp();
         }
 
         None
@@ -234,21 +227,21 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the Sepolia testnet.
     pub const fn sepolia_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(1633267481),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(1633267481),
             Self::Shanghai => Some(1677557088),
             Self::Cancun => Some(1706655072),
             _ => None,
@@ -260,21 +253,21 @@ impl EthereumHardfork {
         match self {
             Self::Shanghai => Some(1696000704),
             Self::Cancun => Some(1707305664),
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(1695902100),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(1695902100),
             _ => None,
         }
     }
@@ -283,21 +276,21 @@ impl EthereumHardfork {
     /// testnet.
     pub const fn arbitrum_sepolia_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(1692726996),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(1692726996),
             Self::Shanghai => Some(1706634000),
             // Hardfork::ArbOS11 => Some(1706634000),
             Self::Cancun => Some(1709229600),
@@ -309,21 +302,21 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the Arbitrum One mainnet.
     pub const fn arbitrum_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Frontier |
-            Self::Homestead |
-            Self::Dao |
-            Self::Tangerine |
-            Self::SpuriousDragon |
-            Self::Byzantium |
-            Self::Constantinople |
-            Self::Petersburg |
-            Self::Istanbul |
-            Self::MuirGlacier |
-            Self::Berlin |
-            Self::London |
-            Self::ArrowGlacier |
-            Self::GrayGlacier |
-            Self::Paris => Some(1622240000),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris => Some(1622240000),
             Self::Shanghai => Some(1708804873),
             // Hardfork::ArbOS11 => Some(1708804873),
             Self::Cancun => Some(1710424089),
@@ -363,7 +356,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum sepolia list of hardforks.
-    pub const fn sepolia() -> [(Self, ForkCondition); 15] {
+    pub const fn sepolia() -> [(Self, ForkCondition); 16] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -380,18 +373,19 @@ impl EthereumHardfork {
             (
                 Self::Paris,
                 ForkCondition::TTD {
-                    activation_block_number: 1735371,
+                    activation_block_number: 1450409,
                     fork_block: Some(1735371),
                     total_difficulty: uint!(17_000_000_000_000_000_U256),
                 },
             ),
             (Self::Shanghai, ForkCondition::Timestamp(1677557088)),
             (Self::Cancun, ForkCondition::Timestamp(1706655072)),
+            (Self::Prague, ForkCondition::Timestamp(1741159776)),
         ]
     }
 
     /// Ethereum holesky list of hardforks.
-    pub const fn holesky() -> [(Self, ForkCondition); 15] {
+    pub const fn holesky() -> [(Self, ForkCondition); 16] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -415,16 +409,82 @@ impl EthereumHardfork {
             ),
             (Self::Shanghai, ForkCondition::Timestamp(1696000704)),
             (Self::Cancun, ForkCondition::Timestamp(1707305664)),
+            (Self::Prague, ForkCondition::Timestamp(1740434112)),
         ]
     }
 }
 
-impl<const N: usize> From<[(EthereumHardfork, ForkCondition); N]> for ChainHardforks {
-    fn from(list: [(EthereumHardfork, ForkCondition); N]) -> Self {
-        Self::new(
-            list.into_iter()
-                .map(|(fork, cond)| (Box::new(fork) as Box<dyn Hardfork>, cond))
-                .collect(),
-        )
+/// Helper methods for Ethereum forks.
+#[auto_impl::auto_impl(&, Arc)]
+pub trait EthereumHardforks {
+    /// Retrieves [`ForkCondition`] by an [`EthereumHardfork`]. If `fork` is not present, returns
+    /// [`ForkCondition::Never`].
+    fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition;
+
+    /// Convenience method to check if an [`EthereumHardfork`] is active at a given timestamp.
+    fn is_ethereum_fork_active_at_timestamp(&self, fork: EthereumHardfork, timestamp: u64) -> bool {
+        self.ethereum_fork_activation(fork).active_at_timestamp(timestamp)
+    }
+
+    /// Convenience method to check if an [`EthereumHardfork`] is active at a given block number.
+    fn is_ethereum_fork_active_at_block(&self, fork: EthereumHardfork, block_number: u64) -> bool {
+        self.ethereum_fork_activation(fork).active_at_block(block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Shanghai`] is active at a given
+    /// timestamp.
+    fn is_shanghai_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Shanghai, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Cancun`] is active at a given timestamp.
+    fn is_cancun_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Cancun, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Prague`] is active at a given timestamp.
+    fn is_prague_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Prague, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Osaka`] is active at a given timestamp.
+    fn is_osaka_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Osaka, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Byzantium`] is active at a given block
+    /// number.
+    fn is_byzantium_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Byzantium, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::SpuriousDragon`] is active at a given
+    /// block number.
+    fn is_spurious_dragon_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::SpuriousDragon, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Homestead`] is active at a given block
+    /// number.
+    fn is_homestead_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Homestead, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::London`] is active at a given block
+    /// number.
+    fn is_london_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::London, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Constantinople`] is active at a given
+    /// block number.
+    fn is_constantinople_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Constantinople, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Paris`] is active at a given block
+    /// number.
+    fn is_paris_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Paris, block_number)
     }
 }

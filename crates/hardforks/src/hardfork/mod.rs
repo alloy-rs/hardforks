@@ -1,10 +1,7 @@
 mod macros;
 
 mod ethereum;
-pub use ethereum::EthereumHardfork;
-
-mod dev;
-pub use dev::DEV_HARDFORKS;
+pub use ethereum::*;
 
 use alloc::boxed::Box;
 use core::{
@@ -50,7 +47,8 @@ impl Hash for dyn Hardfork + 'static {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::str::FromStr;
+    use alloc::vec::Vec;
+    use core::str::FromStr;
 
     #[test]
     fn check_hardfork_from_str() {
