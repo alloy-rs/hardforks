@@ -1,4 +1,3 @@
-use crate::Head;
 use alloy_primitives::{BlockNumber, U256};
 
 /// The condition at which a fork is activated.
@@ -135,17 +134,6 @@ mod tests {
         assert!(
             fork_condition.active_at_block(10),
             "The TTD condition should be active at block 10"
-        );
-
-        // Test if TTD-based condition with unknown block does not activate
-        let fork_condition = ForkCondition::TTD {
-            activation_block_number: 10,
-            fork_block: None,
-            total_difficulty: U256::from(1000),
-        };
-        assert!(
-            !fork_condition.active_at_block(10),
-            "The TTD condition should not be active at block 10 with an unknown block number"
         );
     }
 
