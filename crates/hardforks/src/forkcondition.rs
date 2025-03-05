@@ -47,7 +47,7 @@ impl ForkCondition {
     /// For timestamp conditions, this will always return false.
     pub const fn active_at_block(&self, current_block: BlockNumber) -> bool {
         matches!(self, Self::Block(block)
-        | Self::TTD { fork_block: Some(block), .. } if current_block >= *block)
+        | Self::TTD { activation_block_number: block, .. } if current_block >= *block)
     }
 
     /// Checks if the given block is the first block that satisfies the fork condition.
