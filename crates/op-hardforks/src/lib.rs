@@ -96,3 +96,38 @@ pub trait OpHardforks: EthereumHardforks {
         self.op_fork_activation(OpHardfork::Interop).active_at_timestamp(timestamp)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use core::str::FromStr;
+
+    #[test]
+    fn check_op_hardfork_from_str() {
+        let hardfork_str = [
+            "beDrOck", "rEgOlITH", "cAnYoN", "eCoToNe", "FJorD", "GRaNiTe", "hOlOcEnE", "isthMUS",
+            "inTerOP",
+        ];
+        let expected_hardforks = [
+            OpHardfork::Bedrock,
+            OpHardfork::Regolith,
+            OpHardfork::Canyon,
+            OpHardfork::Ecotone,
+            OpHardfork::Fjord,
+            OpHardfork::Granite,
+            OpHardfork::Holocene,
+            OpHardfork::Isthmus,
+            OpHardfork::Interop,
+        ];
+
+        let hardforks: alloc::vec::Vec<OpHardfork> =
+            hardfork_str.iter().map(|h| OpHardfork::from_str(h).unwrap()).collect();
+
+        assert_eq!(hardforks, expected_hardforks);
+    }
+
+    #[test]
+    fn check_nonexistent_hardfork_from_str() {
+        assert!(OpHardfork::from_str("not a hardfork").is_err());
+    }
+}

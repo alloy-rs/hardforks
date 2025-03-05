@@ -488,3 +488,64 @@ pub trait EthereumHardforks {
         self.is_ethereum_fork_active_at_block(EthereumHardfork::Paris, block_number)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use alloc::vec::Vec;
+    use core::str::FromStr;
+
+    #[test]
+    fn check_hardfork_from_str() {
+        let hardfork_str = [
+            "frOntier",
+            "homEstead",
+            "dao",
+            "tAngerIne",
+            "spurIousdrAgon",
+            "byzAntium",
+            "constantinople",
+            "petersburg",
+            "istanbul",
+            "muirglacier",
+            "bErlin",
+            "lonDon",
+            "arrowglacier",
+            "grayglacier",
+            "PARIS",
+            "ShAnGhAI",
+            "CaNcUn",
+            "PrAguE",
+        ];
+        let expected_hardforks = [
+            EthereumHardfork::Frontier,
+            EthereumHardfork::Homestead,
+            EthereumHardfork::Dao,
+            EthereumHardfork::Tangerine,
+            EthereumHardfork::SpuriousDragon,
+            EthereumHardfork::Byzantium,
+            EthereumHardfork::Constantinople,
+            EthereumHardfork::Petersburg,
+            EthereumHardfork::Istanbul,
+            EthereumHardfork::MuirGlacier,
+            EthereumHardfork::Berlin,
+            EthereumHardfork::London,
+            EthereumHardfork::ArrowGlacier,
+            EthereumHardfork::GrayGlacier,
+            EthereumHardfork::Paris,
+            EthereumHardfork::Shanghai,
+            EthereumHardfork::Cancun,
+            EthereumHardfork::Prague,
+        ];
+
+        let hardforks: Vec<EthereumHardfork> =
+            hardfork_str.iter().map(|h| EthereumHardfork::from_str(h).unwrap()).collect();
+
+        assert_eq!(hardforks, expected_hardforks);
+    }
+
+    #[test]
+    fn check_nonexistent_hardfork_from_str() {
+        assert!(EthereumHardfork::from_str("not a hardfork").is_err());
+    }
+}
