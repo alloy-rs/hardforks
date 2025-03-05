@@ -90,18 +90,6 @@ impl ForkCondition {
         self.active_at_timestamp(timestamp) || self.active_at_block(block_number)
     }
 
-    /// Checks whether the fork condition is satisfied at the given head block.
-    ///
-    /// This will return true if:
-    ///
-    /// - The condition is satisfied by the block number;
-    /// - The condition is satisfied by the timestamp;
-    /// - or the condition is satisfied by the total difficulty
-    pub fn active_at_head(&self, head: &Head) -> bool {
-        self.active_at_timestamp_or_number(head.timestamp, head.number)
-            || self.active_at_ttd(head.total_difficulty, head.difficulty)
-    }
-
     /// Get the total terminal difficulty for this fork condition.
     ///
     /// Returns `None` for fork conditions that are not TTD based.
@@ -241,79 +229,6 @@ mod tests {
         assert!(
             !fork_condition.transitions_at_timestamp(123, 122),
             "The condition should not transition if the parent timestamp is earlier"
-        );
-    }
-
-    #[test]
-    fn test_active_at_head() {
-        let head = Head {
-            hash: Default::default(),
-            number: 10,
-            timestamp: 12345,
-            total_difficulty: U256::from(1000),
-            difficulty: U256::from(100),
-        };
-
-        // Test if the condition activates based on block number
-        let fork_condition = ForkCondition::Block(10);
-        assert!(
-            fork_condition.active_at_head(&head),
-            "The condition should be active at the given head block number"
-        );
-        let fork_condition = ForkCondition::Block(11);
-        assert!(
-            !fork_condition.active_at_head(&head),
-            "The condition should not be active at the given head block number"
-        );
-
-        // Test if the condition activates based on timestamp
-        let fork_condition = ForkCondition::Timestamp(12345);
-        assert!(
-            fork_condition.active_at_head(&head),
-            "The condition should be active at the given head timestamp"
-        );
-        let fork_condition = ForkCondition::Timestamp(12346);
-        assert!(
-            !fork_condition.active_at_head(&head),
-            "The condition should not be active at the given head timestamp"
-        );
-
-        // Test if the condition activates based on total difficulty and block number
-        let fork_condition = ForkCondition::TTD {
-            activation_block_number: 10,
-            fork_block: Some(9),
-            total_difficulty: U256::from(900),
-        };
-        assert!(
-            fork_condition.active_at_head(&head),
-            "The condition should be active at the given head total difficulty"
-        );
-        let fork_condition = ForkCondition::TTD {
-            activation_block_number: 10,
-            fork_block: None,
-            total_difficulty: U256::from(900),
-        };
-        assert!(
-            fork_condition.active_at_head(&head),
-            "The condition should be active at the given head total difficulty as the block number is unknown"
-        );
-        let fork_condition = ForkCondition::TTD {
-            activation_block_number: 10,
-            fork_block: Some(11),
-            total_difficulty: U256::from(900),
-        };
-        assert!(
-            fork_condition.active_at_head(&head),
-            "The condition should be active as the total difficulty is higher"
-        );
-        let fork_condition = ForkCondition::TTD {
-            activation_block_number: 10,
-            fork_block: Some(10),
-            total_difficulty: U256::from(9000),
-        };
-        assert!(
-            fork_condition.active_at_head(&head),
-            "The condition should be active as the total difficulty is higher than head"
         );
     }
 }
