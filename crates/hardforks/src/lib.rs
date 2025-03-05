@@ -17,3 +17,9 @@ pub use forkcondition::*;
 
 mod hardfork;
 pub use hardfork::*;
+
+// Not public API.
+#[doc(hidden)]
+pub mod __private {
+    pub use alloc::{format, string::String};
+}

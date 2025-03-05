@@ -19,14 +19,14 @@ macro_rules! hardfork {
         }
 
         impl core::str::FromStr for $enum {
-            type Err = alloc::string::String;
+            type Err = $crate::__private::String;
 
             fn from_str(s: &str) -> Result<Self, Self::Err> {
                 match s.to_lowercase().as_str() {
                     $(
                         s if s == stringify!($variant).to_lowercase() => Ok($enum::$variant),
                     )*
-                    _ => return Err(alloc::format!("Unknown hardfork: {s}")),
+                    _ => return Err($crate::__private::format!("Unknown hardfork: {s}")),
                 }
             }
         }
