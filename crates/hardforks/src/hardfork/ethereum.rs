@@ -1,4 +1,5 @@
 use crate::{hardfork, ForkCondition};
+use alloc::vec::Vec;
 use alloy_chains::Chain;
 use alloy_primitives::{uint, U256};
 
@@ -486,6 +487,47 @@ pub trait EthereumHardforks {
     /// number.
     fn is_paris_active_at_block(&self, block_number: u64) -> bool {
         self.is_ethereum_fork_active_at_block(EthereumHardfork::Paris, block_number)
+    }
+}
+
+/// A type allowing to configure activation [`ForkCondition`]s for a given list of
+/// [`EthereumHardfork`]s.
+#[derive(Debug, Clone)]
+pub struct EthereumChainHardforks {
+    forks: Vec<(EthereumHardfork, ForkCondition)>,
+}
+
+impl EthereumChainHardforks {
+    /// Creates a new [`EthereumChainHardforks`] with the given list of forks.
+    pub fn new(forks: impl IntoIterator<Item = (EthereumHardfork, ForkCondition)>) -> Self {
+        let mut forks = forks.into_iter().collect::<Vec<_>>();
+        forks.sort();
+        Self { forks }
+    }
+
+    /// Creates a new [`EthereumChainHardforks`] with Mainnet configuration.
+    pub fn mainnet() -> Self {
+        Self::new(EthereumHardfork::mainnet())
+    }
+
+    /// Creates a new [`EthereumChainHardforks`] with Sepolia configuration.
+    pub fn sepolia() -> Self {
+        Self::new(EthereumHardfork::sepolia())
+    }
+
+    /// Creates a new [`EthereumChainHardforks`] with Holesky configuration.
+    pub fn holesky() -> Self {
+        Self::new(EthereumHardfork::holesky())
+    }
+}
+
+impl EthereumHardforks for EthereumChainHardforks {
+    fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition {
+        let Ok(idx) = self.forks.binary_search_by(|(f, _)| f.cmp(&fork)) else {
+            return ForkCondition::Never;
+        };
+
+        self.forks[idx].1
     }
 }
 

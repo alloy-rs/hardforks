@@ -1,7 +1,7 @@
 use alloy_primitives::{BlockNumber, U256};
 
 /// The condition at which a fork is activated.
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Default)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub enum ForkCondition {
     /// The fork is activated after a certain block.
