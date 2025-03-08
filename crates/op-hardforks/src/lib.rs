@@ -42,54 +42,54 @@ hardfork!(
 
 impl OpHardfork {
     /// Optimism mainnet list of hardforks.
-    pub fn op_mainnet() -> [(Self, ForkCondition); 7] {
+    pub const fn op_mainnet() -> [(Self, ForkCondition); 7] {
         [
-            (OpHardfork::Bedrock, ForkCondition::Block(105235063)),
-            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
-            (OpHardfork::Canyon, ForkCondition::Timestamp(1704992401)),
-            (OpHardfork::Ecotone, ForkCondition::Timestamp(1710374401)),
-            (OpHardfork::Fjord, ForkCondition::Timestamp(1720627201)),
-            (OpHardfork::Granite, ForkCondition::Timestamp(1726070401)),
-            (OpHardfork::Holocene, ForkCondition::Timestamp(1736445601)),
+            (Self::Bedrock, ForkCondition::Block(105235063)),
+            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Canyon, ForkCondition::Timestamp(1704992401)),
+            (Self::Ecotone, ForkCondition::Timestamp(1710374401)),
+            (Self::Fjord, ForkCondition::Timestamp(1720627201)),
+            (Self::Granite, ForkCondition::Timestamp(1726070401)),
+            (Self::Holocene, ForkCondition::Timestamp(1736445601)),
         ]
     }
 
     /// Optimism Sepolia list of hardforks.
-    pub fn op_sepolia() -> [(Self, ForkCondition); 7] {
+    pub const fn op_sepolia() -> [(Self, ForkCondition); 7] {
         [
-            (OpHardfork::Bedrock, ForkCondition::Block(0)),
-            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
-            (OpHardfork::Canyon, ForkCondition::Timestamp(1699981200)),
-            (OpHardfork::Ecotone, ForkCondition::Timestamp(1708534800)),
-            (OpHardfork::Fjord, ForkCondition::Timestamp(1716998400)),
-            (OpHardfork::Granite, ForkCondition::Timestamp(1723478400)),
-            (OpHardfork::Holocene, ForkCondition::Timestamp(1732633200)),
+            (Self::Bedrock, ForkCondition::Block(0)),
+            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Canyon, ForkCondition::Timestamp(1699981200)),
+            (Self::Ecotone, ForkCondition::Timestamp(1708534800)),
+            (Self::Fjord, ForkCondition::Timestamp(1716998400)),
+            (Self::Granite, ForkCondition::Timestamp(1723478400)),
+            (Self::Holocene, ForkCondition::Timestamp(1732633200)),
         ]
     }
 
     /// Base mainnet list of hardforks.
-    pub fn base_mainnet() -> [(Self, ForkCondition); 7] {
+    pub const fn base_mainnet() -> [(Self, ForkCondition); 7] {
         [
-            (OpHardfork::Bedrock, ForkCondition::Block(0)),
-            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
-            (OpHardfork::Canyon, ForkCondition::Timestamp(1704992401)),
-            (OpHardfork::Ecotone, ForkCondition::Timestamp(1710374401)),
-            (OpHardfork::Fjord, ForkCondition::Timestamp(1720627201)),
-            (OpHardfork::Granite, ForkCondition::Timestamp(1726070401)),
-            (OpHardfork::Holocene, ForkCondition::Timestamp(1736445601)),
+            (Self::Bedrock, ForkCondition::Block(0)),
+            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Canyon, ForkCondition::Timestamp(1704992401)),
+            (Self::Ecotone, ForkCondition::Timestamp(1710374401)),
+            (Self::Fjord, ForkCondition::Timestamp(1720627201)),
+            (Self::Granite, ForkCondition::Timestamp(1726070401)),
+            (Self::Holocene, ForkCondition::Timestamp(1736445601)),
         ]
     }
 
     /// Base Sepolia list of hardforks.
-    pub fn base_sepolia() -> [(Self, ForkCondition); 7] {
+    pub const fn base_sepolia() -> [(Self, ForkCondition); 7] {
         [
-            (OpHardfork::Bedrock, ForkCondition::Block(0)),
-            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
-            (OpHardfork::Canyon, ForkCondition::Timestamp(1699981200)),
-            (OpHardfork::Ecotone, ForkCondition::Timestamp(1708534800)),
-            (OpHardfork::Fjord, ForkCondition::Timestamp(1716998400)),
-            (OpHardfork::Granite, ForkCondition::Timestamp(1723478400)),
-            (OpHardfork::Holocene, ForkCondition::Timestamp(1732633200)),
+            (Self::Bedrock, ForkCondition::Block(0)),
+            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Canyon, ForkCondition::Timestamp(1699981200)),
+            (Self::Ecotone, ForkCondition::Timestamp(1708534800)),
+            (Self::Fjord, ForkCondition::Timestamp(1716998400)),
+            (Self::Granite, ForkCondition::Timestamp(1723478400)),
+            (Self::Holocene, ForkCondition::Timestamp(1732633200)),
         ]
     }
 }
@@ -203,11 +203,7 @@ impl EthereumHardforks for OpChainHardforks {
         } else if fork == EthereumHardfork::Berlin {
             // Handle special OP mainnet case of Berlin activation.
             // If `berlin_block` is not set, assume it was enabled at genesis.
-            if let Some(berlin_block) = self.berlin_block {
-                ForkCondition::Block(berlin_block)
-            } else {
-                ForkCondition::Block(0)
-            }
+            self.berlin_block.map_or(ForkCondition::Block(0), ForkCondition::Block)
         } else if fork <= EthereumHardfork::Paris {
             // Bedrock activates all hardforks up to Paris.
             self.op_fork_activation(OpHardfork::Bedrock)
