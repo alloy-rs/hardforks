@@ -201,7 +201,7 @@ impl EthereumHardforks for OpChainHardforks {
             // We assume that OP chains were launched with all forks before Berlin activated.
             ForkCondition::Block(0)
         } else if fork == EthereumHardfork::Berlin {
-            // Handle special OP mainnet case of Bedrock activation.
+            // Handle special OP mainnet case of Berlin activation.
             // If `berlin_block` is not set, assume it was enabled at genesis.
             if let Some(berlin_block) = self.berlin_block {
                 ForkCondition::Block(berlin_block)
