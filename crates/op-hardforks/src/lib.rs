@@ -186,7 +186,7 @@ impl OpChainHardforks {
 
     /// Creates a new [`OpChainHardforks`] with Base mainnet configuration.
     pub fn base_mainnet() -> Self {
-        Self::new(OpHardfork::base_mainnet(), Some(0))
+        Self::new(OpHardfork::base_mainnet(), None)
     }
 
     /// Creates a new [`OpChainHardforks`] with Base Sepolia configuration.
