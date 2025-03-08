@@ -7,7 +7,10 @@
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 #![no_std]
 
-use alloy_hardforks::{hardfork, EthereumHardforks, ForkCondition};
+extern crate alloc;
+
+use alloc::vec::Vec;
+use alloy_hardforks::{hardfork, EthereumHardfork, EthereumHardforks, ForkCondition};
 
 hardfork!(
     /// The name of an optimism hardfork.
@@ -36,6 +39,60 @@ hardfork!(
         Interop,
     }
 );
+
+impl OpHardfork {
+    /// Optimism mainnet list of hardforks.
+    pub fn op_mainnet() -> [(Self, ForkCondition); 7] {
+        [
+            (OpHardfork::Bedrock, ForkCondition::Block(105235063)),
+            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
+            (OpHardfork::Canyon, ForkCondition::Timestamp(1704992401)),
+            (OpHardfork::Ecotone, ForkCondition::Timestamp(1710374401)),
+            (OpHardfork::Fjord, ForkCondition::Timestamp(1720627201)),
+            (OpHardfork::Granite, ForkCondition::Timestamp(1726070401)),
+            (OpHardfork::Holocene, ForkCondition::Timestamp(1736445601)),
+        ]
+    }
+
+    /// Optimism Sepolia list of hardforks.
+    pub fn op_sepolia() -> [(Self, ForkCondition); 7] {
+        [
+            (OpHardfork::Bedrock, ForkCondition::Block(0)),
+            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
+            (OpHardfork::Canyon, ForkCondition::Timestamp(1699981200)),
+            (OpHardfork::Ecotone, ForkCondition::Timestamp(1708534800)),
+            (OpHardfork::Fjord, ForkCondition::Timestamp(1716998400)),
+            (OpHardfork::Granite, ForkCondition::Timestamp(1723478400)),
+            (OpHardfork::Holocene, ForkCondition::Timestamp(1732633200)),
+        ]
+    }
+
+    /// Base mainnet list of hardforks.
+    pub fn base_mainnet() -> [(Self, ForkCondition); 7] {
+        [
+            (OpHardfork::Bedrock, ForkCondition::Block(0)),
+            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
+            (OpHardfork::Canyon, ForkCondition::Timestamp(1704992401)),
+            (OpHardfork::Ecotone, ForkCondition::Timestamp(1710374401)),
+            (OpHardfork::Fjord, ForkCondition::Timestamp(1720627201)),
+            (OpHardfork::Granite, ForkCondition::Timestamp(1726070401)),
+            (OpHardfork::Holocene, ForkCondition::Timestamp(1736445601)),
+        ]
+    }
+
+    /// Base Sepolia list of hardforks.
+    pub fn base_sepolia() -> [(Self, ForkCondition); 7] {
+        [
+            (OpHardfork::Bedrock, ForkCondition::Block(0)),
+            (OpHardfork::Regolith, ForkCondition::Timestamp(0)),
+            (OpHardfork::Canyon, ForkCondition::Timestamp(1699981200)),
+            (OpHardfork::Ecotone, ForkCondition::Timestamp(1708534800)),
+            (OpHardfork::Fjord, ForkCondition::Timestamp(1716998400)),
+            (OpHardfork::Granite, ForkCondition::Timestamp(1723478400)),
+            (OpHardfork::Holocene, ForkCondition::Timestamp(1732633200)),
+        ]
+    }
+}
 
 /// Extends [`EthereumHardforks`] with optimism helper methods.
 #[auto_impl::auto_impl(&, Arc)]
@@ -92,6 +149,83 @@ pub trait OpHardforks: EthereumHardforks {
     /// timestamp.
     fn is_interop_active_at_timestamp(&self, timestamp: u64) -> bool {
         self.op_fork_activation(OpHardfork::Interop).active_at_timestamp(timestamp)
+    }
+}
+
+/// A type allowing to configure activation [`ForkCondition`]s for a given list of
+/// [`EthereumHardfork`]s.
+#[derive(Debug, Clone)]
+pub struct OpChainHardforks {
+    /// Special case for OP mainnet which had Bedrock activated separately without an associated
+    /// [`OpHardfork`].
+    berlin_block: Option<u64>,
+    /// OP hardfork activations.
+    forks: Vec<(OpHardfork, ForkCondition)>,
+}
+
+impl OpChainHardforks {
+    /// Creates a new [`OpChainHardforks`] with the given list of forks.
+    pub fn new(
+        forks: impl IntoIterator<Item = (OpHardfork, ForkCondition)>,
+        berlin_block: Option<u64>,
+    ) -> Self {
+        let mut forks = forks.into_iter().collect::<Vec<_>>();
+        forks.sort();
+        Self { forks, berlin_block }
+    }
+
+    /// Creates a new [`OpChainHardforks`] with OP mainnet configuration.
+    pub fn op_mainnet() -> Self {
+        Self::new(OpHardfork::op_mainnet(), Some(3950000))
+    }
+
+    /// Creates a new [`OpChainHardforks`] with OP Sepolia configuration.
+    pub fn op_sepolia() -> Self {
+        Self::new(OpHardfork::op_sepolia(), None)
+    }
+
+    /// Creates a new [`OpChainHardforks`] with Base mainnet configuration.
+    pub fn base_mainnet() -> Self {
+        Self::new(OpHardfork::base_mainnet(), Some(0))
+    }
+
+    /// Creates a new [`OpChainHardforks`] with Base Sepolia configuration.
+    pub fn base_sepolia() -> Self {
+        Self::new(OpHardfork::base_sepolia(), None)
+    }
+}
+
+impl EthereumHardforks for OpChainHardforks {
+    fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition {
+        if fork < EthereumHardfork::Berlin {
+            ForkCondition::Block(0)
+        } else if fork == EthereumHardfork::Berlin {
+            if let Some(berlin_block) = self.berlin_block {
+                ForkCondition::Block(berlin_block)
+            } else {
+                ForkCondition::Block(0)
+            }
+        } else if fork <= EthereumHardfork::Paris {
+            self.op_fork_activation(OpHardfork::Bedrock)
+        } else if fork <= EthereumHardfork::Shanghai {
+            self.op_fork_activation(OpHardfork::Canyon)
+        } else if fork <= EthereumHardfork::Cancun {
+            self.op_fork_activation(OpHardfork::Ecotone)
+        } else if fork <= EthereumHardfork::Prague {
+            self.op_fork_activation(OpHardfork::Isthmus)
+        } else {
+            ForkCondition::Never
+        }
+    }
+}
+
+impl OpHardforks for OpChainHardforks {
+    fn op_fork_activation(&self, fork: OpHardfork) -> ForkCondition {
+        let Ok(idx) = self.forks.binary_search_by(|(f, _)| f.cmp(&fork)) else {
+            return ForkCondition::Never;
+        };
+
+        self.forks[idx].1
     }
 }
 
