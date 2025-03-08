@@ -198,20 +198,27 @@ impl OpChainHardforks {
 impl EthereumHardforks for OpChainHardforks {
     fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition {
         if fork < EthereumHardfork::Berlin {
+            // We assume that OP chains were launched with all forks before Berlin activated.
             ForkCondition::Block(0)
         } else if fork == EthereumHardfork::Berlin {
+            // Handle special OP mainnet case of Bedrock activation.
+            // If `berlin_block` is not set, assume it was enabled at genesis.
             if let Some(berlin_block) = self.berlin_block {
                 ForkCondition::Block(berlin_block)
             } else {
                 ForkCondition::Block(0)
             }
         } else if fork <= EthereumHardfork::Paris {
+            // Bedrock activates all hardforks up to Paris.
             self.op_fork_activation(OpHardfork::Bedrock)
         } else if fork <= EthereumHardfork::Shanghai {
+            // Canyon activates Shanghai hardfork.
             self.op_fork_activation(OpHardfork::Canyon)
         } else if fork <= EthereumHardfork::Cancun {
+            // Ecotone activates Cancun hardfork.
             self.op_fork_activation(OpHardfork::Ecotone)
         } else if fork <= EthereumHardfork::Prague {
+            // Isthmus activates Prague hardfork.
             self.op_fork_activation(OpHardfork::Isthmus)
         } else {
             ForkCondition::Never
