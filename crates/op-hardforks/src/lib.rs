@@ -153,7 +153,7 @@ pub trait OpHardforks: EthereumHardforks {
 }
 
 /// A type allowing to configure activation [`ForkCondition`]s for a given list of
-/// [`EthereumHardfork`]s.
+/// [`OpHardfork`]s.
 #[derive(Debug, Clone)]
 pub struct OpChainHardforks {
     /// Special case for OP mainnet which had Bedrock activated separately without an associated
