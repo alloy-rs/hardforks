@@ -60,6 +60,9 @@ impl EthereumHardfork {
         if chain == Chain::holesky() {
             return self.holesky_activation_block();
         }
+        if chain == Chain::hoodi() {
+            return self.hoodi_activation_block();
+        }
 
         None
     }
@@ -133,6 +136,28 @@ impl EthereumHardfork {
         }
     }
 
+    /// Retrieves the activation block for the specified hardfork on the hoodi testnet.
+    const fn hoodi_activation_block(&self) -> Option<u64> {
+        match self {
+            Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris
+            | Self::Shanghai
+            | Self::Cancun => Some(0),
+            _ => None,
+        }
+    }
+
     /// Retrieves the activation block for the specified hardfork on the Arbitrum Sepolia testnet.
     pub const fn arbitrum_sepolia_activation_block(&self) -> Option<u64> {
         match self {
@@ -195,6 +220,9 @@ impl EthereumHardfork {
         }
         if chain == Chain::holesky() {
             return self.holesky_activation_timestamp();
+        }
+        if chain == Chain::hoodi() {
+            return self.hoodi_activation_timestamp();
         }
 
         None
@@ -269,6 +297,31 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(1695902100),
+            _ => None,
+        }
+    }
+
+    /// Retrieves the activation timestamp for the specified hardfork on the Hoodi testnet.
+    pub const fn hoodi_activation_timestamp(&self) -> Option<u64> {
+        match self {
+            Self::Prague => Some(1742999832),
+            Self::Frontier
+            | Self::Homestead
+            | Self::Dao
+            | Self::Tangerine
+            | Self::SpuriousDragon
+            | Self::Byzantium
+            | Self::Constantinople
+            | Self::Petersburg
+            | Self::Istanbul
+            | Self::MuirGlacier
+            | Self::Berlin
+            | Self::London
+            | Self::ArrowGlacier
+            | Self::GrayGlacier
+            | Self::Paris
+            | Self::Shanghai
+            | Self::Cancun => Some(0),
             _ => None,
         }
     }
@@ -413,6 +466,35 @@ impl EthereumHardfork {
             (Self::Prague, ForkCondition::Timestamp(1740434112)),
         ]
     }
+
+    /// Ethereum Hoodi list of hardforks.
+    pub const fn hoodi() -> [(Self, ForkCondition); 16] {
+        [
+            (Self::Frontier, ForkCondition::Block(0)),
+            (Self::Homestead, ForkCondition::Block(0)),
+            (Self::Dao, ForkCondition::Block(0)),
+            (Self::Tangerine, ForkCondition::Block(0)),
+            (Self::SpuriousDragon, ForkCondition::Block(0)),
+            (Self::Byzantium, ForkCondition::Block(0)),
+            (Self::Constantinople, ForkCondition::Block(0)),
+            (Self::Petersburg, ForkCondition::Block(0)),
+            (Self::Istanbul, ForkCondition::Block(0)),
+            (Self::MuirGlacier, ForkCondition::Block(0)),
+            (Self::Berlin, ForkCondition::Block(0)),
+            (Self::London, ForkCondition::Block(0)),
+            (
+                Self::Paris,
+                ForkCondition::TTD {
+                    activation_block_number: 0,
+                    fork_block: Some(0),
+                    total_difficulty: U256::ZERO,
+                },
+            ),
+            (Self::Shanghai, ForkCondition::Timestamp(0)),
+            (Self::Cancun, ForkCondition::Timestamp(0)),
+            (Self::Prague, ForkCondition::Timestamp(1742999832)),
+        ]
+    }
 }
 
 /// Helper methods for Ethereum forks.
@@ -518,6 +600,11 @@ impl EthereumChainHardforks {
     /// Creates a new [`EthereumChainHardforks`] with Holesky configuration.
     pub fn holesky() -> Self {
         Self::new(EthereumHardfork::holesky())
+    }
+
+    /// Creates a new [`EthereumChainHardforks`] with Hoodi configuration.
+    pub fn hoodi() -> Self {
+        Self::new(EthereumHardfork::hoodi())
     }
 }
 
