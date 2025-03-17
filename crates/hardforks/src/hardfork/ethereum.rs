@@ -117,7 +117,8 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the holesky testnet.
     const fn holesky_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Dao
+            Self::Frontier
+            | Self::Dao
             | Self::Tangerine
             | Self::SpuriousDragon
             | Self::Byzantium
@@ -139,7 +140,8 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the hoodi testnet.
     const fn hoodi_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Dao
+            Self::Frontier
+            | Self::Dao
             | Self::Tangerine
             | Self::SpuriousDragon
             | Self::Byzantium
