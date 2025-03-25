@@ -10,6 +10,10 @@ macro_rules! hardfork {
         }
 
         impl $enum {
+
+            /// All hardfork variants
+            pub const VARIANTS: &'static [Self] =  &[$(Self::$variant ),*];
+
             /// Returns variant as `str`.
             pub const fn name(&self) -> &'static str {
                 match self {
@@ -33,7 +37,7 @@ macro_rules! hardfork {
 
         impl $crate::Hardfork for $enum {
             fn name(&self) -> &'static str {
-                self.name()
+                Self::name(self)
             }
         }
 
