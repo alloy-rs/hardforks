@@ -55,7 +55,7 @@ impl OpHardfork {
     }
 
     /// Optimism Sepolia list of hardforks.
-    pub const fn op_sepolia() -> [(Self, ForkCondition); 7] {
+    pub const fn op_sepolia() -> [(Self, ForkCondition); 8] {
         [
             (Self::Bedrock, ForkCondition::Block(0)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
@@ -64,6 +64,7 @@ impl OpHardfork {
             (Self::Fjord, ForkCondition::Timestamp(1716998400)),
             (Self::Granite, ForkCondition::Timestamp(1723478400)),
             (Self::Holocene, ForkCondition::Timestamp(1732633200)),
+            (Self::Isthmus, ForkCondition::Timestamp(1744905600)),
         ]
     }
 
@@ -81,7 +82,7 @@ impl OpHardfork {
     }
 
     /// Base Sepolia list of hardforks.
-    pub const fn base_sepolia() -> [(Self, ForkCondition); 7] {
+    pub const fn base_sepolia() -> [(Self, ForkCondition); 8] {
         [
             (Self::Bedrock, ForkCondition::Block(0)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
@@ -90,6 +91,7 @@ impl OpHardfork {
             (Self::Fjord, ForkCondition::Timestamp(1716998400)),
             (Self::Granite, ForkCondition::Timestamp(1723478400)),
             (Self::Holocene, ForkCondition::Timestamp(1732633200)),
+            (Self::Isthmus, ForkCondition::Timestamp(1744905600)),
         ]
     }
 }
