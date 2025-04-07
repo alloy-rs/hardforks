@@ -249,7 +249,7 @@ impl EthereumHardfork {
             Self::Paris => Some(1663224162),
             Self::Shanghai => Some(1681338455),
             Self::Cancun => Some(1710338135),
-
+            Self::Prague => Some(1746612311),
             // upcoming hardforks
             _ => None,
         }
@@ -282,8 +282,6 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the Holesky testnet.
     pub const fn holesky_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Shanghai => Some(1696000704),
-            Self::Cancun => Some(1707305664),
             Self::Frontier
             | Self::Homestead
             | Self::Dao
@@ -299,6 +297,8 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(1695902100),
+            Self::Shanghai => Some(1696000704),
+            Self::Cancun => Some(1707305664),
             _ => None,
         }
     }
@@ -382,7 +382,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum mainnet list of hardforks.
-    pub const fn mainnet() -> [(Self, ForkCondition); 17] {
+    pub const fn mainnet() -> [(Self, ForkCondition); 18] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(1150000)),
@@ -408,6 +408,7 @@ impl EthereumHardfork {
             ),
             (Self::Shanghai, ForkCondition::Timestamp(1681338455)),
             (Self::Cancun, ForkCondition::Timestamp(1710338135)),
+            (Self::Prague, ForkCondition::Timestamp(1746612311)),
         ]
     }
 
