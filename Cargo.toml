@@ -39,8 +39,8 @@ alloy-hardforks = { version = "0.1.4", path = "crates/hardforks", default-featur
 alloy-op-hardforks = { version = "0.1.4", path = "crates/op-hardforks", default-features = false }
 
 # ethereum
-alloy-chains = { version = "0.1.66", default-features = false }
-alloy-eip2124 = { version = "0.1.0", default-features = false }
+alloy-chains = { version = "0.2.0", default-features = false }
+alloy-eip2124 = { version = "0.2.0", default-features = false }
 alloy-primitives = { version = "1.0.0", default-features = false }
 
 # misc
