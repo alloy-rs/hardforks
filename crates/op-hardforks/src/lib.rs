@@ -11,7 +11,8 @@ extern crate alloc;
 
 use alloc::vec::Vec;
 use alloy_hardforks::{hardfork, EthereumHardfork, EthereumHardforks, ForkCondition};
-
+mod optimism;
+use optimism::mainnet::*;
 hardfork!(
     /// The name of an optimism hardfork.
     ///
@@ -44,13 +45,13 @@ impl OpHardfork {
     /// Optimism mainnet list of hardforks.
     pub const fn op_mainnet() -> [(Self, ForkCondition); 7] {
         [
-            (Self::Bedrock, ForkCondition::Block(105235063)),
+            (Self::Bedrock, ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
-            (Self::Canyon, ForkCondition::Timestamp(1704992401)),
-            (Self::Ecotone, ForkCondition::Timestamp(1710374401)),
-            (Self::Fjord, ForkCondition::Timestamp(1720627201)),
-            (Self::Granite, ForkCondition::Timestamp(1726070401)),
-            (Self::Holocene, ForkCondition::Timestamp(1736445601)),
+            (Self::Canyon, ForkCondition::Timestamp(OP_MAINNET_CANYON_TIMESTAMP)),
+            (Self::Ecotone, ForkCondition::Timestamp(OP_MAINNET_ECOTONE_TIMESTAMP)),
+            (Self::Fjord, ForkCondition::Timestamp(OP_MAINNET_FJORD_TIMESTAMP)),
+            (Self::Granite, ForkCondition::Timestamp(OP_MAINNET_GRANITE_TIMESTAMP)),
+            (Self::Holocene, ForkCondition::Timestamp(OP_MAINNET_HOLOCENE_TIMESTAMP)),
         ]
     }
 
