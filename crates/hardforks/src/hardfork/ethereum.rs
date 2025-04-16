@@ -1,8 +1,7 @@
-use crate::{hardfork, ForkCondition};
+use crate::{constants::*, hardfork, ForkCondition};
 use alloc::vec::Vec;
 use alloy_chains::Chain;
 use alloy_primitives::{uint, U256};
-
 hardfork!(
     /// The name of an Ethereum hardfork.
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -71,21 +70,23 @@ impl EthereumHardfork {
     pub const fn mainnet_activation_block(&self) -> Option<u64> {
         match self {
             Self::Frontier => Some(0),
-            Self::Homestead => Some(1150000),
-            Self::Dao => Some(1920000),
-            Self::Tangerine => Some(2463000),
-            Self::SpuriousDragon => Some(2675000),
-            Self::Byzantium => Some(4370000),
-            Self::Constantinople | Self::Petersburg => Some(7280000),
-            Self::Istanbul => Some(9069000),
-            Self::MuirGlacier => Some(9200000),
-            Self::Berlin => Some(12244000),
-            Self::London => Some(12965000),
-            Self::ArrowGlacier => Some(13773000),
-            Self::GrayGlacier => Some(15050000),
-            Self::Paris => Some(15537394),
-            Self::Shanghai => Some(17034870),
-            Self::Cancun => Some(19426587),
+            Self::Homestead => Some(MAINNET_HOMESTEAD_BLOCK),
+            Self::Dao => Some(MAINNET_DAO_BLOCK),
+            Self::Tangerine => Some(MAINNET_TANGERINE_BLOCK),
+            Self::SpuriousDragon => Some(MAINNET_SPURIOUS_DRAGON_BLOCK),
+            Self::Byzantium => Some(MAINNET_BYZANTIUM_BLOCK),
+            Self::Constantinople | Self::Petersburg => {
+                Some(MAINNET_CONSTANTINOPLE_PETERSBURG_BLOCK)
+            }
+            Self::Istanbul => Some(MAINNET_ISTANBUL_BLOCK),
+            Self::MuirGlacier => Some(MAINNET_MUIR_GLACIER_BLOCK),
+            Self::Berlin => Some(MAINNET_BERLIN_BLOCK),
+            Self::London => Some(MAINNET_LONDON_BLOCK),
+            Self::ArrowGlacier => Some(MAINNET_ARROW_GLACIER_BLOCK),
+            Self::GrayGlacier => Some(MAINNET_GRAY_GLACIER_BLOCK),
+            Self::Paris => Some(MAINNET_PARIS_BLOCK),
+            Self::Shanghai => Some(MAINNET_SHANGHAI_BLOCK),
+            Self::Cancun => Some(MAINNET_CANCUN_BLOCK),
             _ => None,
         }
     }
@@ -93,9 +94,9 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the Sepolia testnet.
     pub const fn sepolia_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Paris => Some(1450409),
-            Self::Shanghai => Some(2990908),
-            Self::Cancun => Some(5187023),
+            Self::Paris => Some(SEPOLIA_PARIS_BLOCK),
+            Self::Shanghai => Some(SEPOLIA_SHANGHAI_BLOCK),
+            Self::Cancun => Some(SEPOLIA_CANCUN_BLOCK),
             Self::Frontier
             | Self::Homestead
             | Self::Dao
@@ -131,8 +132,8 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(0),
-            Self::Shanghai => Some(6698),
-            Self::Cancun => Some(894733),
+            Self::Shanghai => Some(HOLESKY_SHANGHAI_BLOCK),
+            Self::Cancun => Some(HOLESKY_CANCUN_BLOCK),
             _ => None,
         }
     }
@@ -178,9 +179,9 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(0),
-            Self::Shanghai => Some(10653737),
+            Self::Shanghai => Some(ARBITRUM_SEPOLIA_SHANGHAI_BLOCK),
             // Hardfork::ArbOS11 => Some(10653737),
-            Self::Cancun => Some(18683405),
+            Self::Cancun => Some(ARBITRUM_SEPOLIA_CANCUN_BLOCK),
             // Hardfork::ArbOS20Atlas => Some(18683405),
             _ => None,
         }
@@ -204,9 +205,9 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(0),
-            Self::Shanghai => Some(184097479),
+            Self::Shanghai => Some(ARBITRUM_ONE_SHANGHAI_BLOCK),
             // Hardfork::ArbOS11 => Some(184097479),
-            Self::Cancun => Some(190301729),
+            Self::Cancun => Some(ARBITRUM_ONE_CANCUN_BLOCK),
             // Hardfork::ArbOS20Atlas => Some(190301729),
             _ => None,
         }
@@ -233,23 +234,25 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the Ethereum mainnet.
     pub const fn mainnet_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Frontier => Some(1438226773),
-            Self::Homestead => Some(1457938193),
-            Self::Dao => Some(1468977640),
-            Self::Tangerine => Some(1476753571),
-            Self::SpuriousDragon => Some(1479788144),
-            Self::Byzantium => Some(1508131331),
-            Self::Constantinople | Self::Petersburg => Some(1551340324),
-            Self::Istanbul => Some(1575807909),
-            Self::MuirGlacier => Some(1577953849),
-            Self::Berlin => Some(1618481223),
-            Self::London => Some(1628166822),
-            Self::ArrowGlacier => Some(1639036523),
-            Self::GrayGlacier => Some(1656586444),
-            Self::Paris => Some(1663224162),
-            Self::Shanghai => Some(1681338455),
-            Self::Cancun => Some(1710338135),
-            Self::Prague => Some(1746612311),
+            Self::Frontier => Some(MAINNET_FRONTIER_TIMESTAMP),
+            Self::Homestead => Some(MAINNET_HOMESTEAD_TIMESTAMP),
+            Self::Dao => Some(MAINNET_DAO_TIMESTAMP),
+            Self::Tangerine => Some(MAINNET_TANGERINE_TIMESTAMP),
+            Self::SpuriousDragon => Some(MAINNET_SPURIOUS_DRAGON_TIMESTAMP),
+            Self::Byzantium => Some(MAINNET_BYZANTIUM_TIMESTAMP),
+            Self::Constantinople | Self::Petersburg => {
+                Some(MAINNET_CONSTANTINOPLE_PETERSBURG_TIMESTAMP)
+            }
+            Self::Istanbul => Some(MAINNET_ISTANBUL_TIMESTAMP),
+            Self::MuirGlacier => Some(MAINNET_MUIR_GLACIER_TIMESTAMP),
+            Self::Berlin => Some(MAINNET_BERLIN_TIMESTAMP),
+            Self::London => Some(MAINNET_LONDON_TIMESTAMP),
+            Self::ArrowGlacier => Some(MAINNET_ARROW_GLACIER_TIMESTAMP),
+            Self::GrayGlacier => Some(MAINNET_GRAY_GLACIER_TIMESTAMP),
+            Self::Paris => Some(MAINNET_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(MAINNET_SHANGHAI_TIMESTAMP),
+            Self::Cancun => Some(MAINNET_CANCUN_TIMESTAMP),
+            Self::Prague => Some(MAINNET_PRAGUE_TIMESTAMP),
             // upcoming hardforks
             _ => None,
         }
@@ -272,9 +275,9 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1633267481),
-            Self::Shanghai => Some(1677557088),
-            Self::Cancun => Some(1706655072),
+            | Self::Paris => Some(SEPOLIA_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(SEPOLIA_SHANGHAI_TIMESTAMP),
+            Self::Cancun => Some(SEPOLIA_CANCUN_TIMESTAMP),
             _ => None,
         }
     }
@@ -296,9 +299,9 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1695902100),
-            Self::Shanghai => Some(1696000704),
-            Self::Cancun => Some(1707305664),
+            | Self::Paris => Some(HOLESKY_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(HOLESKY_SHANGHAI_TIMESTAMP),
+            Self::Cancun => Some(HOLESKY_CANCUN_TIMESTAMP),
             _ => None,
         }
     }
@@ -306,7 +309,7 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the Hoodi testnet.
     pub const fn hoodi_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Prague => Some(1742999832),
+            Self::Prague => Some(HOODI_PRAGUE_TIMESTAMP),
             Self::Frontier
             | Self::Homestead
             | Self::Dao
@@ -346,10 +349,10 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1692726996),
-            Self::Shanghai => Some(1706634000),
+            | Self::Paris => Some(ARBITRUM_SEPOLIA_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP),
             // Hardfork::ArbOS11 => Some(1706634000),
-            Self::Cancun => Some(1709229600),
+            Self::Cancun => Some(ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP),
             // Hardfork::ArbOS20Atlas => Some(1709229600),
             _ => None,
         }
@@ -372,10 +375,10 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1622240000),
-            Self::Shanghai => Some(1708804873),
+            | Self::Paris => Some(ARBITRUM_ONE_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(ARBITRUM_ONE_SHANGHAI_TIMESTAMP),
             // Hardfork::ArbOS11 => Some(1708804873),
-            Self::Cancun => Some(1710424089),
+            Self::Cancun => Some(ARBITRUM_ONE_CANCUN_TIMESTAMP),
             // Hardfork::ArbOS20Atlas => Some(1710424089),
             _ => None,
         }
@@ -385,30 +388,30 @@ impl EthereumHardfork {
     pub const fn mainnet() -> [(Self, ForkCondition); 18] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
-            (Self::Homestead, ForkCondition::Block(1150000)),
-            (Self::Dao, ForkCondition::Block(1920000)),
-            (Self::Tangerine, ForkCondition::Block(2463000)),
-            (Self::SpuriousDragon, ForkCondition::Block(2675000)),
-            (Self::Byzantium, ForkCondition::Block(4370000)),
-            (Self::Constantinople, ForkCondition::Block(7280000)),
-            (Self::Petersburg, ForkCondition::Block(7280000)),
-            (Self::Istanbul, ForkCondition::Block(9069000)),
-            (Self::MuirGlacier, ForkCondition::Block(9200000)),
-            (Self::Berlin, ForkCondition::Block(12244000)),
-            (Self::London, ForkCondition::Block(12965000)),
-            (Self::ArrowGlacier, ForkCondition::Block(13773000)),
-            (Self::GrayGlacier, ForkCondition::Block(15050000)),
+            (Self::Homestead, ForkCondition::Block(MAINNET_HOMESTEAD_BLOCK)),
+            (Self::Dao, ForkCondition::Block(MAINNET_DAO_BLOCK)),
+            (Self::Tangerine, ForkCondition::Block(MAINNET_TANGERINE_BLOCK)),
+            (Self::SpuriousDragon, ForkCondition::Block(MAINNET_SPURIOUS_DRAGON_BLOCK)),
+            (Self::Byzantium, ForkCondition::Block(MAINNET_BYZANTIUM_BLOCK)),
+            (Self::Constantinople, ForkCondition::Block(MAINNET_CONSTANTINOPLE_PETERSBURG_BLOCK)),
+            (Self::Petersburg, ForkCondition::Block(MAINNET_CONSTANTINOPLE_PETERSBURG_BLOCK)),
+            (Self::Istanbul, ForkCondition::Block(MAINNET_ISTANBUL_BLOCK)),
+            (Self::MuirGlacier, ForkCondition::Block(MAINNET_MUIR_GLACIER_BLOCK)),
+            (Self::Berlin, ForkCondition::Block(MAINNET_BERLIN_BLOCK)),
+            (Self::London, ForkCondition::Block(MAINNET_LONDON_BLOCK)),
+            (Self::ArrowGlacier, ForkCondition::Block(MAINNET_ARROW_GLACIER_BLOCK)),
+            (Self::GrayGlacier, ForkCondition::Block(MAINNET_GRAY_GLACIER_BLOCK)),
             (
                 Self::Paris,
                 ForkCondition::TTD {
-                    activation_block_number: 15537394,
+                    activation_block_number: MAINNET_PARIS_BLOCK,
                     fork_block: None,
                     total_difficulty: uint!(58_750_000_000_000_000_000_000_U256),
                 },
             ),
-            (Self::Shanghai, ForkCondition::Timestamp(1681338455)),
-            (Self::Cancun, ForkCondition::Timestamp(1710338135)),
-            (Self::Prague, ForkCondition::Timestamp(1746612311)),
+            (Self::Shanghai, ForkCondition::Timestamp(MAINNET_SHANGHAI_TIMESTAMP)),
+            (Self::Cancun, ForkCondition::Timestamp(MAINNET_CANCUN_TIMESTAMP)),
+            (Self::Prague, ForkCondition::Timestamp(MAINNET_PRAGUE_TIMESTAMP)),
         ]
     }
 
@@ -430,14 +433,14 @@ impl EthereumHardfork {
             (
                 Self::Paris,
                 ForkCondition::TTD {
-                    activation_block_number: 1450409,
+                    activation_block_number: SEPOLIA_PARIS_BLOCK,
                     fork_block: Some(1735371),
                     total_difficulty: uint!(17_000_000_000_000_000_U256),
                 },
             ),
-            (Self::Shanghai, ForkCondition::Timestamp(1677557088)),
-            (Self::Cancun, ForkCondition::Timestamp(1706655072)),
-            (Self::Prague, ForkCondition::Timestamp(1741159776)),
+            (Self::Shanghai, ForkCondition::Timestamp(SEPOLIA_SHANGHAI_TIMESTAMP)),
+            (Self::Cancun, ForkCondition::Timestamp(SEPOLIA_CANCUN_TIMESTAMP)),
+            (Self::Prague, ForkCondition::Timestamp(SEPOLIA_PRAGUE_TIMESTAMP)),
         ]
     }
 
@@ -464,9 +467,9 @@ impl EthereumHardfork {
                     total_difficulty: U256::ZERO,
                 },
             ),
-            (Self::Shanghai, ForkCondition::Timestamp(1696000704)),
-            (Self::Cancun, ForkCondition::Timestamp(1707305664)),
-            (Self::Prague, ForkCondition::Timestamp(1740434112)),
+            (Self::Shanghai, ForkCondition::Timestamp(HOLESKY_SHANGHAI_TIMESTAMP)),
+            (Self::Cancun, ForkCondition::Timestamp(HOLESKY_CANCUN_TIMESTAMP)),
+            (Self::Prague, ForkCondition::Timestamp(HOLESKY_PRAGUE_TIMESTAMP)),
         ]
     }
 
@@ -495,7 +498,7 @@ impl EthereumHardfork {
             ),
             (Self::Shanghai, ForkCondition::Timestamp(0)),
             (Self::Cancun, ForkCondition::Timestamp(0)),
-            (Self::Prague, ForkCondition::Timestamp(1742999832)),
+            (Self::Prague, ForkCondition::Timestamp(HOODI_PRAGUE_TIMESTAMP)),
         ]
     }
 }
