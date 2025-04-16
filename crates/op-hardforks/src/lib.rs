@@ -45,13 +45,13 @@ impl OpHardfork {
     /// Optimism mainnet list of hardforks.
     pub const fn op_mainnet() -> [(Self, ForkCondition); 7] {
         [
-            (Self::Bedrock, ForkCondition::Block(OP_BEDROCK_MAINNET_BLOCK)),
+            (Self::Bedrock, ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
-            (Self::Canyon, ForkCondition::Timestamp(OP_CANYON_MAINNET_TIMESTAMP)),
-            (Self::Ecotone, ForkCondition::Timestamp(OP_ECOTONE_MAINNET_TIMESTAMP)),
-            (Self::Fjord, ForkCondition::Timestamp(OP_FJORD_MAINNET_TIMESTAMP)),
-            (Self::Granite, ForkCondition::Timestamp(OP_GRANITE_MAINNET_TIMESTAMP)),
-            (Self::Holocene, ForkCondition::Timestamp(OP_HOLOCENE_MAINNET_TIMESTAMP)),
+            (Self::Canyon, ForkCondition::Timestamp(OP_MAINNET_CANYON_TIMESTAMP)),
+            (Self::Ecotone, ForkCondition::Timestamp(OP_MAINNET_ECOTONE_TIMESTAMP)),
+            (Self::Fjord, ForkCondition::Timestamp(OP_MAINNET_FJORD_TIMESTAMP)),
+            (Self::Granite, ForkCondition::Timestamp(OP_MAINNET_GRANITE_TIMESTAMP)),
+            (Self::Holocene, ForkCondition::Timestamp(OP_MAINNET_HOLOCENE_TIMESTAMP)),
         ]
     }
 
@@ -60,12 +60,12 @@ impl OpHardfork {
         [
             (Self::Bedrock, ForkCondition::Block(0)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
-            (Self::Canyon, ForkCondition::Timestamp(OP_CANYON_SEPOLIA_TIMESTAMP)),
-            (Self::Ecotone, ForkCondition::Timestamp(OP_ECOTONE_SEPOLIA_TIMESTAMP)),
-            (Self::Fjord, ForkCondition::Timestamp(OP_FJORD_SEPOLIA_TIMESTAMP)),
-            (Self::Granite, ForkCondition::Timestamp(OP_GRANITE_SEPOLIA_TIMESTAMP)),
-            (Self::Holocene, ForkCondition::Timestamp(OP_HOLOCENE_SEPOLIA_TIMESTAMP)),
-            (Self::Isthmus, ForkCondition::Timestamp(OP_ISTHMUS_SEPOLIA_TIMESTAMP)),
+            (Self::Canyon, ForkCondition::Timestamp(OP_SEPOLIA_CANYON_TIMESTAMP)),
+            (Self::Ecotone, ForkCondition::Timestamp(OP_SEPOLIA_ECOTONE_TIMESTAMP)),
+            (Self::Fjord, ForkCondition::Timestamp(OP_SEPOLIA_FJORD_TIMESTAMP)),
+            (Self::Granite, ForkCondition::Timestamp(OP_SEPOLIA_GRANITE_TIMESTAMP)),
+            (Self::Holocene, ForkCondition::Timestamp(OP_SEPOLIA_HOLOCENE_TIMESTAMP)),
+            (Self::Isthmus, ForkCondition::Timestamp(OP_SEPOLIA_ISTHMUS_TIMESTAMP)),
         ]
     }
 
@@ -74,11 +74,11 @@ impl OpHardfork {
         [
             (Self::Bedrock, ForkCondition::Block(0)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
-            (Self::Canyon, ForkCondition::Timestamp(BASE_CANYON_MAINNET_TIMESTAMP)),
-            (Self::Ecotone, ForkCondition::Timestamp(BASE_ECOTONE_MAINNET_TIMESTAMP)),
-            (Self::Fjord, ForkCondition::Timestamp(BASE_FJORD_MAINNET_TIMESTAMP)),
-            (Self::Granite, ForkCondition::Timestamp(BASE_GRANITE_MAINNET_TIMESTAMP)),
-            (Self::Holocene, ForkCondition::Timestamp(BASE_HOLOCENE_MAINNET_TIMESTAMP)),
+            (Self::Canyon, ForkCondition::Timestamp(BASE_MAINNET_CANYON_TIMESTAMP)),
+            (Self::Ecotone, ForkCondition::Timestamp(BASE_MAINNET_ECOTONE_TIMESTAMP)),
+            (Self::Fjord, ForkCondition::Timestamp(BASE_MAINNET_FJORD_TIMESTAMP)),
+            (Self::Granite, ForkCondition::Timestamp(BASE_MAINNET_CANYON_TIMESTAMP)),
+            (Self::Holocene, ForkCondition::Timestamp(BASE_MAINNET_HOLOCENE_TIMESTAMP)),
         ]
     }
 
@@ -87,12 +87,12 @@ impl OpHardfork {
         [
             (Self::Bedrock, ForkCondition::Block(0)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
-            (Self::Canyon, ForkCondition::Timestamp(BASE_CANYON_SEPOLIA_TIMESTAMP)),
-            (Self::Ecotone, ForkCondition::Timestamp(BASE_ECOTONE_SEPOLIA_TIMESTAMP)),
-            (Self::Fjord, ForkCondition::Timestamp(BASE_FJORD_SEPOLIA_TIMESTAMP)),
-            (Self::Granite, ForkCondition::Timestamp(BASE_GRANITE_SEPOLIA_TIMESTAMP)),
-            (Self::Holocene, ForkCondition::Timestamp(BASE_HOLOCENE_SEPOLIA_TIMESTAMP)),
-            (Self::Isthmus, ForkCondition::Timestamp(BASE_ISTHMUS_SEPOLIA_TIMESTAMP)),
+            (Self::Canyon, ForkCondition::Timestamp(BASE_SEPOLIA_CANYON_TIMESTAMP)),
+            (Self::Ecotone, ForkCondition::Timestamp(BASE_SEPOLIA_ECOTONE_TIMESTAMP)),
+            (Self::Fjord, ForkCondition::Timestamp(BASE_SEPOLIA_FJORD_TIMESTAMP)),
+            (Self::Granite, ForkCondition::Timestamp(BASE_SEPOLIA_GRANITE_TIMESTAMP)),
+            (Self::Holocene, ForkCondition::Timestamp(BASE_SEPOLIA_HOLOCENE_TIMESTAMP)),
+            (Self::Isthmus, ForkCondition::Timestamp(BASE_SEPOLIA_ISTHMUS_TIMESTAMP)),
         ]
     }
 }

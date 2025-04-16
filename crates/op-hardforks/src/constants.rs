@@ -1,53 +1,53 @@
 //op mainnet
 /// Bedrock hardfork activation block
-pub const OP_BEDROCK_MAINNET_BLOCK: u64 = 105235063;
+pub const OP_MAINNET_BEDROCK_BLOCK: u64 = 105_235_063;
 /// Canyon hardfork activation timestamp
-pub const OP_CANYON_MAINNET_TIMESTAMP: u64 = 1704992401;
+pub const OP_MAINNET_CANYON_TIMESTAMP: u64 = 1_704_992_401;
 /// Ecotone hardfork activation timestamp
-pub const OP_ECOTONE_MAINNET_TIMESTAMP: u64 = 1710374401;
+pub const OP_MAINNET_ECOTONE_TIMESTAMP: u64 = 1_710_374_401;
 /// Fjord hardfork activation timestamp
-pub const OP_FJORD_MAINNET_TIMESTAMP: u64 = 1720627201;
+pub const OP_MAINNET_FJORD_TIMESTAMP: u64 = 1_720_627_201;
 /// Granite hardfork activation timestamp
-pub const OP_GRANITE_MAINNET_TIMESTAMP: u64 = 1726070401;
+pub const OP_MAINNET_GRANITE_TIMESTAMP: u64 = 1_726_070_401;
 /// Holocene hardfork activation timestamp
-pub const OP_HOLOCENE_MAINNET_TIMESTAMP: u64 = 1736445601;
+pub const OP_MAINNET_HOLOCENE_TIMESTAMP: u64 = 1_736_445_601;
 
 //sepolia
 /// Canyon sepolia hardfork activation timestamp
-pub const OP_CANYON_SEPOLIA_TIMESTAMP: u64 = 1699981200;
+pub const OP_SEPOLIA_CANYON_TIMESTAMP: u64 = 1_699_981_200;
 /// Ecotone sepolia hardfork activation timestamp
-pub const OP_ECOTONE_SEPOLIA_TIMESTAMP: u64 = 1708534800;
+pub const OP_SEPOLIA_ECOTONE_TIMESTAMP: u64 = 1_708_534_800;
 /// Fjord sepolia hardfork activation timestamp
-pub const OP_FJORD_SEPOLIA_TIMESTAMP: u64 = 1716998400;
+pub const OP_SEPOLIA_FJORD_TIMESTAMP: u64 = 1_716_998_400;
 /// Granite sepolia hardfork activation timestamp
-pub const OP_GRANITE_SEPOLIA_TIMESTAMP: u64 = 1723478400;
+pub const OP_SEPOLIA_GRANITE_TIMESTAMP: u64 = 1_723_478_400;
 /// Holocene sepolia hardfork activation timestamp
-pub const OP_HOLOCENE_SEPOLIA_TIMESTAMP: u64 = 1732633200;
+pub const OP_SEPOLIA_HOLOCENE_TIMESTAMP: u64 = 1_732_633_200;
 /// Isthmus sepolia hardfork activation timestamp
-pub const OP_ISTHMUS_SEPOLIA_TIMESTAMP: u64 = 1744905600;
+pub const OP_SEPOLIA_ISTHMUS_TIMESTAMP: u64 = 1_744_905_600;
 
 //base
 /// Canyon base hardfork activation timestamp
-pub const BASE_CANYON_MAINNET_TIMESTAMP: u64 = 1704992401;
+pub const BASE_MAINNET_CANYON_TIMESTAMP: u64 = 1_704_992_401;
 /// Ecotone base hardfork activation timestamp
-pub const BASE_ECOTONE_MAINNET_TIMESTAMP: u64 = 1710374401;
+pub const BASE_MAINNET_ECOTONE_TIMESTAMP: u64 = 1_710_374_401;
 /// Fjord base hardfork activation timestamp
-pub const BASE_FJORD_MAINNET_TIMESTAMP: u64 = 1720627201;
+pub const BASE_MAINNET_FJORD_TIMESTAMP: u64 = 1_720_627_201;
 /// Granite base hardfork activation timestamp
-pub const BASE_GRANITE_MAINNET_TIMESTAMP: u64 = 1726070401;
+pub const BASE_MAINNET_GRANITE_TIMESTAMP: u64 = 1_726_070_401;
 /// Holocene base hardfork activation timestamp
-pub const BASE_HOLOCENE_MAINNET_TIMESTAMP: u64 = 1736445601;
+pub const BASE_MAINNET_HOLOCENE_TIMESTAMP: u64 = 1_736_445_601;
 
 //base sepolia
 /// Canyon base sepolia hardfork activation timestamp
-pub const BASE_CANYON_SEPOLIA_TIMESTAMP: u64 = 1699981200;
+pub const BASE_SEPOLIA_CANYON_TIMESTAMP: u64 = 1_699_981_200;
 /// Ecotone base sepolia hardfork activation timestamp
-pub const BASE_ECOTONE_SEPOLIA_TIMESTAMP: u64 = 1708534800;
+pub const BASE_SEPOLIA_ECOTONE_TIMESTAMP: u64 = 1_708_534_800;
 /// Fjord base sepolia hardfork activation timestamp
-pub const BASE_FJORD_SEPOLIA_TIMESTAMP: u64 = 1716998400;
+pub const BASE_SEPOLIA_FJORD_TIMESTAMP: u64 = 1_716_998_400;
 /// Granite base sepolia hardfork activation timestamp
-pub const BASE_GRANITE_SEPOLIA_TIMESTAMP: u64 = 1723478400;
+pub const BASE_SEPOLIA_GRANITE_TIMESTAMP: u64 = 1_723_478_400;
 /// Holocene base sepolia hardfork activation timestamp
-pub const BASE_HOLOCENE_SEPOLIA_TIMESTAMP: u64 = 1732633200;
+pub const BASE_SEPOLIA_HOLOCENE_TIMESTAMP: u64 = 1_732_633_200;
 /// Isthmus base sepolia hardfork activation timestamp
-pub const BASE_ISTHMUS_SEPOLIA_TIMESTAMP: u64 = 1744905600;
+pub const BASE_SEPOLIA_ISTHMUS_TIMESTAMP: u64 = 1_744_905_600;
