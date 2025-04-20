@@ -11,8 +11,7 @@ extern crate alloc;
 mod optimism;
 use alloc::vec::Vec;
 use alloy_hardforks::{hardfork, EthereumHardfork, EthereumHardforks, ForkCondition};
-use optimism::sepolia::*;
-use optimism::mainnet::*;
+use optimism::{mainnet::*, sepolia::*};
 
 hardfork!(
     /// The name of an optimism hardfork.
