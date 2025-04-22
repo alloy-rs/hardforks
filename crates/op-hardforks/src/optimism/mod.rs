@@ -1,2 +1,5 @@
-pub(crate) mod mainnet;
-pub(crate) mod sepolia;
+//! Optimism hardfork starting points
+
+pub mod mainnet;
+pub use mainnet::*;
+
