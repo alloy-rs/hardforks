@@ -1,1 +1,4 @@
-pub(crate) mod mainnet;
+//! Optimism hardfork starting points
+
+pub mod mainnet;
+pub use mainnet::*;
