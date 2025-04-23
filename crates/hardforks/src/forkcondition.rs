@@ -32,6 +32,12 @@ pub enum ForkCondition {
 }
 
 impl ForkCondition {
+    /// Block number 0, equivalent to activation at genesis.
+    pub const ZERO_BLOCK: Self = Self::Block(0);
+    
+    /// Timestamp 0, equivalent to activation at genesis.
+    pub const ZERO_TIMESTAMP: Self = Self::Timestamp(0);
+
     /// Returns true if the fork condition is timestamp based.
     pub const fn is_timestamp(&self) -> bool {
         matches!(self, Self::Timestamp(_))
