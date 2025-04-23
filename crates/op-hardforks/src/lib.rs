@@ -279,11 +279,11 @@ impl Index<EthereumHardfork> for OpChainHardforks {
 
         match hf {
             Frontier | Homestead | Dao | Tangerine | SpuriousDragon | Byzantium
-            | Constantinople | Petersburg | Istanbul | MuirGlacier => &ForkCondition::Block(0),
+            | Constantinople | Petersburg | Istanbul | MuirGlacier => &ForkCondition::ZERO_BLOCK,
             Berlin if self[Bedrock] == ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK) => {
                 &ForkCondition::Block(OP_MAINNET_BERLIN_BLOCK)
             }
-            Berlin => &ForkCondition::Block(0),
+            Berlin => &ForkCondition::ZERO_BLOCK,
             London | ArrowGlacier | GrayGlacier | Paris => &self[Bedrock],
             Shanghai => &self[Canyon],
             Cancun => &self[Ecotone],

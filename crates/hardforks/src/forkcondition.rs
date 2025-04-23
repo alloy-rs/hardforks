@@ -34,7 +34,7 @@ pub enum ForkCondition {
 impl ForkCondition {
     /// Block number 0, equivalent to activation at genesis.
     pub const ZERO_BLOCK: Self = Self::Block(0);
-    
+
     /// Timestamp 0, equivalent to activation at genesis.
     pub const ZERO_TIMESTAMP: Self = Self::Timestamp(0);
 
