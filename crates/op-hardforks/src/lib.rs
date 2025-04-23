@@ -100,18 +100,7 @@ impl OpHardfork {
 
     /// Returns index of `self` in sorted canonical array.
     pub const fn idx(&self) -> usize {
-        use OpHardfork::*;
-        match self {
-            Bedrock => 0,
-            Regolith => 1,
-            Canyon => 2,
-            Ecotone => 3,
-            Fjord => 4,
-            Granite => 5,
-            Holocene => 6,
-            Isthmus => 7,
-            Interop => 8,
-        }
+        *self as usize
     }
 }
 
