@@ -108,70 +108,44 @@ impl Index<OpHardfork> for &[(OpHardfork, ForkCondition)] {
         use OpHardfork::*;
 
         match hf {
-            Bedrock => self
-                .get(0)
-                .map(|(hf, block)| {
-                    debug_assert!(matches!(hf, Bedrock));
-                    block
-                })
-                .expect("bedrock block"),
-            Regolith => self
-                .get(1)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Regolith));
-                    time
-                })
-                .expect("regolith timestamp"),
-            Canyon => self
-                .get(2)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Canyon));
-                    time
-                })
-                .expect("canyon timestamp"),
-            Ecotone => self
-                .get(3)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Ecotone));
-                    time
-                })
-                .expect("ecotone timestamp"),
-            Fjord => self
-                .get(4)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Fjord));
-                    time
-                })
-                .expect("fjord timestamp"),
-            Granite => self
-                .get(5)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Granite));
-                    time
-                })
-                .expect("granite timestamp"),
-            Holocene => self
-                .get(6)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Holocene));
-                    time
-                })
-                .expect("holocene timestamp"),
-            Isthmus => self
-                .get(7)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Isthmus));
-                    time
-                })
-                .expect("isthmus timestamp"),
-            Interop => self
-                .get(8)
-                .map(|(hf, time)| {
-                    debug_assert!(matches!(hf, Interop));
-                    time
-                })
-                .expect("interop timestamp"),
+            Bedrock => self.get(0).map(|(hf, block)| {
+                debug_assert!(matches!(hf, Bedrock));
+                block
+            }),
+            Regolith => self.get(1).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Regolith));
+                time
+            }),
+            Canyon => self.get(2).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Canyon));
+                time
+            }),
+            Ecotone => self.get(3).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Ecotone));
+                time
+            }),
+            Fjord => self.get(4).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Fjord));
+                time
+            }),
+            Granite => self.get(5).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Granite));
+                time
+            }),
+            Holocene => self.get(6).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Holocene));
+                time
+            }),
+            Isthmus => self.get(7).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Isthmus));
+                time
+            }),
+            Interop => self.get(8).map(|(hf, time)| {
+                debug_assert!(matches!(hf, Interop));
+                time
+            }),
         }
+        .unwrap_or(&ForkCondition::Never)
     }
 }
 
@@ -266,7 +240,7 @@ impl OpChainHardforks {
 
     /// Creates a new [`OpChainHardforks`] with OP mainnet configuration.
     pub fn op_mainnet() -> Self {
-        Self::new(OpHardfork::op_mainnet(), Some(3950000))
+        Self::new(OpHardfork::op_mainnet(), Some(3_950_000))
     }
 
     /// Creates a new [`OpChainHardforks`] with OP Sepolia configuration.
