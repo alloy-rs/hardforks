@@ -205,13 +205,45 @@ impl OpChainHardforks {
 
 impl EthereumHardforks for OpChainHardforks {
     fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition {
-        self[fork]
+        use EthereumHardfork::*;
+
+        if self.forks.is_empty() {
+            return ForkCondition::Never;
+        }
+
+        let forks_len = self.forks.len();
+        // check index out of bounds
+        match fork {
+            Shanghai if forks_len < 3 => ForkCondition::Never,
+            Cancun if forks_len < 4 => ForkCondition::Never,
+            Prague if forks_len < 8 => ForkCondition::Never,
+            Osaka => ForkCondition::Never,
+            _ => self[fork],
+        }
     }
 }
 
 impl OpHardforks for OpChainHardforks {
     fn op_fork_activation(&self, fork: OpHardfork) -> ForkCondition {
-        self[fork]
+        use OpHardfork::*;
+
+        if self.forks.is_empty() {
+            return ForkCondition::Never;
+        }
+
+        let forks_len = self.forks.len();
+        // check index out of bounds
+        match fork {
+            Regolith if forks_len < 2 => ForkCondition::Never,
+            Canyon if forks_len < 3 => ForkCondition::Never,
+            Ecotone if forks_len < 4 => ForkCondition::Never,
+            Fjord if forks_len < 5 => ForkCondition::Never,
+            Granite if forks_len < 6 => ForkCondition::Never,
+            Holocene if forks_len < 7 => ForkCondition::Never,
+            Isthmus if forks_len < 8 => ForkCondition::Never,
+            Interop if forks_len < 9 => ForkCondition::Never,
+            _ => self[fork],
+        }
     }
 }
 
