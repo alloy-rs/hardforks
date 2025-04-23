@@ -182,8 +182,8 @@ pub trait OpHardforks: EthereumHardforks {
 ///
 /// Optimism can also hard fork independently of Ethereum. The relation between Ethereum and
 /// Optimism hard forks is described by predicate [`EthereumHardfork`] `=>` [`OpHardfork`], since
-/// an OP chain can have undergo an [`OpHardfork`] without an [`EthereumHardfork`], but not the
-/// other way around.
+/// an OP chain can undergo an [`OpHardfork`] without an [`EthereumHardfork`], but not the other
+/// way around.
 #[derive(Debug, Clone)]
 pub struct OpChainHardforks {
     /// Ordered list of OP hardfork activations.
