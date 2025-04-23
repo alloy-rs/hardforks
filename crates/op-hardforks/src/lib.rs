@@ -257,15 +257,15 @@ impl Index<OpHardfork> for OpChainHardforks {
         use OpHardfork::*;
 
         match hf {
-            Bedrock => &self.forks[0].1,
-            Regolith => &self.forks[1].1,
-            Canyon => &self.forks[2].1,
-            Ecotone => &self.forks[3].1,
-            Fjord => &self.forks[4].1,
-            Granite => &self.forks[5].1,
-            Holocene => &self.forks[6].1,
-            Isthmus => &self.forks[7].1,
-            Interop => &self.forks[8].1,
+            Bedrock => &self.forks[Bedrock.idx()].1,
+            Regolith => &self.forks[Regolith.idx()].1,
+            Canyon => &self.forks[Canyon.idx()].1,
+            Ecotone => &self.forks[Ecotone.idx()].1,
+            Fjord => &self.forks[Fjord.idx()].1,
+            Granite => &self.forks[Granite.idx()].1,
+            Holocene => &self.forks[Holocene.idx()].1,
+            Isthmus => &self.forks[Isthmus.idx()].1,
+            Interop => &self.forks[Interop.idx()].1,
         }
     }
 }
