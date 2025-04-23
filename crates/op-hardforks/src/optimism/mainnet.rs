@@ -1,5 +1,9 @@
 //! Optimism Mainnet hardfork starting points
 
+//------------------------ OVM chain ------------------------//
+/// Berlin hardfork activation block
+pub const OP_MAINNET_BERLIN_BLOCK: u64 = 3_950_000;
+//------------------------ EVM chain ------------------------//
 /// Bedrock hardfork activation block
 pub const OP_MAINNET_BEDROCK_BLOCK: u64 = 105_235_063;
 /// Canyon hardfork activation timestamp

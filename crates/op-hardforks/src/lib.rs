@@ -10,7 +10,7 @@
 extern crate alloc;
 use alloc::vec::Vec;
 use alloy_hardforks::{
-    hardfork, EthereumHardfork, EthereumHardforks, ForkCondition, RollupHardfork,
+    hardfork, EthereumHardfork, EthereumHardforks, ForkCondition,
 };
 use core::ops::Index;
 
@@ -101,54 +101,6 @@ impl OpHardfork {
     }
 }
 
-impl Index<OpHardfork> for &[(OpHardfork, ForkCondition)] {
-    type Output = ForkCondition;
-
-    fn index(&self, hf: OpHardfork) -> &Self::Output {
-        use OpHardfork::*;
-
-        match hf {
-            Bedrock => self.get(0).map(|(hf, block)| {
-                debug_assert!(matches!(hf, Bedrock));
-                block
-            }),
-            Regolith => self.get(1).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Regolith));
-                time
-            }),
-            Canyon => self.get(2).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Canyon));
-                time
-            }),
-            Ecotone => self.get(3).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Ecotone));
-                time
-            }),
-            Fjord => self.get(4).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Fjord));
-                time
-            }),
-            Granite => self.get(5).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Granite));
-                time
-            }),
-            Holocene => self.get(6).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Holocene));
-                time
-            }),
-            Isthmus => self.get(7).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Isthmus));
-                time
-            }),
-            Interop => self.get(8).map(|(hf, time)| {
-                debug_assert!(matches!(hf, Interop));
-                time
-            }),
-        }
-        .unwrap_or(&ForkCondition::Never)
-    }
-}
-
 /// Extends [`EthereumHardforks`] with optimism helper methods.
 #[auto_impl::auto_impl(&, Arc)]
 pub trait OpHardforks: EthereumHardforks {
@@ -223,7 +175,7 @@ pub struct OpChainHardforks {
     /// Special case for OP mainnet which had Bedrock activated separately without an associated
     /// [`OpHardfork`].
     berlin_block: Option<u64>,
-    /// OP hardfork activations.
+    /// Ordered list of OP hardfork activations.
     forks: Vec<(OpHardfork, ForkCondition)>,
 }
 
@@ -261,34 +213,56 @@ impl OpChainHardforks {
 
 impl EthereumHardforks for OpChainHardforks {
     fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition {
-        if fork < EthereumHardfork::Berlin {
-            // We assume that OP chains were launched with all forks before Berlin activated.
-            ForkCondition::Block(0)
-        } else if fork == EthereumHardfork::Berlin {
-            // Handle special OP mainnet case of Berlin activation.
-            // If `berlin_block` is not set, assume it was enabled at genesis.
-            self.berlin_block.map_or(ForkCondition::Block(0), ForkCondition::Block)
-        } else if fork <= EthereumHardfork::Paris {
-            // Bedrock activates all hardforks up to Paris.
-            self.op_fork_activation(OpHardfork::Bedrock)
-        } else if fork <= EthereumHardfork::Shanghai {
-            // Canyon activates Shanghai hardfork.
-            self.op_fork_activation(OpHardfork::Canyon)
-        } else if fork <= EthereumHardfork::Cancun {
-            // Ecotone activates Cancun hardfork.
-            self.op_fork_activation(OpHardfork::Ecotone)
-        } else if fork <= EthereumHardfork::Prague {
-            // Isthmus activates Prague hardfork.
-            self.op_fork_activation(OpHardfork::Isthmus)
-        } else {
-            ForkCondition::Never
-        }
+        self[fork]
     }
 }
 
 impl OpHardforks for OpChainHardforks {
     fn op_fork_activation(&self, fork: OpHardfork) -> ForkCondition {
-        self.forks.as_slice()[fork]
+        self[fork]
+    }
+}
+
+impl Index<OpHardfork> for OpChainHardforks {
+    type Output = ForkCondition;
+
+    fn index(&self, hf: OpHardfork) -> &Self::Output {
+        use OpHardfork::*;
+
+        match hf {
+            Bedrock => &self.forks[0].1,
+            Regolith => &self.forks[1].1,
+            Canyon => &self.forks[2].1,
+            Ecotone => &self.forks[3].1,
+            Fjord => &self.forks[4].1,
+            Granite => &self.forks[5].1,
+            Holocene => &self.forks[6].1,
+            Isthmus => &self.forks[7].1,
+            Interop => &self.forks[8].1,
+        }
+    }
+}
+
+impl Index<EthereumHardfork> for OpChainHardforks {
+    type Output = ForkCondition;
+
+    fn index(&self, hf: EthereumHardfork) -> &Self::Output {
+        use EthereumHardfork::*;
+        use OpHardfork::*;
+
+        match hf {
+            Frontier | Homestead | Dao | Tangerine | SpuriousDragon | Byzantium
+            | Constantinople | Petersburg | Istanbul | MuirGlacier => &ForkCondition::Block(0),
+            Berlin if self[Bedrock] == ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK) => {
+                &ForkCondition::Block(OP_MAINNET_BERLIN_BLOCK)
+            }
+            Berlin => &ForkCondition::Block(0),
+            London | ArrowGlacier | GrayGlacier | Paris => &self[Bedrock],
+            Shanghai => &self[Canyon],
+            Cancun => &self[Ecotone],
+            Prague => &self[Isthmus],
+            Osaka => &ForkCondition::Never,
+        }
     }
 }
 
