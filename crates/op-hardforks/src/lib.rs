@@ -97,6 +97,22 @@ impl OpHardfork {
             (Self::Isthmus, ForkCondition::Timestamp(1744905600)),
         ]
     }
+
+    /// Returns index of `self` in sorted canonical array.
+    pub const fn idx(&self) -> usize {
+        use OpHardfork::*;
+        match self {
+            Bedrock => 0,
+            Regolith => 1,
+            Canyon => 2,
+            Ecotone => 3,
+            Fjord => 4,
+            Granite => 5,
+            Holocene => 6,
+            Isthmus => 7,
+            Interop => 8,
+        }
+    }
 }
 
 /// Extends [`EthereumHardforks`] with optimism helper methods.
@@ -205,7 +221,8 @@ impl OpChainHardforks {
 
 impl EthereumHardforks for OpChainHardforks {
     fn ethereum_fork_activation(&self, fork: EthereumHardfork) -> ForkCondition {
-        use EthereumHardfork::*;
+        use EthereumHardfork::{Cancun, Osaka, Prague, Shanghai};
+        use OpHardfork::{Canyon, Ecotone, Isthmus};
 
         if self.forks.is_empty() {
             return ForkCondition::Never;
@@ -214,9 +231,9 @@ impl EthereumHardforks for OpChainHardforks {
         let forks_len = self.forks.len();
         // check index out of bounds
         match fork {
-            Shanghai if forks_len < 3 => ForkCondition::Never,
-            Cancun if forks_len < 4 => ForkCondition::Never,
-            Prague if forks_len < 8 => ForkCondition::Never,
+            Shanghai if forks_len <= Canyon.idx() => ForkCondition::Never,
+            Cancun if forks_len <= Ecotone.idx() => ForkCondition::Never,
+            Prague if forks_len <= Isthmus.idx() => ForkCondition::Never,
             Osaka => ForkCondition::Never,
             _ => self[fork],
         }
@@ -225,25 +242,11 @@ impl EthereumHardforks for OpChainHardforks {
 
 impl OpHardforks for OpChainHardforks {
     fn op_fork_activation(&self, fork: OpHardfork) -> ForkCondition {
-        use OpHardfork::*;
-
-        if self.forks.is_empty() {
+        // check index out of bounds
+        if self.forks.len() <= fork.idx() {
             return ForkCondition::Never;
         }
-
-        let forks_len = self.forks.len();
-        // check index out of bounds
-        match fork {
-            Regolith if forks_len < 2 => ForkCondition::Never,
-            Canyon if forks_len < 3 => ForkCondition::Never,
-            Ecotone if forks_len < 4 => ForkCondition::Never,
-            Fjord if forks_len < 5 => ForkCondition::Never,
-            Granite if forks_len < 6 => ForkCondition::Never,
-            Holocene if forks_len < 7 => ForkCondition::Never,
-            Isthmus if forks_len < 8 => ForkCondition::Never,
-            Interop if forks_len < 9 => ForkCondition::Never,
-            _ => self[fork],
-        }
+        self[fork]
     }
 }
 
