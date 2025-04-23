@@ -235,6 +235,15 @@ pub trait OpHardforks: EthereumHardforks {
 
 /// A type allowing to configure activation [`ForkCondition`]s for a given list of
 /// [`OpHardfork`]s.
+///
+/// Zips together [`EthereumHardfork`]s and [`OpHardfork`]s. Optimism forks, at least, whenever
+/// Ethereum hard forks. When Ethereum hard forks, a new [`OpHardfork`] piggybacks on top of
+/// the new [`EthereumHardfork`] to include (or to noop) the L1 changes on L2.
+///
+/// Optimism can also hard fork independently of Ethereum. The relation between Ethereum and
+/// Optimism hard forks is described by predicate [`EthereumHardfork`] `=>` [`OpHardfork`], since
+/// an OP chain can have undergo an [`OpHardfork`] without an [`EthereumHardfork`], but not the
+/// other way around.
 #[derive(Debug, Clone)]
 pub struct OpChainHardforks {
     /// Special case for OP mainnet which had Bedrock activated separately without an associated
