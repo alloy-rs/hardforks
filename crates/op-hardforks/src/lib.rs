@@ -9,7 +9,10 @@
 
 extern crate alloc;
 use alloc::vec::Vec;
-use alloy_hardforks::{hardfork, EthereumHardfork, EthereumHardforks, ForkCondition};
+use alloy_hardforks::{
+    hardfork, EthereumHardfork, EthereumHardforks, ForkCondition, RollupHardfork,
+};
+use core::ops::Index;
 
 pub mod optimism;
 pub use optimism::*;
@@ -95,6 +98,80 @@ impl OpHardfork {
             (Self::Holocene, ForkCondition::Timestamp(1732633200)),
             (Self::Isthmus, ForkCondition::Timestamp(1744905600)),
         ]
+    }
+}
+
+impl Index<OpHardfork> for &[(OpHardfork, ForkCondition)] {
+    type Output = ForkCondition;
+
+    fn index(&self, hf: OpHardfork) -> &Self::Output {
+        use OpHardfork::*;
+
+        match hf {
+            Bedrock => self
+                .get(0)
+                .map(|(hf, block)| {
+                    debug_assert!(matches!(hf, Bedrock));
+                    block
+                })
+                .expect("bedrock block"),
+            Regolith => self
+                .get(1)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Regolith));
+                    time
+                })
+                .expect("regolith timestamp"),
+            Canyon => self
+                .get(2)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Canyon));
+                    time
+                })
+                .expect("canyon timestamp"),
+            Ecotone => self
+                .get(3)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Ecotone));
+                    time
+                })
+                .expect("ecotone timestamp"),
+            Fjord => self
+                .get(4)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Fjord));
+                    time
+                })
+                .expect("fjord timestamp"),
+            Granite => self
+                .get(5)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Granite));
+                    time
+                })
+                .expect("granite timestamp"),
+            Holocene => self
+                .get(6)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Holocene));
+                    time
+                })
+                .expect("holocene timestamp"),
+            Isthmus => self
+                .get(7)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Isthmus));
+                    time
+                })
+                .expect("isthmus timestamp"),
+            Interop => self
+                .get(8)
+                .map(|(hf, time)| {
+                    debug_assert!(matches!(hf, Interop));
+                    time
+                })
+                .expect("interop timestamp"),
+        }
     }
 }
 
@@ -228,11 +305,7 @@ impl EthereumHardforks for OpChainHardforks {
 
 impl OpHardforks for OpChainHardforks {
     fn op_fork_activation(&self, fork: OpHardfork) -> ForkCondition {
-        let Ok(idx) = self.forks.binary_search_by(|(f, _)| f.cmp(&fork)) else {
-            return ForkCondition::Never;
-        };
-
-        self.forks[idx].1
+        self.forks.as_slice()[fork]
     }
 }
 
