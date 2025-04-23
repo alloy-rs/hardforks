@@ -191,7 +191,8 @@ pub struct OpChainHardforks {
 }
 
 impl OpChainHardforks {
-    /// Creates a new [`OpChainHardforks`] with the given list of forks.
+    /// Creates a new [`OpChainHardforks`] with the given list of forks. The input list is sorted
+    /// w.r.t. the hardcoded canonicity of [`OpHardfork`]s.
     pub fn new(forks: impl IntoIterator<Item = (OpHardfork, ForkCondition)>) -> Self {
         let mut forks = forks.into_iter().collect::<Vec<_>>();
         forks.sort();
