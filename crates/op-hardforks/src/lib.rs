@@ -12,7 +12,7 @@ use alloc::vec::Vec;
 use alloy_hardforks::{hardfork, EthereumHardfork, EthereumHardforks, ForkCondition};
 
 pub mod optimism;
-pub use optimism::{mainnet::*, sepolia::*};
+pub use optimism::*;
 
 pub mod base;
 pub use base::*;
