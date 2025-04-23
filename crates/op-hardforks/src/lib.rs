@@ -217,6 +217,11 @@ impl OpChainHardforks {
     pub fn base_sepolia() -> Self {
         Self::new(OpHardfork::base_sepolia())
     }
+
+    /// Returns true if this is an OP mainnet instance.
+    pub fn is_op_mainnet(&self) -> bool {
+        self[OpHardfork::Bedrock] == ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK)
+    }
 }
 
 impl EthereumHardforks for OpChainHardforks {
@@ -280,9 +285,7 @@ impl Index<EthereumHardfork> for OpChainHardforks {
         match hf {
             Frontier | Homestead | Dao | Tangerine | SpuriousDragon | Byzantium
             | Constantinople | Petersburg | Istanbul | MuirGlacier => &ForkCondition::ZERO_BLOCK,
-            Berlin if self[Bedrock] == ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK) => {
-                &ForkCondition::Block(OP_MAINNET_BERLIN_BLOCK)
-            }
+            Berlin if self.is_op_mainnet() => &ForkCondition::Block(OP_MAINNET_BERLIN_BLOCK),
             Berlin => &ForkCondition::ZERO_BLOCK,
             London | ArrowGlacier | GrayGlacier | Paris => &self[Bedrock],
             Shanghai => &self[Canyon],
