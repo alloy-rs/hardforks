@@ -9,9 +9,7 @@
 
 extern crate alloc;
 use alloc::vec::Vec;
-use alloy_hardforks::{
-    hardfork, EthereumHardfork, EthereumHardforks, ForkCondition,
-};
+use alloy_hardforks::{hardfork, EthereumHardfork, EthereumHardforks, ForkCondition};
 use core::ops::Index;
 
 pub mod optimism;
@@ -172,42 +170,36 @@ pub trait OpHardforks: EthereumHardforks {
 /// other way around.
 #[derive(Debug, Clone)]
 pub struct OpChainHardforks {
-    /// Special case for OP mainnet which had Bedrock activated separately without an associated
-    /// [`OpHardfork`].
-    berlin_block: Option<u64>,
     /// Ordered list of OP hardfork activations.
     forks: Vec<(OpHardfork, ForkCondition)>,
 }
 
 impl OpChainHardforks {
     /// Creates a new [`OpChainHardforks`] with the given list of forks.
-    pub fn new(
-        forks: impl IntoIterator<Item = (OpHardfork, ForkCondition)>,
-        berlin_block: Option<u64>,
-    ) -> Self {
+    pub fn new(forks: impl IntoIterator<Item = (OpHardfork, ForkCondition)>) -> Self {
         let mut forks = forks.into_iter().collect::<Vec<_>>();
         forks.sort();
-        Self { forks, berlin_block }
+        Self { forks }
     }
 
     /// Creates a new [`OpChainHardforks`] with OP mainnet configuration.
     pub fn op_mainnet() -> Self {
-        Self::new(OpHardfork::op_mainnet(), Some(3_950_000))
+        Self::new(OpHardfork::op_mainnet())
     }
 
     /// Creates a new [`OpChainHardforks`] with OP Sepolia configuration.
     pub fn op_sepolia() -> Self {
-        Self::new(OpHardfork::op_sepolia(), None)
+        Self::new(OpHardfork::op_sepolia())
     }
 
     /// Creates a new [`OpChainHardforks`] with Base mainnet configuration.
     pub fn base_mainnet() -> Self {
-        Self::new(OpHardfork::base_mainnet(), None)
+        Self::new(OpHardfork::base_mainnet())
     }
 
     /// Creates a new [`OpChainHardforks`] with Base Sepolia configuration.
     pub fn base_sepolia() -> Self {
-        Self::new(OpHardfork::base_sepolia(), None)
+        Self::new(OpHardfork::base_sepolia())
     }
 }
 
