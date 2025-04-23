@@ -18,7 +18,7 @@ pub use optimism::*;
 hardfork!(
     /// The name of an optimism hardfork.
     ///
-    /// When building a list of hardforks for a chain, it's still expected to mix with
+    /// When building a list of hardforks for a chain, it's still expected to zip with
     /// [`EthereumHardfork`].
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
     OpHardfork {
