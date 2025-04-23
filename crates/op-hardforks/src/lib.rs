@@ -218,7 +218,7 @@ impl OpChainHardforks {
         Self::new(OpHardfork::base_sepolia())
     }
 
-    /// Returns true if this is an OP mainnet instance.
+    /// Returns `true` if this is an OP mainnet instance.
     pub fn is_op_mainnet(&self) -> bool {
         self[OpHardfork::Bedrock] == ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK)
     }
