@@ -2,6 +2,10 @@
 
 use crate::optimism::mainnet::*;
 
+/// Bedrock base hardfork activation block
+pub const BASE_MAINNET_BEDROCK_BLOCK: u64 = 0;
+/// Regolith base hardfork activation timestamp
+pub const BASE_MAINNET_REGOLITH_TIMESTAMP: u64 = OP_MAINNET_REGOLITH_TIMESTAMP;
 /// Canyon base hardfork activation timestamp
 pub const BASE_MAINNET_CANYON_TIMESTAMP: u64 = OP_MAINNET_CANYON_TIMESTAMP;
 /// Ecotone base hardfork activation timestamp

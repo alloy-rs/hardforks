@@ -383,4 +383,75 @@ mod tests {
         );
         assert_eq!(op_sepolia_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
+
+    #[test]
+    fn base_mainnet_fork_conditions() {
+        use OpHardfork::*;
+
+        let base_mainnet_forks = OpChainHardforks::base_mainnet();
+        assert_eq!(base_mainnet_forks[Bedrock], ForkCondition::Block(BASE_MAINNET_BEDROCK_BLOCK));
+        assert_eq!(
+            base_mainnet_forks[Regolith],
+            ForkCondition::Timestamp(BASE_MAINNET_REGOLITH_TIMESTAMP)
+        );
+        assert_eq!(
+            base_mainnet_forks[Canyon],
+            ForkCondition::Timestamp(BASE_MAINNET_CANYON_TIMESTAMP)
+        );
+        assert_eq!(
+            base_mainnet_forks[Ecotone],
+            ForkCondition::Timestamp(BASE_MAINNET_ECOTONE_TIMESTAMP)
+        );
+        assert_eq!(
+            base_mainnet_forks[Fjord],
+            ForkCondition::Timestamp(BASE_MAINNET_FJORD_TIMESTAMP)
+        );
+        assert_eq!(
+            base_mainnet_forks[Granite],
+            ForkCondition::Timestamp(BASE_MAINNET_GRANITE_TIMESTAMP)
+        );
+        assert_eq!(
+            base_mainnet_forks[Holocene],
+            ForkCondition::Timestamp(BASE_MAINNET_HOLOCENE_TIMESTAMP)
+        );
+        assert_eq!(base_mainnet_forks.op_fork_activation(Isthmus), ForkCondition::Never);
+        assert_eq!(base_mainnet_forks.op_fork_activation(Interop), ForkCondition::Never);
+    }
+
+    #[test]
+    fn base_sepolia_fork_conditions() {
+        use OpHardfork::*;
+
+        let base_sepolia_forks = OpChainHardforks::base_sepolia();
+        assert_eq!(base_sepolia_forks[Bedrock], ForkCondition::Block(BASE_SEPOLIA_BEDROCK_BLOCK));
+        assert_eq!(
+            base_sepolia_forks[Regolith],
+            ForkCondition::Timestamp(BASE_SEPOLIA_REGOLITH_TIMESTAMP)
+        );
+        assert_eq!(
+            base_sepolia_forks[Canyon],
+            ForkCondition::Timestamp(BASE_SEPOLIA_CANYON_TIMESTAMP)
+        );
+        assert_eq!(
+            base_sepolia_forks[Ecotone],
+            ForkCondition::Timestamp(BASE_SEPOLIA_ECOTONE_TIMESTAMP)
+        );
+        assert_eq!(
+            base_sepolia_forks[Fjord],
+            ForkCondition::Timestamp(BASE_SEPOLIA_FJORD_TIMESTAMP)
+        );
+        assert_eq!(
+            base_sepolia_forks[Granite],
+            ForkCondition::Timestamp(BASE_SEPOLIA_GRANITE_TIMESTAMP)
+        );
+        assert_eq!(
+            base_sepolia_forks[Holocene],
+            ForkCondition::Timestamp(BASE_SEPOLIA_HOLOCENE_TIMESTAMP)
+        );
+        assert_eq!(
+            base_sepolia_forks[Isthmus],
+            ForkCondition::Timestamp(BASE_SEPOLIA_ISTHMUS_TIMESTAMP)
+        );
+        assert_eq!(base_sepolia_forks.op_fork_activation(Interop), ForkCondition::Never);
+    }
 }

@@ -1,6 +1,6 @@
 //! Optimism Sepolia hardfork starting points
 
-/// Bedrock hardfork activation block
+/// Bedrock sepolia hardfork activation block
 pub const OP_SEPOLIA_BEDROCK_BLOCK: u64 = 0;
 /// Regolith sepolia hardfork activation timestamp
 pub const OP_SEPOLIA_REGOLITH_TIMESTAMP: u64 = 0;
