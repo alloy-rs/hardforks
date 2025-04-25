@@ -48,7 +48,7 @@ impl OpHardfork {
     pub const fn op_mainnet() -> [(Self, ForkCondition); 7] {
         [
             (Self::Bedrock, ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK)),
-            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Regolith, ForkCondition::Timestamp(OP_MAINNET_REGOLITH_TIMESTAMP)),
             (Self::Canyon, ForkCondition::Timestamp(OP_MAINNET_CANYON_TIMESTAMP)),
             (Self::Ecotone, ForkCondition::Timestamp(OP_MAINNET_ECOTONE_TIMESTAMP)),
             (Self::Fjord, ForkCondition::Timestamp(OP_MAINNET_FJORD_TIMESTAMP)),
@@ -60,8 +60,8 @@ impl OpHardfork {
     /// Optimism Sepolia list of hardforks.
     pub const fn op_sepolia() -> [(Self, ForkCondition); 8] {
         [
-            (Self::Bedrock, ForkCondition::Block(0)),
-            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Bedrock, ForkCondition::Block(OP_SEPOLIA_BEDROCK_BLOCK)),
+            (Self::Regolith, ForkCondition::Timestamp(OP_SEPOLIA_REGOLITH_TIMESTAMP)),
             (Self::Canyon, ForkCondition::Timestamp(OP_SEPOLIA_CANYON_TIMESTAMP)),
             (Self::Ecotone, ForkCondition::Timestamp(OP_SEPOLIA_ECOTONE_TIMESTAMP)),
             (Self::Fjord, ForkCondition::Timestamp(OP_SEPOLIA_FJORD_TIMESTAMP)),
@@ -320,5 +320,64 @@ mod tests {
     #[test]
     fn check_nonexistent_hardfork_from_str() {
         assert!(OpHardfork::from_str("not a hardfork").is_err());
+    }
+
+    #[test]
+    fn op_mainnet_fork_conditions() {
+        use OpHardfork::*;
+
+        let op_mainnet_forks = OpChainHardforks::op_mainnet();
+        assert_eq!(op_mainnet_forks[Bedrock], ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK));
+        assert_eq!(
+            op_mainnet_forks[Regolith],
+            ForkCondition::Timestamp(OP_MAINNET_REGOLITH_TIMESTAMP)
+        );
+        assert_eq!(op_mainnet_forks[Canyon], ForkCondition::Timestamp(OP_MAINNET_CANYON_TIMESTAMP));
+        assert_eq!(
+            op_mainnet_forks[Ecotone],
+            ForkCondition::Timestamp(OP_MAINNET_ECOTONE_TIMESTAMP)
+        );
+        assert_eq!(op_mainnet_forks[Fjord], ForkCondition::Timestamp(OP_MAINNET_FJORD_TIMESTAMP));
+        assert_eq!(
+            op_mainnet_forks[Granite],
+            ForkCondition::Timestamp(OP_MAINNET_GRANITE_TIMESTAMP)
+        );
+        assert_eq!(
+            op_mainnet_forks[Holocene],
+            ForkCondition::Timestamp(OP_MAINNET_HOLOCENE_TIMESTAMP)
+        );
+        assert_eq!(op_mainnet_forks.op_fork_activation(Isthmus), ForkCondition::Never);
+        assert_eq!(op_mainnet_forks.op_fork_activation(Interop), ForkCondition::Never);
+    }
+
+    #[test]
+    fn op_sepolia_fork_conditions() {
+        use OpHardfork::*;
+
+        let op_sepolia_forks = OpChainHardforks::op_sepolia();
+        assert_eq!(op_sepolia_forks[Bedrock], ForkCondition::Block(OP_SEPOLIA_BEDROCK_BLOCK));
+        assert_eq!(
+            op_sepolia_forks[Regolith],
+            ForkCondition::Timestamp(OP_SEPOLIA_REGOLITH_TIMESTAMP)
+        );
+        assert_eq!(op_sepolia_forks[Canyon], ForkCondition::Timestamp(OP_SEPOLIA_CANYON_TIMESTAMP));
+        assert_eq!(
+            op_sepolia_forks[Ecotone],
+            ForkCondition::Timestamp(OP_SEPOLIA_ECOTONE_TIMESTAMP)
+        );
+        assert_eq!(op_sepolia_forks[Fjord], ForkCondition::Timestamp(OP_SEPOLIA_FJORD_TIMESTAMP));
+        assert_eq!(
+            op_sepolia_forks[Granite],
+            ForkCondition::Timestamp(OP_SEPOLIA_GRANITE_TIMESTAMP)
+        );
+        assert_eq!(
+            op_sepolia_forks[Holocene],
+            ForkCondition::Timestamp(OP_SEPOLIA_HOLOCENE_TIMESTAMP)
+        );
+        assert_eq!(
+            op_sepolia_forks[Isthmus],
+            ForkCondition::Timestamp(OP_SEPOLIA_ISTHMUS_TIMESTAMP)
+        );
+        assert_eq!(op_sepolia_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 }

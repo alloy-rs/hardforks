@@ -1,5 +1,9 @@
 //! Optimism Sepolia hardfork starting points
 
+/// Bedrock hardfork activation block
+pub const OP_SEPOLIA_BEDROCK_BLOCK: u64 = 0;
+/// Regolith sepolia hardfork activation timestamp
+pub const OP_SEPOLIA_REGOLITH_TIMESTAMP: u64 = 0;
 /// Canyon sepolia hardfork activation timestamp
 pub const OP_SEPOLIA_CANYON_TIMESTAMP: u64 = 1_699_981_200;
 /// Ecotone sepolia hardfork activation timestamp
