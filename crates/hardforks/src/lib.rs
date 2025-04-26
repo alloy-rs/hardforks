@@ -18,6 +18,9 @@ pub use forkcondition::*;
 mod hardfork;
 pub use hardfork::*;
 
+pub mod ethereum;
+pub use ethereum::mainnet;
+
 // Not public API.
 #[doc(hidden)]
 pub mod __private {
