@@ -385,7 +385,7 @@ impl EthereumHardfork {
     /// Ethereum mainnet list of hardforks.
     pub const fn mainnet() -> [(Self, ForkCondition); 18] {
         [
-            (Self::Frontier, ForkCondition::Block(0)),
+            (Self::Frontier, ForkCondition::Block(MAINNET_FRONTIER_BLOCK)),
             (Self::Homestead, ForkCondition::Block(MAINNET_HOMESTEAD_BLOCK)),
             (Self::Dao, ForkCondition::Block(MAINNET_DAO_BLOCK)),
             (Self::Tangerine, ForkCondition::Block(MAINNET_TANGERINE_BLOCK)),
