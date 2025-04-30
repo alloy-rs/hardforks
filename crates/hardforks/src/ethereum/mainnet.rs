@@ -34,3 +34,40 @@ pub const MAINNET_PARIS_BLOCK: u64 = 15_537_394;
 pub const MAINNET_SHANGHAI_BLOCK: u64 = 17_034_870;
 /// Cancun hard fork activation block
 pub const MAINNET_CANCUN_BLOCK: u64 = 19_426_587;
+
+/// Frontier hard fork activation timestamp
+pub const MAINNET_FRONTIER_TIMESTAMP: u64 = 1_438_226_773;
+/// Homestead hard fork activation timestamp
+pub const MAINNET_HOMESTEAD_TIMESTAMP: u64 = 1_457_938_193;
+/// Dao hard fork activation timestamp
+pub const MAINNET_DAO_TIMESTAMP: u64 = 1_468_977_640;
+/// Tangerine hard fork activation timestamp
+pub const MAINNET_TANGERINE_TIMESTAMP: u64 = 1_476_753_571;
+/// Spurious Dragon hard fork activation timestamp
+pub const MAINNET_SPURIOUS_DRAGON_TIMESTAMP: u64 = 1_479_788_144;
+/// Byzantium hard fork activation timestamp
+pub const MAINNET_BYZANTIUM_TIMESTAMP: u64 = 1_508_131_331;
+/// Constantinople hard fork activation timestamp
+pub const MAINNET_CONSTANTINOPLE_TIMESTAMP: u64 = 1_551_340_324;
+/// Petersburg hard fork activation timestamp, same as [`MAINNET_CONSTANTINOPLE_TIMESTAMP`].
+pub const MAINNET_PETERSBURG_TIMESTAMP: u64 = MAINNET_CONSTANTINOPLE_TIMESTAMP;
+/// Istanbul hard fork activation timestamp
+pub const MAINNET_ISTANBUL_TIMESTAMP: u64 = 1_575_807_909;
+/// Muir Glacier hard fork activation timestamp
+pub const MAINNET_MUIR_GLACIER_TIMESTAMP: u64 = 1_577_953_849;
+/// Berlin hard fork activation timestamp
+pub const MAINNET_BERLIN_TIMESTAMP: u64 = 1_618_481_223;
+/// London hard fork activation timestamp
+pub const MAINNET_LONDON_TIMESTAMP: u64 = 1_628_166_822;
+/// Arrow Glacier hard fork activation timestamp
+pub const MAINNET_ARROW_GLACIER_TIMESTAMP: u64 = 1_639_036_523;
+/// Gray Glacier hard fork activation timestamp
+pub const MAINNET_GRAY_GLACIER_TIMESTAMP: u64 = 1_656_586_444;
+/// Paris hard fork activation timestamp
+pub const MAINNET_PARIS_TIMESTAMP: u64 = 1_663_224_162;
+/// Shanghai hard fork activation timestamp
+pub const MAINNET_SHANGHAI_TIMESTAMP: u64 = 1_681_338_455;
+/// Cancun hard fork activation timestamp
+pub const MAINNET_CANCUN_TIMESTAMP: u64 = 1_710_338_135;
+/// Prague hard fork activation timestamp
+pub const MAINNET_PRAGUE_TIMESTAMP: u64 = 1_746_612_311;
