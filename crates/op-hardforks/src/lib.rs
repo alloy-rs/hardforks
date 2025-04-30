@@ -48,7 +48,7 @@ hardfork!(
 
 impl OpHardfork {
     /// Optimism mainnet list of hardforks.
-    pub const fn op_mainnet() -> [(Self, ForkCondition); 7] {
+    pub const fn op_mainnet() -> [(Self, ForkCondition); 8] {
         [
             (Self::Bedrock, ForkCondition::Block(OP_MAINNET_BEDROCK_BLOCK)),
             (Self::Regolith, ForkCondition::Timestamp(OP_MAINNET_REGOLITH_TIMESTAMP)),
@@ -57,6 +57,7 @@ impl OpHardfork {
             (Self::Fjord, ForkCondition::Timestamp(OP_MAINNET_FJORD_TIMESTAMP)),
             (Self::Granite, ForkCondition::Timestamp(OP_MAINNET_GRANITE_TIMESTAMP)),
             (Self::Holocene, ForkCondition::Timestamp(OP_MAINNET_HOLOCENE_TIMESTAMP)),
+            (Self::Isthmus, ForkCondition::Timestamp(OP_MAINNET_ISTHMUS_TIMESTAMP)),
         ]
     }
 
@@ -75,7 +76,7 @@ impl OpHardfork {
     }
 
     /// Base mainnet list of hardforks.
-    pub const fn base_mainnet() -> [(Self, ForkCondition); 7] {
+    pub const fn base_mainnet() -> [(Self, ForkCondition); 8] {
         [
             (Self::Bedrock, ForkCondition::Block(0)),
             (Self::Regolith, ForkCondition::Timestamp(0)),
@@ -84,6 +85,7 @@ impl OpHardfork {
             (Self::Fjord, ForkCondition::Timestamp(BASE_MAINNET_FJORD_TIMESTAMP)),
             (Self::Granite, ForkCondition::Timestamp(BASE_MAINNET_GRANITE_TIMESTAMP)),
             (Self::Holocene, ForkCondition::Timestamp(BASE_MAINNET_HOLOCENE_TIMESTAMP)),
+            (Self::Isthmus, ForkCondition::Timestamp(BASE_MAINNET_ISTHMUS_TIMESTAMP)),
         ]
     }
 
@@ -349,7 +351,10 @@ mod tests {
             op_mainnet_forks[Holocene],
             ForkCondition::Timestamp(OP_MAINNET_HOLOCENE_TIMESTAMP)
         );
-        assert_eq!(op_mainnet_forks.op_fork_activation(Isthmus), ForkCondition::Never);
+        assert_eq!(
+            op_mainnet_forks[Isthmus],
+            ForkCondition::Timestamp(OP_MAINNET_ISTHMUS_TIMESTAMP)
+        );
         assert_eq!(op_mainnet_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 
@@ -414,7 +419,10 @@ mod tests {
             base_mainnet_forks[Holocene],
             ForkCondition::Timestamp(BASE_MAINNET_HOLOCENE_TIMESTAMP)
         );
-        assert_eq!(base_mainnet_forks.op_fork_activation(Isthmus), ForkCondition::Never);
+        assert_eq!(
+            base_mainnet_forks[Isthmus],
+            ForkCondition::Timestamp(BASE_MAINNET_ISTHMUS_TIMESTAMP)
+        );
         assert_eq!(base_mainnet_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 

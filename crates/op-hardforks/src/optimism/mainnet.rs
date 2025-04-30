@@ -18,3 +18,5 @@ pub const OP_MAINNET_FJORD_TIMESTAMP: u64 = 1_720_627_201;
 pub const OP_MAINNET_GRANITE_TIMESTAMP: u64 = 1_726_070_401;
 /// Holocene hardfork activation timestamp
 pub const OP_MAINNET_HOLOCENE_TIMESTAMP: u64 = 1_736_445_601;
+/// Isthmus hardfork activation timestamp
+pub const OP_MAINNET_ISTHMUS_TIMESTAMP: u64 = 1_746_806_401;
