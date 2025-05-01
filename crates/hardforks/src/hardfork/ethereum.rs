@@ -1,4 +1,7 @@
-use crate::{ethereum::mainnet::*, hardfork, ForkCondition};
+use crate::{
+    ethereum::{mainnet::*, testnet::*},
+    hardfork, ForkCondition,
+};
 use alloc::vec::Vec;
 use alloy_chains::Chain;
 use alloy_primitives::{uint, U256};
@@ -94,9 +97,9 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the Sepolia testnet.
     pub const fn sepolia_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Paris => Some(1450409),
-            Self::Shanghai => Some(2990908),
-            Self::Cancun => Some(5187023),
+            Self::Paris => Some(SEPOLIA_PARIS_BLOCK),
+            Self::Shanghai => Some(SEPOLIA_SHANGHAI_BLOCK),
+            Self::Cancun => Some(SEPOLIA_CANCUN_BLOCK),
             Self::Frontier
             | Self::Homestead
             | Self::Dao
@@ -132,8 +135,8 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(0),
-            Self::Shanghai => Some(6698),
-            Self::Cancun => Some(894733),
+            Self::Shanghai => Some(HOLESKY_SHANGHAI_BLOCK),
+            Self::Cancun => Some(HOLESKY_CANCUN_BLOCK),
             _ => None,
         }
     }
@@ -274,9 +277,9 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1633267481),
-            Self::Shanghai => Some(1677557088),
-            Self::Cancun => Some(1706655072),
+            | Self::Paris => Some(SEPOLIA_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(SEPOLIA_SHANGHAI_TIMESTAMP),
+            Self::Cancun => Some(SEPOLIA_CANCUN_TIMESTAMP),
             _ => None,
         }
     }
@@ -298,9 +301,9 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1695902100),
-            Self::Shanghai => Some(1696000704),
-            Self::Cancun => Some(1707305664),
+            | Self::Paris => Some(HOLESKY_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(HOLESKY_SHANGHAI_TIMESTAMP),
+            Self::Cancun => Some(HOLESKY_CANCUN_TIMESTAMP),
             _ => None,
         }
     }
@@ -308,7 +311,7 @@ impl EthereumHardfork {
     /// Retrieves the activation timestamp for the specified hardfork on the Hoodi testnet.
     pub const fn hoodi_activation_timestamp(&self) -> Option<u64> {
         match self {
-            Self::Prague => Some(1742999832),
+            Self::Prague => Some(HOODI_PRAGUE_TIMESTAMP),
             Self::Frontier
             | Self::Homestead
             | Self::Dao
@@ -432,14 +435,14 @@ impl EthereumHardfork {
             (
                 Self::Paris,
                 ForkCondition::TTD {
-                    activation_block_number: 1450409,
+                    activation_block_number: SEPOLIA_PARIS_BLOCK,
                     fork_block: Some(1735371),
                     total_difficulty: uint!(17_000_000_000_000_000_U256),
                 },
             ),
-            (Self::Shanghai, ForkCondition::Timestamp(1677557088)),
-            (Self::Cancun, ForkCondition::Timestamp(1706655072)),
-            (Self::Prague, ForkCondition::Timestamp(1741159776)),
+            (Self::Shanghai, ForkCondition::Timestamp(SEPOLIA_SHANGHAI_TIMESTAMP)),
+            (Self::Cancun, ForkCondition::Timestamp(SEPOLIA_CANCUN_TIMESTAMP)),
+            (Self::Prague, ForkCondition::Timestamp(SEPOLIA_PRAGUE_TIMESTAMP)),
         ]
     }
 
@@ -466,9 +469,9 @@ impl EthereumHardfork {
                     total_difficulty: U256::ZERO,
                 },
             ),
-            (Self::Shanghai, ForkCondition::Timestamp(1696000704)),
-            (Self::Cancun, ForkCondition::Timestamp(1707305664)),
-            (Self::Prague, ForkCondition::Timestamp(1740434112)),
+            (Self::Shanghai, ForkCondition::Timestamp(HOLESKY_SHANGHAI_TIMESTAMP)),
+            (Self::Cancun, ForkCondition::Timestamp(HOLESKY_CANCUN_TIMESTAMP)),
+            (Self::Prague, ForkCondition::Timestamp(HOLESKY_PRAGUE_TIMESTAMP)),
         ]
     }
 
@@ -497,7 +500,7 @@ impl EthereumHardfork {
             ),
             (Self::Shanghai, ForkCondition::Timestamp(0)),
             (Self::Cancun, ForkCondition::Timestamp(0)),
-            (Self::Prague, ForkCondition::Timestamp(1742999832)),
+            (Self::Prague, ForkCondition::Timestamp(HOODI_PRAGUE_TIMESTAMP)),
         ]
     }
 }
