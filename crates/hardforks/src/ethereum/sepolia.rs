@@ -1,5 +1,7 @@
 //! Sepolia hardfork starting points
 
+use alloy_primitives::{uint, U256};
+
 /// Paris sepolia hard fork activation block
 pub const SEPOLIA_PARIS_BLOCK: u64 = 1_450_409;
 /// Paris sepolia hard fork activation terminal total difficulty.
