@@ -1,5 +1,7 @@
 //! Ethereum Mainnet hardfork starting points
 
+use alloy_primitives::{uint, U256};
+
 /// Frontier hard fork activation block
 pub const MAINNET_FRONTIER_BLOCK: u64 = 0;
 /// Homestead hard fork activation block
@@ -34,6 +36,9 @@ pub const MAINNET_PARIS_BLOCK: u64 = 15_537_394;
 pub const MAINNET_SHANGHAI_BLOCK: u64 = 17_034_870;
 /// Cancun hard fork activation block
 pub const MAINNET_CANCUN_BLOCK: u64 = 19_426_587;
+
+/// Paris hard fork activation terminal total difficulty.
+pub const MAINNET_PARIS_TTD: U256 = uint!(58_750_000_000_000_000_000_000_U256);
 
 /// Frontier hard fork activation timestamp
 pub const MAINNET_FRONTIER_TIMESTAMP: u64 = 1_438_226_773;
