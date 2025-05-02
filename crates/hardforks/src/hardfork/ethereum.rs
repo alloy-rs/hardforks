@@ -1,6 +1,6 @@
 use crate::{
     arbitrum::mainnet::*,
-    ethereum::{mainnet::*, sepolia::*, holesky::*, hoodi::*},
+    ethereum::{holesky::*, hoodi::*, mainnet::*, sepolia::*},
     hardfork, ForkCondition,
 };
 use alloc::vec::Vec;
