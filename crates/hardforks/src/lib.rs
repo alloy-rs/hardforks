@@ -21,7 +21,7 @@ pub use hardfork::*;
 pub mod ethereum;
 pub use ethereum::{mainnet, testnet};
 pub mod arbitrum;
-pub use arbitrum::mainnet as arbitrum_mainnet;
+pub use arbitrum::{mainnet as arbitrum_mainnet, sepolia};
 
 // Not public API.
 #[doc(hidden)]

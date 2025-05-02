@@ -1,5 +1,5 @@
 use crate::{
-    arbitrum::mainnet::*,
+    arbitrum::{mainnet::*, sepolia::*},
     ethereum::{mainnet::*, testnet::*},
     hardfork, ForkCondition,
 };
@@ -183,9 +183,9 @@ impl EthereumHardfork {
             | Self::ArrowGlacier
             | Self::GrayGlacier
             | Self::Paris => Some(0),
-            Self::Shanghai => Some(10653737),
+            Self::Shanghai => Some(ARBITRUM_SEPOLIA_SHANGHAI_BLOCK),
             // Hardfork::ArbOS11 => Some(10653737),
-            Self::Cancun => Some(18683405),
+            Self::Cancun => Some(ARBITRUM_SEPOLIA_CANCUN_BLOCK),
             // Hardfork::ArbOS20Atlas => Some(18683405),
             _ => None,
         }
@@ -352,10 +352,10 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier
-            | Self::Paris => Some(1692726996),
-            Self::Shanghai => Some(1706634000),
+            | Self::Paris => Some(ARBITRUM_SEPOLIA_PARIS_TIMESTAMP),
+            Self::Shanghai => Some(ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP),
             // Hardfork::ArbOS11 => Some(1706634000),
-            Self::Cancun => Some(1709229600),
+            Self::Cancun => Some(ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP),
             // Hardfork::ArbOS20Atlas => Some(1709229600),
             _ => None,
         }
