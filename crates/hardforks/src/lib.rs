@@ -19,7 +19,7 @@ mod hardfork;
 pub use hardfork::*;
 
 pub mod ethereum;
-pub use ethereum::{mainnet, testnet};
+pub use ethereum::{holesky, hoodi, mainnet, sepolia};
 pub mod arbitrum;
 pub use arbitrum::mainnet as arbitrum_mainnet;
 
