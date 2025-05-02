@@ -2,5 +2,9 @@
 
 pub mod mainnet;
 pub use mainnet::*;
-pub mod testnet;
-pub use testnet::*;
+pub mod sepolia;
+pub use sepolia::*;
+pub mod hoodi;
+pub use hoodi::*;
+pub mod holesky;
+pub use holesky::*;
