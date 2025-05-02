@@ -1,6 +1,6 @@
 //! Arbitrum Sepolia hardfork starting points
 
-/// Sanghai arbitrum sepolia hard fork activation block
+/// Shanghai arbitrum sepolia hard fork activation block
 pub const ARBITRUM_SEPOLIA_SHANGHAI_BLOCK: u64 = 10_653_737;
 /// Cancun arbitrum sepolia hard fork activation block
 pub const ARBITRUM_SEPOLIA_CANCUN_BLOCK: u64 = 18_683_405;
