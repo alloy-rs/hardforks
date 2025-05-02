@@ -5,7 +5,7 @@ use crate::{
 };
 use alloc::vec::Vec;
 use alloy_chains::Chain;
-use alloy_primitives::{uint, U256};
+use alloy_primitives::U256;
 
 hardfork!(
     /// The name of an Ethereum hardfork.
@@ -409,7 +409,7 @@ impl EthereumHardfork {
                 ForkCondition::TTD {
                     activation_block_number: MAINNET_PARIS_BLOCK,
                     fork_block: None,
-                    total_difficulty: uint!(58_750_000_000_000_000_000_000_U256),
+                    total_difficulty: MAINNET_PARIS_TTD,
                 },
             ),
             (Self::Shanghai, ForkCondition::Timestamp(MAINNET_SHANGHAI_TIMESTAMP)),
@@ -437,8 +437,8 @@ impl EthereumHardfork {
                 Self::Paris,
                 ForkCondition::TTD {
                     activation_block_number: SEPOLIA_PARIS_BLOCK,
-                    fork_block: Some(1735371),
-                    total_difficulty: uint!(17_000_000_000_000_000_U256),
+                    fork_block: Some(SEPOLIA_PARIS_FORK_BLOCK),
+                    total_difficulty: SEPOLIA_PARIS_TTD,
                 },
             ),
             (Self::Shanghai, ForkCondition::Timestamp(SEPOLIA_SHANGHAI_TIMESTAMP)),

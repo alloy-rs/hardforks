@@ -1,8 +1,14 @@
 //! Ethereum Testnet hardfork starting points
 
+use alloy_primitives::{uint, U256};
+
 ///Sepolia
 /// Paris sepolia hard fork activation block
 pub const SEPOLIA_PARIS_BLOCK: u64 = 1_450_409;
+/// Paris sepolia hard fork activation terminal total difficulty.
+pub const SEPOLIA_PARIS_TTD: U256 = uint!(17_000_000_000_000_000_U256);
+/// Paris sepolia fork block. See [`ForkCondition::TTD`](crate::ForkCondition::TTD).
+pub const SEPOLIA_PARIS_FORK_BLOCK: u64 = 1_735_371;
 /// Shanghai sepolia hard fork activation block
 pub const SEPOLIA_SHANGHAI_BLOCK: u64 = 2_990_908;
 /// Cancun sepolia hard fork activation block
