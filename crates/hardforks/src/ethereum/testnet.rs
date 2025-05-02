@@ -21,7 +21,7 @@ pub const SEPOLIA_PRAGUE_TIMESTAMP: u64 = 1_741_159_776;
 pub const HOLESKY_SHANGHAI_BLOCK: u64 = 6_698;
 /// Cancun holesky hard fork activation block
 pub const HOLESKY_CANCUN_BLOCK: u64 = 894_733;
-/// Sanghai holesky hard fork activation timestamp
+/// Shanghai holesky hard fork activation timestamp
 pub const HOLESKY_SHANGHAI_TIMESTAMP: u64 = 1_696_000_704;
 /// Cancun holesky hard fork activation timestamp
 pub const HOLESKY_CANCUN_TIMESTAMP: u64 = 1_707_305_664;
