@@ -54,7 +54,8 @@ pub const MAINNET_SPURIOUS_DRAGON_TIMESTAMP: u64 = 1_479_788_144;
 pub const MAINNET_BYZANTIUM_TIMESTAMP: u64 = 1_508_131_331;
 /// Constantinople hard fork activation timestamp is 1551340324.
 pub const MAINNET_CONSTANTINOPLE_TIMESTAMP: u64 = MAINNET_PETERSBURG_TIMESTAMP;
-/// Petersburg hard fork activation timestamp is 1551340324, same as [`MAINNET_PETERSBURG_TIMESTAMP`].
+/// Petersburg hard fork activation timestamp is 1551340324, same as
+/// [`MAINNET_PETERSBURG_TIMESTAMP`].
 pub const MAINNET_PETERSBURG_TIMESTAMP: u64 = 1_551_340_324;
 /// Istanbul hard fork activation timestamp is 1575807909.
 pub const MAINNET_ISTANBUL_TIMESTAMP: u64 = 1_575_807_909;
