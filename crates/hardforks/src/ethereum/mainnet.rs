@@ -36,6 +36,8 @@ pub const MAINNET_PARIS_BLOCK: u64 = 15_537_394;
 pub const MAINNET_SHANGHAI_BLOCK: u64 = 17_034_870;
 /// Cancun hard fork activation block is 19426587.
 pub const MAINNET_CANCUN_BLOCK: u64 = 19_426_587;
+/// Prague hard fork activation block is 22431084.
+pub const MAINNET_PRAGUE_BLOCK: u64 = 22_431_084;
 
 /// Paris hard fork activation terminal total difficulty is 58_750_000_000_000_000_000_000_U256.
 pub const MAINNET_PARIS_TTD: U256 = uint!(58_750_000_000_000_000_000_000_U256);

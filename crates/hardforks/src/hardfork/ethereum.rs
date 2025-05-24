@@ -91,6 +91,7 @@ impl EthereumHardfork {
             Self::Paris => Some(MAINNET_PARIS_BLOCK),
             Self::Shanghai => Some(MAINNET_SHANGHAI_BLOCK),
             Self::Cancun => Some(MAINNET_CANCUN_BLOCK),
+            Self::Prague => Some(MAINNET_PRAGUE_BLOCK),
             _ => None,
         }
     }
