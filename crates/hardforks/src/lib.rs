@@ -18,6 +18,10 @@ pub use forkcondition::*;
 mod hardfork;
 pub use hardfork::*;
 
+/// Error types for the hardforks crate.
+pub mod error;
+pub use error::HardforkError;
+
 pub mod ethereum;
 pub use ethereum::{holesky, hoodi, mainnet, sepolia};
 pub mod arbitrum;
