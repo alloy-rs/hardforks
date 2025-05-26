@@ -47,6 +47,12 @@ hardfork!(
     }
 );
 
+impl Default for OpHardfork {
+    fn default() -> Self {
+        OpHardfork::Isthmus
+    }
+}
+
 impl OpHardfork {
     /// Optimism mainnet list of hardforks.
     pub const fn op_mainnet() -> [(Self, ForkCondition); 8] {

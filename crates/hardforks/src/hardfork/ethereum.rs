@@ -45,12 +45,19 @@ hardfork!(
         Shanghai,
         /// Cancun: <https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md>
         Cancun,
+
         /// Prague.
         Prague,
         /// Osaka: <https://eips.ethereum.org/EIPS/eip-7607>
         Osaka,
     }
 );
+
+impl Default for EthereumHardfork {
+    fn default() -> Self {
+        EthereumHardfork::Prague
+    }
+}
 
 impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the given chain.
