@@ -55,7 +55,7 @@ hardfork!(
 
 impl Default for EthereumHardfork {
     fn default() -> Self {
-        EthereumHardfork::Prague
+        Self::Prague
     }
 }
 

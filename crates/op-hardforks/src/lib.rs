@@ -49,7 +49,7 @@ hardfork!(
 
 impl Default for OpHardfork {
     fn default() -> Self {
-        OpHardfork::Isthmus
+        Self::Isthmus
     }
 }
 
