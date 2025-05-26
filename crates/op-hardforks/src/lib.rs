@@ -42,9 +42,9 @@ hardfork!(
         /// Holocene: <https://github.com/ethereum-optimism/specs/blob/main/specs/protocol/superchain-upgrades.md#holocene>
         Holocene,
         /// Isthmus: <https://github.com/ethereum-optimism/specs/blob/main/specs/protocol/isthmus/overview.md>
+        #[default]
         Isthmus,
         /// TODO: add interop hardfork overview when available
-        #[default]
         Interop,
     }
 );

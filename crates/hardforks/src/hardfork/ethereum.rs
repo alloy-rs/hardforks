@@ -47,9 +47,9 @@ hardfork!(
         /// Cancun: <https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md>
         Cancun,
         /// Prague.
+        #[default]
         Prague,
         /// Osaka: <https://eips.ethereum.org/EIPS/eip-7607>
-        #[default]
         Osaka,
     }
 );
