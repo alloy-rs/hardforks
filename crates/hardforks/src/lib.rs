@@ -20,7 +20,7 @@ pub use hardfork::*;
 
 /// Error types for the hardforks crate.
 pub mod error;
-pub use error::HardforkError;
+pub use error::*;
 
 pub mod ethereum;
 pub use ethereum::{holesky, hoodi, mainnet, sepolia};
