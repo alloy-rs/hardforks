@@ -25,6 +25,7 @@ hardfork!(
     /// When building a list of hardforks for a chain, it's still expected to zip with
     /// [`EthereumHardfork`].
     #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+    #[derive(Default)]
     OpHardfork {
         /// Bedrock: <https://blog.oplabs.co/introducing-optimism-bedrock>.
         Bedrock,
@@ -43,15 +44,10 @@ hardfork!(
         /// Isthmus: <https://github.com/ethereum-optimism/specs/blob/main/specs/protocol/isthmus/overview.md>
         Isthmus,
         /// TODO: add interop hardfork overview when available
+        #[default]
         Interop,
     }
 );
-
-impl Default for OpHardfork {
-    fn default() -> Self {
-        Self::Isthmus
-    }
-}
 
 impl OpHardfork {
     /// Optimism mainnet list of hardforks.
