@@ -509,7 +509,7 @@ impl EthereumHardfork {
     }
 
     /// Convert an u64 into an `EthereumHardfork`.
-    pub fn ethereum_hardfork_from_block_number(num: u64) -> EthereumHardfork {
+    pub const fn ethereum_hardfork_from_block_number(num: u64) -> Self {
         match num {
             _i if num < MAINNET_HOMESTEAD_BLOCK => Self::Frontier,
             _i if num < MAINNET_DAO_BLOCK => Self::Homestead,
