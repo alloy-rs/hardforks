@@ -9,7 +9,7 @@
 
 extern crate alloc;
 use alloc::vec::Vec;
-use alloy_hardforks::{hardfork, EthereumHardfork};
+use alloy_hardforks::{EthereumHardfork, hardfork};
 pub use alloy_hardforks::{EthereumHardforks, ForkCondition};
 use core::ops::Index;
 

@@ -1,6 +1,6 @@
 //! Sepolia hardfork starting points
 
-use alloy_primitives::{uint, U256};
+use alloy_primitives::{U256, uint};
 
 /// Paris sepolia hard fork activation block is 1450409.
 pub const SEPOLIA_PARIS_BLOCK: u64 = 1_450_409;

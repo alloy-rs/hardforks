@@ -1,6 +1,6 @@
 //! Ethereum Mainnet hardfork starting points
 
-use alloy_primitives::{uint, U256};
+use alloy_primitives::{U256, uint};
 
 /// Frontier hard fork activation block is 0.
 pub const MAINNET_FRONTIER_BLOCK: u64 = 0;

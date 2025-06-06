@@ -1,7 +1,8 @@
 use crate::{
+    ForkCondition,
     arbitrum::{mainnet::*, sepolia::*},
     ethereum::{holesky::*, hoodi::*, mainnet::*, sepolia::*},
-    hardfork, ForkCondition,
+    hardfork,
 };
 use alloc::vec::Vec;
 use alloy_chains::Chain;
