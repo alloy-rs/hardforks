@@ -105,6 +105,16 @@ impl ForkCondition {
         }
     }
 
+    /// Returns the block of the fork condition, if it is block number based, or if it's difficulty
+    /// based and the fork block is known.
+    pub const fn block_number(&self) -> Option<u64> {
+        match self {
+            Self::Block(number) => Some(*number),
+            Self::TTD { activation_block_number, .. } => Some(*activation_block_number),
+            _ => None,
+        }
+    }
+
     /// Returns the timestamp of the fork condition, if it is timestamp based.
     pub const fn as_timestamp(&self) -> Option<u64> {
         match self {
