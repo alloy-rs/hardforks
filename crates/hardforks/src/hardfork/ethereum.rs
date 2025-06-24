@@ -550,26 +550,15 @@ impl EthereumHardfork {
     /// Reverse lookup to find the hardfork given a chain and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified chain.
     pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
-        if chain == Chain::mainnet() {
-            return Some(Self::from_mainnet_timestamp(timestamp));
+        match chain.named()? {
+            NamedChain::Mainnet => Some(Self::from_mainnet_timestamp(timestamp)),
+            NamedChain::Sepolia => Some(Self::from_sepolia_timestamp(timestamp)),
+            NamedChain::Holesky => Some(Self::from_holesky_timestamp(timestamp)),
+            NamedChain::Hoodi => Some(Self::from_hoodi_timestamp(timestamp)),
+            NamedChain::Arbitrum => Some(Self::from_arbitrum_timestamp(timestamp)),
+            NamedChain::ArbitrumSepolia => Some(Self::from_arbitrum_sepolia_timestamp(timestamp)),
+            _ => None,
         }
-        if chain == Chain::sepolia() {
-            return Some(Self::from_sepolia_timestamp(timestamp));
-        }
-        if chain == Chain::holesky() {
-            return Some(Self::from_holesky_timestamp(timestamp));
-        }
-        if chain == Chain::hoodi() {
-            return Some(Self::from_hoodi_timestamp(timestamp));
-        }
-        if chain == Chain::arbitrum_mainnet() {
-            return Some(Self::from_arbitrum_timestamp(timestamp));
-        }
-        if chain == Chain::arbitrum_sepolia() {
-            return Some(Self::from_arbitrum_sepolia_timestamp(timestamp));
-        }
-
-        None
     }
 
     /// Convert a timestamp into an `EthereumHardfork` for mainnet.
