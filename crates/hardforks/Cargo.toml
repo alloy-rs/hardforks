@@ -28,3 +28,4 @@ serde = [
     "dep:serde",
     "alloy-primitives/serde",
 ]
+std = ["serde?/std"]

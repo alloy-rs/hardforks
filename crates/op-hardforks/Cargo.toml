@@ -20,4 +20,8 @@ auto_impl.workspace = true
 serde = { workspace = true, optional = true }
 
 [features]
-serde = ["dep:serde"]
+serde = [
+	"dep:serde",
+	"alloy-hardforks/serde"
+]
+std = ["serde?/std", "alloy-hardforks/std"]
