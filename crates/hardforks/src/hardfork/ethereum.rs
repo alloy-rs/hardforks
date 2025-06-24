@@ -5,7 +5,7 @@ use crate::{
     hardfork,
 };
 use alloc::vec::Vec;
-use alloy_chains::Chain;
+use alloy_chains::{Chain, NamedChain};
 use alloy_primitives::U256;
 
 hardfork!(
@@ -530,6 +530,116 @@ impl EthereumHardfork {
             _ => Self::Prague,
         }
     }
+
+    /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
+    /// Returns the active hardfork at the given timestamp for the specified chain.
+    pub fn from_chain_id_and_timestamp(chain_id: u64, timestamp: u64) -> Option<Self> {
+        match NamedChain::try_from(chain_id) {
+            Ok(NamedChain::Mainnet) => Some(Self::from_mainnet_timestamp(timestamp)),
+            Ok(NamedChain::Sepolia) => Some(Self::from_sepolia_timestamp(timestamp)),
+            Ok(NamedChain::Holesky) => Some(Self::from_holesky_timestamp(timestamp)),
+            Ok(NamedChain::Hoodi) => Some(Self::from_hoodi_timestamp(timestamp)),
+            Ok(NamedChain::Arbitrum) => Some(Self::from_arbitrum_timestamp(timestamp)),
+            Ok(NamedChain::ArbitrumSepolia) => {
+                Some(Self::from_arbitrum_sepolia_timestamp(timestamp))
+            }
+            _ => None,
+        }
+    }
+
+    /// Reverse lookup to find the hardfork given a chain and block timestamp.
+    /// Returns the active hardfork at the given timestamp for the specified chain.
+    pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
+        if chain == Chain::mainnet() {
+            return Some(Self::from_mainnet_timestamp(timestamp));
+        }
+        if chain == Chain::sepolia() {
+            return Some(Self::from_sepolia_timestamp(timestamp));
+        }
+        if chain == Chain::holesky() {
+            return Some(Self::from_holesky_timestamp(timestamp));
+        }
+        if chain == Chain::hoodi() {
+            return Some(Self::from_hoodi_timestamp(timestamp));
+        }
+        if chain == Chain::arbitrum_mainnet() {
+            return Some(Self::from_arbitrum_timestamp(timestamp));
+        }
+        if chain == Chain::arbitrum_sepolia() {
+            return Some(Self::from_arbitrum_sepolia_timestamp(timestamp));
+        }
+
+        None
+    }
+
+    /// Convert a timestamp into an `EthereumHardfork` for mainnet.
+    pub const fn from_mainnet_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            _i if timestamp < MAINNET_HOMESTEAD_TIMESTAMP => Self::Frontier,
+            _i if timestamp < MAINNET_DAO_TIMESTAMP => Self::Homestead,
+            _i if timestamp < MAINNET_TANGERINE_TIMESTAMP => Self::Dao,
+            _i if timestamp < MAINNET_SPURIOUS_DRAGON_TIMESTAMP => Self::Tangerine,
+            _i if timestamp < MAINNET_BYZANTIUM_TIMESTAMP => Self::SpuriousDragon,
+            _i if timestamp < MAINNET_PETERSBURG_TIMESTAMP => Self::Byzantium,
+            _i if timestamp < MAINNET_ISTANBUL_TIMESTAMP => Self::Petersburg,
+            _i if timestamp < MAINNET_MUIR_GLACIER_TIMESTAMP => Self::Istanbul,
+            _i if timestamp < MAINNET_BERLIN_TIMESTAMP => Self::MuirGlacier,
+            _i if timestamp < MAINNET_LONDON_TIMESTAMP => Self::Berlin,
+            _i if timestamp < MAINNET_ARROW_GLACIER_TIMESTAMP => Self::London,
+            _i if timestamp < MAINNET_GRAY_GLACIER_TIMESTAMP => Self::ArrowGlacier,
+            _i if timestamp < MAINNET_PARIS_TIMESTAMP => Self::GrayGlacier,
+            _i if timestamp < MAINNET_SHANGHAI_TIMESTAMP => Self::Paris,
+            _i if timestamp < MAINNET_CANCUN_TIMESTAMP => Self::Shanghai,
+            _i if timestamp < MAINNET_PRAGUE_TIMESTAMP => Self::Cancun,
+            _ => Self::Prague,
+        }
+    }
+
+    /// Convert a timestamp into an `EthereumHardfork` for Sepolia.
+    pub const fn from_sepolia_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            _i if timestamp < SEPOLIA_PARIS_TIMESTAMP => Self::London,
+            _i if timestamp < SEPOLIA_SHANGHAI_TIMESTAMP => Self::Paris,
+            _i if timestamp < SEPOLIA_CANCUN_TIMESTAMP => Self::Shanghai,
+            _ => Self::Cancun,
+        }
+    }
+
+    /// Convert a timestamp into an `EthereumHardfork` for Holesky.
+    pub const fn from_holesky_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            _i if timestamp < HOLESKY_PARIS_TIMESTAMP => Self::Paris,
+            _i if timestamp < HOLESKY_SHANGHAI_TIMESTAMP => Self::Paris,
+            _i if timestamp < HOLESKY_CANCUN_TIMESTAMP => Self::Shanghai,
+            _ => Self::Cancun,
+        }
+    }
+
+    /// Convert a timestamp into an `EthereumHardfork` for Hoodi.
+    pub const fn from_hoodi_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            _i if timestamp < HOODI_PRAGUE_TIMESTAMP => Self::Cancun,
+            _ => Self::Prague,
+        }
+    }
+
+    /// Convert a timestamp into an `EthereumHardfork` for Arbitrum One.
+    pub const fn from_arbitrum_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            _i if timestamp < ARBITRUM_ONE_SHANGHAI_TIMESTAMP => Self::Paris,
+            _i if timestamp < ARBITRUM_ONE_CANCUN_TIMESTAMP => Self::Shanghai,
+            _ => Self::Cancun,
+        }
+    }
+
+    /// Convert a timestamp into an `EthereumHardfork` for Arbitrum Sepolia.
+    pub const fn from_arbitrum_sepolia_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            _i if timestamp < ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP => Self::Paris,
+            _i if timestamp < ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP => Self::Shanghai,
+            _ => Self::Cancun,
+        }
+    }
 }
 
 /// Helper methods for Ethereum forks.
@@ -711,5 +821,76 @@ mod tests {
     #[test]
     fn check_nonexistent_hardfork_from_str() {
         assert!(EthereumHardfork::from_str("not a hardfork").is_err());
+    }
+
+    #[test]
+    fn test_reverse_lookup_by_chain_id() {
+        // Test major hardforks across all supported Ethereum chains
+        let test_cases = [
+            // (chain_id, timestamp, expected) - Key transitions for each chain
+            // Mainnet (1): Historical progression through major forks
+            (1, MAINNET_FRONTIER_TIMESTAMP, EthereumHardfork::Frontier),
+            (1, MAINNET_LONDON_TIMESTAMP, EthereumHardfork::London),
+            (1, MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (1, MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (1, MAINNET_HOMESTEAD_TIMESTAMP - 1, EthereumHardfork::Frontier),
+            (1, MAINNET_PRAGUE_TIMESTAMP + 1000, EthereumHardfork::Prague),
+            // Sepolia (11155111): Modern testnet progression
+            (11155111, SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (11155111, SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (11155111, SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (11155111, SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
+            // Holesky (17000): Latest testnet
+            (17000, HOLESKY_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (17000, HOLESKY_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (17000, HOLESKY_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+            // Arbitrum One (42161): L2 with simplified progression
+            (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (42161, ARBITRUM_ONE_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (42161, ARBITRUM_ONE_CANCUN_TIMESTAMP + 1000, EthereumHardfork::Cancun),
+            // Arbitrum Sepolia (421614): L2 testnet
+            (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (421614, ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+        ];
+
+        for (chain_id, timestamp, expected) in test_cases {
+            assert_eq!(
+                EthereumHardfork::from_chain_id_and_timestamp(chain_id, timestamp),
+                Some(expected),
+                "chain {chain_id} at timestamp {timestamp}"
+            );
+        }
+
+        // Edge cases
+        assert_eq!(EthereumHardfork::from_chain_id_and_timestamp(999999, 1000000), None);
+
+        // Consistency checks with individual functions
+        assert_eq!(
+            EthereumHardfork::from_mainnet_timestamp(MAINNET_LONDON_TIMESTAMP),
+            EthereumHardfork::London
+        );
+        assert_eq!(
+            EthereumHardfork::from_arbitrum_timestamp(ARBITRUM_ONE_CANCUN_TIMESTAMP),
+            EthereumHardfork::Cancun
+        );
+    }
+
+    #[test]
+    fn test_timestamp_functions_consistency() {
+        // Verify timestamp functions align with activation_timestamp method
+        let mainnet_chain = Chain::mainnet();
+
+        let test_cases = [
+            (MAINNET_LONDON_TIMESTAMP, EthereumHardfork::London),
+            (MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+        ];
+
+        for (timestamp, fork) in test_cases {
+            assert_eq!(EthereumHardfork::from_mainnet_timestamp(timestamp), fork);
+            assert_eq!(fork.activation_timestamp(mainnet_chain), Some(timestamp));
+        }
     }
 }

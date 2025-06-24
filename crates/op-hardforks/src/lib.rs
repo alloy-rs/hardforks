@@ -9,6 +9,7 @@
 
 extern crate alloc;
 use alloc::vec::Vec;
+use alloy_chains::NamedChain;
 use alloy_hardforks::{EthereumHardfork, hardfork};
 pub use alloy_hardforks::{EthereumHardforks, ForkCondition};
 use core::ops::Index;
@@ -50,6 +51,74 @@ hardfork!(
 );
 
 impl OpHardfork {
+    /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
+    /// Returns the active hardfork at the given timestamp for the specified OP chain.
+    pub fn from_chain_id_and_timestamp(chain_id: u64, timestamp: u64) -> Option<Self> {
+        match NamedChain::try_from(chain_id) {
+            Ok(NamedChain::Optimism) => Some(Self::from_op_mainnet_timestamp(timestamp)),
+            Ok(NamedChain::OptimismSepolia) => Some(Self::from_op_sepolia_timestamp(timestamp)),
+            Ok(NamedChain::Base) => Some(Self::from_base_mainnet_timestamp(timestamp)),
+            Ok(NamedChain::BaseSepolia) => Some(Self::from_base_sepolia_timestamp(timestamp)),
+            _ => None,
+        }
+    }
+
+    /// Convert a timestamp into an `OpHardfork` for OP mainnet.
+    pub const fn from_op_mainnet_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            // Note: Regolith timestamp is 0, so any timestamp >= 0 is at least Regolith
+            _i if timestamp < OP_MAINNET_CANYON_TIMESTAMP => Self::Regolith,
+            _i if timestamp < OP_MAINNET_ECOTONE_TIMESTAMP => Self::Canyon,
+            _i if timestamp < OP_MAINNET_FJORD_TIMESTAMP => Self::Ecotone,
+            _i if timestamp < OP_MAINNET_GRANITE_TIMESTAMP => Self::Fjord,
+            _i if timestamp < OP_MAINNET_HOLOCENE_TIMESTAMP => Self::Granite,
+            _i if timestamp < OP_MAINNET_ISTHMUS_TIMESTAMP => Self::Holocene,
+            _ => Self::Isthmus,
+        }
+    }
+
+    /// Convert a timestamp into an `OpHardfork` for OP Sepolia.
+    pub const fn from_op_sepolia_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            // Note: Regolith timestamp is 0, so any timestamp >= 0 is at least Regolith
+            _i if timestamp < OP_SEPOLIA_CANYON_TIMESTAMP => Self::Regolith,
+            _i if timestamp < OP_SEPOLIA_ECOTONE_TIMESTAMP => Self::Canyon,
+            _i if timestamp < OP_SEPOLIA_FJORD_TIMESTAMP => Self::Ecotone,
+            _i if timestamp < OP_SEPOLIA_GRANITE_TIMESTAMP => Self::Fjord,
+            _i if timestamp < OP_SEPOLIA_HOLOCENE_TIMESTAMP => Self::Granite,
+            _i if timestamp < OP_SEPOLIA_ISTHMUS_TIMESTAMP => Self::Holocene,
+            _ => Self::Isthmus,
+        }
+    }
+
+    /// Convert a timestamp into an `OpHardfork` for Base mainnet.
+    pub const fn from_base_mainnet_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            // Note: Regolith timestamp is 0, so any timestamp >= 0 is at least Regolith
+            _i if timestamp < BASE_MAINNET_CANYON_TIMESTAMP => Self::Regolith,
+            _i if timestamp < BASE_MAINNET_ECOTONE_TIMESTAMP => Self::Canyon,
+            _i if timestamp < BASE_MAINNET_FJORD_TIMESTAMP => Self::Ecotone,
+            _i if timestamp < BASE_MAINNET_GRANITE_TIMESTAMP => Self::Fjord,
+            _i if timestamp < BASE_MAINNET_HOLOCENE_TIMESTAMP => Self::Granite,
+            _i if timestamp < BASE_MAINNET_ISTHMUS_TIMESTAMP => Self::Holocene,
+            _ => Self::Isthmus,
+        }
+    }
+
+    /// Convert a timestamp into an `OpHardfork` for Base Sepolia.
+    pub const fn from_base_sepolia_timestamp(timestamp: u64) -> Self {
+        match timestamp {
+            // Note: Regolith timestamp is 0, so any timestamp >= 0 is at least Regolith
+            _i if timestamp < BASE_SEPOLIA_CANYON_TIMESTAMP => Self::Regolith,
+            _i if timestamp < BASE_SEPOLIA_ECOTONE_TIMESTAMP => Self::Canyon,
+            _i if timestamp < BASE_SEPOLIA_FJORD_TIMESTAMP => Self::Ecotone,
+            _i if timestamp < BASE_SEPOLIA_GRANITE_TIMESTAMP => Self::Fjord,
+            _i if timestamp < BASE_SEPOLIA_HOLOCENE_TIMESTAMP => Self::Granite,
+            _i if timestamp < BASE_SEPOLIA_ISTHMUS_TIMESTAMP => Self::Holocene,
+            _ => Self::Isthmus,
+        }
+    }
+
     /// Optimism mainnet list of hardforks.
     pub const fn op_mainnet() -> [(Self, ForkCondition); 8] {
         [
@@ -464,5 +533,50 @@ mod tests {
             ForkCondition::Timestamp(BASE_SEPOLIA_ISTHMUS_TIMESTAMP)
         );
         assert_eq!(base_sepolia_forks.op_fork_activation(Interop), ForkCondition::Never);
+    }
+
+    #[test]
+    fn test_reverse_lookup_op_chains() {
+        // Test key hardforks across all OP stack chains
+        let test_cases = [
+            // (chain_id, timestamp, expected) - focusing on major transitions
+            // OP Mainnet (10): Canyon -> Ecotone -> Granite -> future
+            (10, OP_MAINNET_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (10, OP_MAINNET_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            (10, OP_MAINNET_GRANITE_TIMESTAMP, OpHardfork::Granite),
+            (10, OP_MAINNET_CANYON_TIMESTAMP - 1, OpHardfork::Regolith),
+            (10, OP_MAINNET_ISTHMUS_TIMESTAMP + 1000, OpHardfork::Isthmus),
+            // OP Sepolia (11155420): Same pattern, different timestamps
+            (11155420, OP_SEPOLIA_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (11155420, OP_SEPOLIA_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            (11155420, OP_SEPOLIA_CANYON_TIMESTAMP - 1, OpHardfork::Regolith),
+            // Base Mainnet (8453): Uses OP timestamps
+            (8453, BASE_MAINNET_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (8453, BASE_MAINNET_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            // Base Sepolia (84532): Uses OP Sepolia timestamps
+            (84532, BASE_SEPOLIA_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (84532, BASE_SEPOLIA_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+        ];
+
+        for (chain_id, timestamp, expected) in test_cases {
+            assert_eq!(
+                OpHardfork::from_chain_id_and_timestamp(chain_id, timestamp),
+                Some(expected),
+                "chain {chain_id} at timestamp {timestamp}"
+            );
+        }
+
+        // Edge cases
+        assert_eq!(OpHardfork::from_chain_id_and_timestamp(999999, 1000000), None);
+
+        // Consistency check with individual functions
+        assert_eq!(
+            OpHardfork::from_op_mainnet_timestamp(OP_MAINNET_CANYON_TIMESTAMP),
+            OpHardfork::Canyon
+        );
+        assert_eq!(
+            OpHardfork::from_op_sepolia_timestamp(OP_SEPOLIA_ECOTONE_TIMESTAMP),
+            OpHardfork::Ecotone
+        );
     }
 }
