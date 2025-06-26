@@ -562,7 +562,6 @@ impl EthereumHardfork {
                 _ => Self::Prague,
             }),
             Ok(NamedChain::Holesky) => Some(match timestamp {
-                _i if timestamp < HOLESKY_PARIS_TIMESTAMP => Self::London,
                 _i if timestamp < HOLESKY_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < HOLESKY_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < HOLESKY_PRAGUE_TIMESTAMP => Self::Cancun,
@@ -573,16 +572,16 @@ impl EthereumHardfork {
                 _ => Self::Prague,
             }),
             Ok(NamedChain::Arbitrum) => Some(match timestamp {
-                _i if timestamp < ARBITRUM_ONE_PARIS_TIMESTAMP => Self::London,
                 _i if timestamp < ARBITRUM_ONE_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < ARBITRUM_ONE_CANCUN_TIMESTAMP => Self::Shanghai,
-                _ => Self::Cancun,
+                _i if timestamp < ARBITRUM_ONE_PRAGUE_TIMESTAMP => Self::Cancun,
+                _ => Self::Prague,
             }),
             Ok(NamedChain::ArbitrumSepolia) => Some(match timestamp {
-                _i if timestamp < ARBITRUM_SEPOLIA_PARIS_TIMESTAMP => Self::London,
                 _i if timestamp < ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP => Self::Shanghai,
-                _ => Self::Cancun,
+                _i if timestamp < ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP => Self::Cancun,
+                _ => Self::Prague,
             }),
             _ => None,
         }

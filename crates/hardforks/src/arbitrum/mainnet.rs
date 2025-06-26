@@ -11,3 +11,5 @@ pub const ARBITRUM_ONE_PARIS_TIMESTAMP: u64 = 1_622_240_000;
 pub const ARBITRUM_ONE_SHANGHAI_TIMESTAMP: u64 = 1_708_804_873;
 /// Cancun arbitrum hard fork activation timestamp is 1710424089.
 pub const ARBITRUM_ONE_CANCUN_TIMESTAMP: u64 = 1_710_424_089;
+/// Prague arbitrum hard fork activation timestamp is 1750176000.
+pub const ARBITRUM_ONE_PRAGUE_TIMESTAMP: u64 = 1_750_176_000;

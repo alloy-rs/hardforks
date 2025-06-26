@@ -11,3 +11,5 @@ pub const ARBITRUM_SEPOLIA_PARIS_TIMESTAMP: u64 = 1_692_726_996;
 pub const ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP: u64 = 1_706_634_000;
 /// Cancun arbitrum sepolia hard fork activation timestamp is 1709229600.
 pub const ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP: u64 = 1_709_229_600;
+/// Prague arbitrum sepolia hard fork activation timestamp is 1746543285.
+pub const ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP: u64 = 1_746_543_285;
