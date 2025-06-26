@@ -25,4 +25,3 @@ serde = [
 	"dep:serde",
 	"alloy-hardforks/serde"
 ]
-std = ["serde?/std", "alloy-hardforks/std"]
