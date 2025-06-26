@@ -188,9 +188,8 @@ impl EthereumHardfork {
             | Self::GrayGlacier
             | Self::Paris => Some(0),
             Self::Shanghai => Some(ARBITRUM_SEPOLIA_SHANGHAI_BLOCK),
-            // Hardfork::ArbOS11 => Some(10653737),
             Self::Cancun => Some(ARBITRUM_SEPOLIA_CANCUN_BLOCK),
-            // Hardfork::ArbOS20Atlas => Some(18683405),
+            Self::Prague => Some(ARBITRUM_SEPOLIA_PRAGUE_BLOCK),
             _ => None,
         }
     }
@@ -214,9 +213,8 @@ impl EthereumHardfork {
             | Self::GrayGlacier
             | Self::Paris => Some(0),
             Self::Shanghai => Some(ARBITRUM_ONE_SHANGHAI_BLOCK),
-            // Hardfork::ArbOS11 => Some(184097479),
             Self::Cancun => Some(ARBITRUM_ONE_CANCUN_BLOCK),
-            // Hardfork::ArbOS20Atlas => Some(190301729),
+            Self::Prague => Some(ARBITRUM_ONE_PRAGUE_BLOCK),
             _ => None,
         }
     }

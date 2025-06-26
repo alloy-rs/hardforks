@@ -4,6 +4,8 @@
 pub const ARBITRUM_SEPOLIA_SHANGHAI_BLOCK: u64 = 10_653_737;
 /// Cancun arbitrum sepolia hard fork activation block is 18683405.
 pub const ARBITRUM_SEPOLIA_CANCUN_BLOCK: u64 = 18_683_405;
+/// Prague arbitrum sepolia hard fork activation block is 149799168.
+pub const ARBITRUM_SEPOLIA_PRAGUE_BLOCK: u64 = 149_799_168;
 
 /// Paris arbitrum sepolia hard fork activation timestamp is 1692726996.
 pub const ARBITRUM_SEPOLIA_PARIS_TIMESTAMP: u64 = 1_692_726_996;
