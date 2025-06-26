@@ -358,9 +358,8 @@ impl EthereumHardfork {
             | Self::GrayGlacier
             | Self::Paris => Some(ARBITRUM_SEPOLIA_PARIS_TIMESTAMP),
             Self::Shanghai => Some(ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP),
-            // Hardfork::ArbOS11 => Some(1706634000),
             Self::Cancun => Some(ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP),
-            // Hardfork::ArbOS20Atlas => Some(1709229600),
+            Self::Prague => Some(ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP),
             _ => None,
         }
     }
@@ -384,9 +383,8 @@ impl EthereumHardfork {
             | Self::GrayGlacier
             | Self::Paris => Some(ARBITRUM_ONE_PARIS_TIMESTAMP),
             Self::Shanghai => Some(ARBITRUM_ONE_SHANGHAI_TIMESTAMP),
-            // Hardfork::ArbOS11 => Some(1708804873),
             Self::Cancun => Some(ARBITRUM_ONE_CANCUN_TIMESTAMP),
-            // Hardfork::ArbOS20Atlas => Some(1710424089),
+            Self::Prague => Some(ARBITRUM_ONE_PRAGUE_TIMESTAMP),
             _ => None,
         }
     }
@@ -775,30 +773,60 @@ mod tests {
         let test_cases = [
             // (chain_id, timestamp, expected) - Key transitions for each chain
             // Mainnet
+            // At block 0: Frontier
+            (1, MAINNET_FRONTIER_TIMESTAMP - 1, EthereumHardfork::Frontier),
             (1, MAINNET_FRONTIER_TIMESTAMP, EthereumHardfork::Frontier),
+            (1, MAINNET_HOMESTEAD_TIMESTAMP, EthereumHardfork::Homestead),
+            (1, MAINNET_DAO_TIMESTAMP, EthereumHardfork::Dao),
+            (1, MAINNET_TANGERINE_TIMESTAMP, EthereumHardfork::Tangerine),
+            (1, MAINNET_SPURIOUS_DRAGON_TIMESTAMP, EthereumHardfork::SpuriousDragon),
+            (1, MAINNET_BYZANTIUM_TIMESTAMP, EthereumHardfork::Byzantium),
+            (1, MAINNET_PETERSBURG_TIMESTAMP, EthereumHardfork::Petersburg),
+            (1, MAINNET_ISTANBUL_TIMESTAMP, EthereumHardfork::Istanbul),
+            (1, MAINNET_MUIR_GLACIER_TIMESTAMP, EthereumHardfork::MuirGlacier),
+            (1, MAINNET_BERLIN_TIMESTAMP, EthereumHardfork::Berlin),
             (1, MAINNET_LONDON_TIMESTAMP, EthereumHardfork::London),
+            (1, MAINNET_ARROW_GLACIER_TIMESTAMP, EthereumHardfork::ArrowGlacier),
+            (1, MAINNET_GRAY_GLACIER_TIMESTAMP, EthereumHardfork::GrayGlacier),
+            (1, MAINNET_PARIS_TIMESTAMP, EthereumHardfork::Paris),
             (1, MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (1, MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (1, MAINNET_HOMESTEAD_TIMESTAMP - 1, EthereumHardfork::Frontier),
-            (1, MAINNET_PRAGUE_TIMESTAMP + 1000, EthereumHardfork::Prague),
             // Sepolia
+            // At block 0: London
+            (11155111, SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
             (11155111, SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (11155111, SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
             (11155111, SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (11155111, SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (11155111, SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
+            (11155111, SEPOLIA_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
+            (11155111, SEPOLIA_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             // Holesky
+            // At block 0: Paris
+            (17000, HOLESKY_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (17000, HOLESKY_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (17000, HOLESKY_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
             (17000, HOLESKY_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (17000, HOLESKY_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (17000, HOLESKY_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (17000, HOLESKY_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
+            (17000, HOLESKY_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             // Arbitrum One
+            // At block 0: Paris
+            (42161, ARBITRUM_ONE_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (42161, ARBITRUM_ONE_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
             (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (42161, ARBITRUM_ONE_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (42161, ARBITRUM_ONE_CANCUN_TIMESTAMP + 1000, EthereumHardfork::Cancun),
+            (42161, ARBITRUM_ONE_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
+            (42161, ARBITRUM_ONE_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             // Arbitrum Sepolia
+            // At block 0: Paris
+            (421614, ARBITRUM_SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (421614, ARBITRUM_SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
             (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (421614, ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (421614, ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
+            (421614, ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
         ];
 
         for (chain_id, timestamp, expected) in test_cases {
