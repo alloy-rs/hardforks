@@ -102,9 +102,6 @@ impl EthereumHardfork {
     /// Retrieves the activation block for the specified hardfork on the Sepolia testnet.
     pub const fn sepolia_activation_block(&self) -> Option<u64> {
         match self {
-            Self::Paris => Some(SEPOLIA_PARIS_BLOCK),
-            Self::Shanghai => Some(SEPOLIA_SHANGHAI_BLOCK),
-            Self::Cancun => Some(SEPOLIA_CANCUN_BLOCK),
             Self::Frontier
             | Self::Homestead
             | Self::Dao
@@ -119,6 +116,10 @@ impl EthereumHardfork {
             | Self::London
             | Self::ArrowGlacier
             | Self::GrayGlacier => Some(0),
+            Self::Paris => Some(SEPOLIA_PARIS_BLOCK),
+            Self::Shanghai => Some(SEPOLIA_SHANGHAI_BLOCK),
+            Self::Cancun => Some(SEPOLIA_CANCUN_BLOCK),
+            Self::Prague => Some(SEPOLIA_PRAGUE_BLOCK),
             _ => None,
         }
     }
@@ -142,6 +143,7 @@ impl EthereumHardfork {
             | Self::Paris => Some(0),
             Self::Shanghai => Some(HOLESKY_SHANGHAI_BLOCK),
             Self::Cancun => Some(HOLESKY_CANCUN_BLOCK),
+            Self::Prague => Some(HOLESKY_PRAGUE_BLOCK),
             _ => None,
         }
     }
@@ -165,6 +167,7 @@ impl EthereumHardfork {
             | Self::Paris
             | Self::Shanghai
             | Self::Cancun => Some(0),
+            Self::Prague => Some(HOODI_PRAGUE_BLOCK),
             _ => None,
         }
     }
