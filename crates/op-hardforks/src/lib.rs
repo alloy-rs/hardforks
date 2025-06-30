@@ -9,7 +9,7 @@
 
 extern crate alloc;
 use alloc::vec::Vec;
-use alloy_chains::NamedChain;
+use alloy_chains::{Chain, NamedChain};
 use alloy_hardforks::{EthereumHardfork, hardfork};
 pub use alloy_hardforks::{EthereumHardforks, ForkCondition};
 use core::ops::Index;
@@ -53,8 +53,8 @@ hardfork!(
 impl OpHardfork {
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified OP chain.
-    pub fn from_chain_id_and_timestamp(chain_id: u64, timestamp: u64) -> Option<Self> {
-        match NamedChain::try_from(chain_id) {
+    pub fn from_chain_id_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
+        match NamedChain::try_from(chain.id()) {
             Ok(NamedChain::Optimism) => Some(match timestamp {
                 _i if timestamp < OP_MAINNET_CANYON_TIMESTAMP => Self::Regolith,
                 _i if timestamp < OP_MAINNET_ECOTONE_TIMESTAMP => Self::Canyon,
@@ -517,21 +517,21 @@ mod tests {
         let test_cases = [
             // (chain_id, timestamp, expected) - focusing on major transitions
             // OP Mainnet
-            (10, OP_MAINNET_CANYON_TIMESTAMP, OpHardfork::Canyon),
-            (10, OP_MAINNET_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
-            (10, OP_MAINNET_GRANITE_TIMESTAMP, OpHardfork::Granite),
-            (10, OP_MAINNET_CANYON_TIMESTAMP - 1, OpHardfork::Regolith),
-            (10, OP_MAINNET_ISTHMUS_TIMESTAMP + 1000, OpHardfork::Isthmus),
+            (Chain::optimism_mainnet(), OP_MAINNET_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (Chain::optimism_mainnet(), OP_MAINNET_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            (Chain::optimism_mainnet(), OP_MAINNET_GRANITE_TIMESTAMP, OpHardfork::Granite),
+            (Chain::optimism_mainnet(), OP_MAINNET_CANYON_TIMESTAMP - 1, OpHardfork::Regolith),
+            (Chain::optimism_mainnet(), OP_MAINNET_ISTHMUS_TIMESTAMP + 1000, OpHardfork::Isthmus),
             // OP Sepolia
-            (11155420, OP_SEPOLIA_CANYON_TIMESTAMP, OpHardfork::Canyon),
-            (11155420, OP_SEPOLIA_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
-            (11155420, OP_SEPOLIA_CANYON_TIMESTAMP - 1, OpHardfork::Regolith),
+            (Chain::optimism_sepolia(), OP_SEPOLIA_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (Chain::optimism_sepolia(), OP_SEPOLIA_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            (Chain::optimism_sepolia(), OP_SEPOLIA_CANYON_TIMESTAMP - 1, OpHardfork::Regolith),
             // Base Mainnet
-            (8453, BASE_MAINNET_CANYON_TIMESTAMP, OpHardfork::Canyon),
-            (8453, BASE_MAINNET_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            (Chain::base_mainnet(), BASE_MAINNET_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (Chain::base_mainnet(), BASE_MAINNET_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
             // Base Sepolia
-            (84532, BASE_SEPOLIA_CANYON_TIMESTAMP, OpHardfork::Canyon),
-            (84532, BASE_SEPOLIA_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
+            (Chain::base_sepolia(), BASE_SEPOLIA_CANYON_TIMESTAMP, OpHardfork::Canyon),
+            (Chain::base_sepolia(), BASE_SEPOLIA_ECOTONE_TIMESTAMP, OpHardfork::Ecotone),
         ];
 
         for (chain_id, timestamp, expected) in test_cases {
@@ -543,6 +543,6 @@ mod tests {
         }
 
         // Edge cases
-        assert_eq!(OpHardfork::from_chain_id_and_timestamp(999999, 1000000), None);
+        assert_eq!(OpHardfork::from_chain_id_and_timestamp(Chain::from_id(999999), 1000000), None);
     }
 }
