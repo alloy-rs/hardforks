@@ -53,7 +53,7 @@ hardfork!(
 impl OpHardfork {
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified OP chain.
-    pub fn from_chain_id_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
+    pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
         match NamedChain::try_from(chain.id()) {
             Ok(NamedChain::Optimism) => Some(match timestamp {
                 _i if timestamp < OP_MAINNET_CANYON_TIMESTAMP => Self::Regolith,
@@ -536,13 +536,13 @@ mod tests {
 
         for (chain_id, timestamp, expected) in test_cases {
             assert_eq!(
-                OpHardfork::from_chain_id_and_timestamp(chain_id, timestamp),
+                OpHardfork::from_chain_and_timestamp(chain_id, timestamp),
                 Some(expected),
                 "chain {chain_id} at timestamp {timestamp}"
             );
         }
 
         // Edge cases
-        assert_eq!(OpHardfork::from_chain_id_and_timestamp(Chain::from_id(999999), 1000000), None);
+        assert_eq!(OpHardfork::from_chain_and_timestamp(Chain::from_id(999999), 1000000), None);
     }
 }

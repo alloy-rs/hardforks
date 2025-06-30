@@ -532,7 +532,7 @@ impl EthereumHardfork {
 
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified chain.
-    pub fn from_chain_id_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
+    pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
         match NamedChain::try_from(chain.id()) {
             Ok(NamedChain::Mainnet) => Some(match timestamp {
                 _i if timestamp < MAINNET_HOMESTEAD_TIMESTAMP => Self::Frontier,
@@ -872,7 +872,7 @@ mod tests {
 
         for (chain_id, timestamp, expected) in test_cases {
             assert_eq!(
-                EthereumHardfork::from_chain_id_and_timestamp(chain_id, timestamp),
+                EthereumHardfork::from_chain_and_timestamp(chain_id, timestamp),
                 Some(expected),
                 "chain {chain_id} at timestamp {timestamp}"
             );
@@ -880,7 +880,7 @@ mod tests {
 
         // Edge cases
         assert_eq!(
-            EthereumHardfork::from_chain_id_and_timestamp(Chain::from_id(99999), 1000000),
+            EthereumHardfork::from_chain_and_timestamp(Chain::from_id(99999), 1000000),
             None
         );
     }
@@ -895,7 +895,7 @@ mod tests {
 
         for (timestamp, fork) in test_cases {
             assert_eq!(
-                EthereumHardfork::from_chain_id_and_timestamp(Chain::mainnet(), timestamp),
+                EthereumHardfork::from_chain_and_timestamp(Chain::mainnet(), timestamp),
                 Some(fork)
             );
             assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
