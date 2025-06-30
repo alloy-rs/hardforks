@@ -54,7 +54,7 @@ impl OpHardfork {
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified OP chain.
     pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
-        let named = NamedChain::try_from(chain.id()).ok()?;
+        let named = chain.named()?;
 
         match named {
             NamedChain::Optimism => Some(match timestamp {

@@ -533,7 +533,7 @@ impl EthereumHardfork {
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified chain.
     pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
-        let named = NamedChain::try_from(chain.id()).ok()?;
+        let named = chain.named()?;
 
         match named {
             NamedChain::Mainnet => Some(match timestamp {
