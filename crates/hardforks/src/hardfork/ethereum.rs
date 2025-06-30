@@ -533,8 +533,10 @@ impl EthereumHardfork {
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified chain.
     pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
-        match NamedChain::try_from(chain.id()) {
-            Ok(NamedChain::Mainnet) => Some(match timestamp {
+        let named = NamedChain::try_from(chain.id()).ok()?;
+
+        match named {
+            NamedChain::Mainnet => Some(match timestamp {
                 _i if timestamp < MAINNET_HOMESTEAD_TIMESTAMP => Self::Frontier,
                 _i if timestamp < MAINNET_DAO_TIMESTAMP => Self::Homestead,
                 _i if timestamp < MAINNET_TANGERINE_TIMESTAMP => Self::Dao,
@@ -553,30 +555,30 @@ impl EthereumHardfork {
                 _i if timestamp < MAINNET_PRAGUE_TIMESTAMP => Self::Cancun,
                 _ => Self::Prague,
             }),
-            Ok(NamedChain::Sepolia) => Some(match timestamp {
+            NamedChain::Sepolia => Some(match timestamp {
                 _i if timestamp < SEPOLIA_PARIS_TIMESTAMP => Self::London,
                 _i if timestamp < SEPOLIA_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < SEPOLIA_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < SEPOLIA_PRAGUE_TIMESTAMP => Self::Cancun,
                 _ => Self::Prague,
             }),
-            Ok(NamedChain::Holesky) => Some(match timestamp {
+            NamedChain::Holesky => Some(match timestamp {
                 _i if timestamp < HOLESKY_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < HOLESKY_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < HOLESKY_PRAGUE_TIMESTAMP => Self::Cancun,
                 _ => Self::Prague,
             }),
-            Ok(NamedChain::Hoodi) => Some(match timestamp {
+            NamedChain::Hoodi => Some(match timestamp {
                 _i if timestamp < HOODI_PRAGUE_TIMESTAMP => Self::Cancun,
                 _ => Self::Prague,
             }),
-            Ok(NamedChain::Arbitrum) => Some(match timestamp {
+            NamedChain::Arbitrum => Some(match timestamp {
                 _i if timestamp < ARBITRUM_ONE_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < ARBITRUM_ONE_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < ARBITRUM_ONE_PRAGUE_TIMESTAMP => Self::Cancun,
                 _ => Self::Prague,
             }),
-            Ok(NamedChain::ArbitrumSepolia) => Some(match timestamp {
+            NamedChain::ArbitrumSepolia => Some(match timestamp {
                 _i if timestamp < ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP => Self::Cancun,

@@ -54,8 +54,10 @@ impl OpHardfork {
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified OP chain.
     pub fn from_chain_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
-        match NamedChain::try_from(chain.id()) {
-            Ok(NamedChain::Optimism) => Some(match timestamp {
+        let named = NamedChain::try_from(chain.id()).ok()?;
+
+        match named {
+            NamedChain::Optimism => Some(match timestamp {
                 _i if timestamp < OP_MAINNET_CANYON_TIMESTAMP => Self::Regolith,
                 _i if timestamp < OP_MAINNET_ECOTONE_TIMESTAMP => Self::Canyon,
                 _i if timestamp < OP_MAINNET_FJORD_TIMESTAMP => Self::Ecotone,
@@ -64,7 +66,7 @@ impl OpHardfork {
                 _i if timestamp < OP_MAINNET_ISTHMUS_TIMESTAMP => Self::Holocene,
                 _ => Self::Isthmus,
             }),
-            Ok(NamedChain::OptimismSepolia) => Some(match timestamp {
+            NamedChain::OptimismSepolia => Some(match timestamp {
                 _i if timestamp < OP_SEPOLIA_CANYON_TIMESTAMP => Self::Regolith,
                 _i if timestamp < OP_SEPOLIA_ECOTONE_TIMESTAMP => Self::Canyon,
                 _i if timestamp < OP_SEPOLIA_FJORD_TIMESTAMP => Self::Ecotone,
@@ -73,7 +75,7 @@ impl OpHardfork {
                 _i if timestamp < OP_SEPOLIA_ISTHMUS_TIMESTAMP => Self::Holocene,
                 _ => Self::Isthmus,
             }),
-            Ok(NamedChain::Base) => Some(match timestamp {
+            NamedChain::Base => Some(match timestamp {
                 _i if timestamp < BASE_MAINNET_CANYON_TIMESTAMP => Self::Regolith,
                 _i if timestamp < BASE_MAINNET_ECOTONE_TIMESTAMP => Self::Canyon,
                 _i if timestamp < BASE_MAINNET_FJORD_TIMESTAMP => Self::Ecotone,
@@ -82,7 +84,7 @@ impl OpHardfork {
                 _i if timestamp < BASE_MAINNET_ISTHMUS_TIMESTAMP => Self::Holocene,
                 _ => Self::Isthmus,
             }),
-            Ok(NamedChain::BaseSepolia) => Some(match timestamp {
+            NamedChain::BaseSepolia => Some(match timestamp {
                 _i if timestamp < BASE_SEPOLIA_CANYON_TIMESTAMP => Self::Regolith,
                 _i if timestamp < BASE_SEPOLIA_ECOTONE_TIMESTAMP => Self::Canyon,
                 _i if timestamp < BASE_SEPOLIA_FJORD_TIMESTAMP => Self::Ecotone,
