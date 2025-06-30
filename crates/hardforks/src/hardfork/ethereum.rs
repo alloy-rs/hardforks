@@ -532,8 +532,8 @@ impl EthereumHardfork {
 
     /// Reverse lookup to find the hardfork given a chain ID and block timestamp.
     /// Returns the active hardfork at the given timestamp for the specified chain.
-    pub fn from_chain_id_and_timestamp(chain_id: u64, timestamp: u64) -> Option<Self> {
-        match NamedChain::try_from(chain_id) {
+    pub fn from_chain_id_and_timestamp(chain: Chain, timestamp: u64) -> Option<Self> {
+        match NamedChain::try_from(chain.id()) {
             Ok(NamedChain::Mainnet) => Some(match timestamp {
                 _i if timestamp < MAINNET_HOMESTEAD_TIMESTAMP => Self::Frontier,
                 _i if timestamp < MAINNET_DAO_TIMESTAMP => Self::Homestead,
@@ -775,59 +775,99 @@ mod tests {
             // (chain_id, timestamp, expected) - Key transitions for each chain
             // Mainnet
             // At block 0: Frontier
-            (1, MAINNET_FRONTIER_TIMESTAMP - 1, EthereumHardfork::Frontier),
-            (1, MAINNET_FRONTIER_TIMESTAMP, EthereumHardfork::Frontier),
-            (1, MAINNET_HOMESTEAD_TIMESTAMP, EthereumHardfork::Homestead),
-            (1, MAINNET_DAO_TIMESTAMP, EthereumHardfork::Dao),
-            (1, MAINNET_TANGERINE_TIMESTAMP, EthereumHardfork::Tangerine),
-            (1, MAINNET_SPURIOUS_DRAGON_TIMESTAMP, EthereumHardfork::SpuriousDragon),
-            (1, MAINNET_BYZANTIUM_TIMESTAMP, EthereumHardfork::Byzantium),
-            (1, MAINNET_PETERSBURG_TIMESTAMP, EthereumHardfork::Petersburg),
-            (1, MAINNET_ISTANBUL_TIMESTAMP, EthereumHardfork::Istanbul),
-            (1, MAINNET_MUIR_GLACIER_TIMESTAMP, EthereumHardfork::MuirGlacier),
-            (1, MAINNET_BERLIN_TIMESTAMP, EthereumHardfork::Berlin),
-            (1, MAINNET_LONDON_TIMESTAMP, EthereumHardfork::London),
-            (1, MAINNET_ARROW_GLACIER_TIMESTAMP, EthereumHardfork::ArrowGlacier),
-            (1, MAINNET_GRAY_GLACIER_TIMESTAMP, EthereumHardfork::GrayGlacier),
-            (1, MAINNET_PARIS_TIMESTAMP, EthereumHardfork::Paris),
-            (1, MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
-            (1, MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (Chain::mainnet(), MAINNET_FRONTIER_TIMESTAMP - 1, EthereumHardfork::Frontier),
+            (Chain::mainnet(), MAINNET_FRONTIER_TIMESTAMP, EthereumHardfork::Frontier),
+            (Chain::mainnet(), MAINNET_HOMESTEAD_TIMESTAMP, EthereumHardfork::Homestead),
+            (Chain::mainnet(), MAINNET_DAO_TIMESTAMP, EthereumHardfork::Dao),
+            (Chain::mainnet(), MAINNET_TANGERINE_TIMESTAMP, EthereumHardfork::Tangerine),
+            (Chain::mainnet(), MAINNET_SPURIOUS_DRAGON_TIMESTAMP, EthereumHardfork::SpuriousDragon),
+            (Chain::mainnet(), MAINNET_BYZANTIUM_TIMESTAMP, EthereumHardfork::Byzantium),
+            (Chain::mainnet(), MAINNET_PETERSBURG_TIMESTAMP, EthereumHardfork::Petersburg),
+            (Chain::mainnet(), MAINNET_ISTANBUL_TIMESTAMP, EthereumHardfork::Istanbul),
+            (Chain::mainnet(), MAINNET_MUIR_GLACIER_TIMESTAMP, EthereumHardfork::MuirGlacier),
+            (Chain::mainnet(), MAINNET_BERLIN_TIMESTAMP, EthereumHardfork::Berlin),
+            (Chain::mainnet(), MAINNET_LONDON_TIMESTAMP, EthereumHardfork::London),
+            (Chain::mainnet(), MAINNET_ARROW_GLACIER_TIMESTAMP, EthereumHardfork::ArrowGlacier),
+            (Chain::mainnet(), MAINNET_GRAY_GLACIER_TIMESTAMP, EthereumHardfork::GrayGlacier),
+            (Chain::mainnet(), MAINNET_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (Chain::mainnet(), MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (Chain::mainnet(), MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
             // Sepolia
             // At block 0: London
-            (11155111, SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
-            (11155111, SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
-            (11155111, SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (11155111, SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
-            (11155111, SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (11155111, SEPOLIA_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
-            (11155111, SEPOLIA_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
+            (Chain::sepolia(), SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
+            (Chain::sepolia(), SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (Chain::sepolia(), SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (Chain::sepolia(), SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (Chain::sepolia(), SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (Chain::sepolia(), SEPOLIA_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
+            (Chain::sepolia(), SEPOLIA_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             // Holesky
             // At block 0: Paris
-            (17000, HOLESKY_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (17000, HOLESKY_PARIS_TIMESTAMP, EthereumHardfork::Paris),
-            (17000, HOLESKY_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (17000, HOLESKY_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
-            (17000, HOLESKY_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (17000, HOLESKY_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
-            (17000, HOLESKY_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
+            (Chain::holesky(), HOLESKY_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (Chain::holesky(), HOLESKY_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (Chain::holesky(), HOLESKY_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (Chain::holesky(), HOLESKY_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
+            (Chain::holesky(), HOLESKY_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (Chain::holesky(), HOLESKY_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
+            (Chain::holesky(), HOLESKY_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             // Arbitrum One
             // At block 0: Paris
-            (42161, ARBITRUM_ONE_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (42161, ARBITRUM_ONE_PARIS_TIMESTAMP, EthereumHardfork::Paris),
-            (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (42161, ARBITRUM_ONE_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
-            (42161, ARBITRUM_ONE_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (42161, ARBITRUM_ONE_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
-            (42161, ARBITRUM_ONE_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
+            (Chain::arbitrum_mainnet(), ARBITRUM_ONE_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
+            (Chain::arbitrum_mainnet(), ARBITRUM_ONE_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (
+                Chain::arbitrum_mainnet(),
+                ARBITRUM_ONE_SHANGHAI_TIMESTAMP - 1,
+                EthereumHardfork::Paris,
+            ),
+            (
+                Chain::arbitrum_mainnet(),
+                ARBITRUM_ONE_SHANGHAI_TIMESTAMP,
+                EthereumHardfork::Shanghai,
+            ),
+            (Chain::arbitrum_mainnet(), ARBITRUM_ONE_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
+            (
+                Chain::arbitrum_mainnet(),
+                ARBITRUM_ONE_PRAGUE_TIMESTAMP - 1,
+                EthereumHardfork::Cancun,
+            ),
+            (
+                Chain::arbitrum_mainnet(),
+                ARBITRUM_ONE_PRAGUE_TIMESTAMP + 1,
+                EthereumHardfork::Prague,
+            ),
             // Arbitrum Sepolia
             // At block 0: Paris
-            (421614, ARBITRUM_SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (421614, ARBITRUM_SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
-            (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP - 1, EthereumHardfork::Paris),
-            (421614, ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
-            (421614, ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
-            (421614, ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
-            (421614, ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
+            (
+                Chain::arbitrum_sepolia(),
+                ARBITRUM_SEPOLIA_PARIS_TIMESTAMP - 1,
+                EthereumHardfork::Paris,
+            ),
+            (Chain::arbitrum_sepolia(), ARBITRUM_SEPOLIA_PARIS_TIMESTAMP, EthereumHardfork::Paris),
+            (
+                Chain::arbitrum_sepolia(),
+                ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP - 1,
+                EthereumHardfork::Paris,
+            ),
+            (
+                Chain::arbitrum_sepolia(),
+                ARBITRUM_SEPOLIA_SHANGHAI_TIMESTAMP,
+                EthereumHardfork::Shanghai,
+            ),
+            (
+                Chain::arbitrum_sepolia(),
+                ARBITRUM_SEPOLIA_CANCUN_TIMESTAMP,
+                EthereumHardfork::Cancun,
+            ),
+            (
+                Chain::arbitrum_sepolia(),
+                ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP - 1,
+                EthereumHardfork::Cancun,
+            ),
+            (
+                Chain::arbitrum_sepolia(),
+                ARBITRUM_SEPOLIA_PRAGUE_TIMESTAMP + 1,
+                EthereumHardfork::Prague,
+            ),
         ];
 
         for (chain_id, timestamp, expected) in test_cases {
@@ -839,14 +879,14 @@ mod tests {
         }
 
         // Edge cases
-        assert_eq!(EthereumHardfork::from_chain_id_and_timestamp(999999, 1000000), None);
+        assert_eq!(
+            EthereumHardfork::from_chain_id_and_timestamp(Chain::from_id(99999), 1000000),
+            None
+        );
     }
 
     #[test]
     fn test_timestamp_functions_consistency() {
-        // Verify timestamp functions align with activation_timestamp method
-        let mainnet_chain = Chain::mainnet();
-
         let test_cases = [
             (MAINNET_LONDON_TIMESTAMP, EthereumHardfork::London),
             (MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
@@ -855,10 +895,10 @@ mod tests {
 
         for (timestamp, fork) in test_cases {
             assert_eq!(
-                EthereumHardfork::from_chain_id_and_timestamp(mainnet_chain.id(), timestamp),
+                EthereumHardfork::from_chain_id_and_timestamp(Chain::mainnet(), timestamp),
                 Some(fork)
             );
-            assert_eq!(fork.activation_timestamp(mainnet_chain), Some(timestamp));
+            assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
         }
     }
 }
