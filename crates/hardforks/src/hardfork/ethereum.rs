@@ -52,6 +52,17 @@ hardfork!(
         Prague,
         /// Osaka: <https://eips.ethereum.org/EIPS/eip-7607>
         Osaka,
+        // BPOs: <https://eips.ethereum.org/EIPS/eip-7892>
+        /// BPO 1
+        Bpo1,
+        /// BPO 2
+        Bpo2,
+        /// BPO 3
+        Bpo3,
+        /// BPO 4
+        Bpo4,
+        /// BPO 5
+        Bpo5,
     }
 );
 
@@ -662,6 +673,31 @@ pub trait EthereumHardforks {
     fn is_paris_active_at_block(&self, block_number: u64) -> bool {
         self.is_ethereum_fork_active_at_block(EthereumHardfork::Paris, block_number)
     }
+
+    /// Convenience method to check if [`EthereumHardfork::Bpo1`] is active at a given timestamp.
+    fn is_bpo1_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bpo1, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Bpo2`] is active at a given timestamp.
+    fn is_bpo2_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bpo2, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Bpo3`] is active at a given timestamp.
+    fn is_bpo3_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bpo3, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Bpo4`] is active at a given timestamp.
+    fn is_bpo4_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bpo4, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Bpo5`] is active at a given timestamp.
+    fn is_bpo5_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bpo5, timestamp)
+    }
 }
 
 /// A type allowing to configure activation [`ForkCondition`]s for a given list of
@@ -737,6 +773,11 @@ mod tests {
             "ShAnGhAI",
             "CaNcUn",
             "PrAguE",
+            "Bpo1",
+            "BPO2",
+            "bpo3",
+            "bPo4",
+            "bpO5",
         ];
         let expected_hardforks = [
             EthereumHardfork::Frontier,
@@ -757,6 +798,11 @@ mod tests {
             EthereumHardfork::Shanghai,
             EthereumHardfork::Cancun,
             EthereumHardfork::Prague,
+            EthereumHardfork::Bpo1,
+            EthereumHardfork::Bpo2,
+            EthereumHardfork::Bpo3,
+            EthereumHardfork::Bpo4,
+            EthereumHardfork::Bpo5,
         ];
 
         let hardforks: Vec<EthereumHardfork> =
