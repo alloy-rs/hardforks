@@ -45,6 +45,8 @@ hardfork!(
         /// Isthmus: <https://github.com/ethereum-optimism/specs/blob/main/specs/protocol/isthmus/overview.md>
         #[default]
         Isthmus,
+        /// Jovian: <https://github.com/ethereum-optimism/specs/tree/main/specs/protocol/jovian>
+        Jovian,
         /// TODO: add interop hardfork overview when available
         Interop,
     }
@@ -210,6 +212,12 @@ pub trait OpHardforks: EthereumHardforks {
         self.op_fork_activation(OpHardfork::Isthmus).active_at_timestamp(timestamp)
     }
 
+    /// Returns `true` if [`Jovian`](OpHardfork::Jovian) is active at given block
+    /// timestamp.
+    fn is_jovian_active_at_block(&self, timestamp: u64) -> bool {
+        self.op_fork_activation(OpHardfork::Jovian).active_at_timestamp(timestamp)
+    }
+
     /// Returns `true` if [`Interop`](OpHardfork::Interop) is active at given block
     /// timestamp.
     fn is_interop_active_at_timestamp(&self, timestamp: u64) -> bool {
@@ -315,6 +323,7 @@ impl Index<OpHardfork> for OpChainHardforks {
             Granite => &self.forks[Granite.idx()].1,
             Holocene => &self.forks[Holocene.idx()].1,
             Isthmus => &self.forks[Isthmus.idx()].1,
+            Jovian => &self.forks[Jovian.idx()].1,
             Interop => &self.forks[Interop.idx()].1,
         }
     }
@@ -352,7 +361,7 @@ mod tests {
     fn check_op_hardfork_from_str() {
         let hardfork_str = [
             "beDrOck", "rEgOlITH", "cAnYoN", "eCoToNe", "FJorD", "GRaNiTe", "hOlOcEnE", "isthMUS",
-            "inTerOP",
+            "jOvIaN", "inTerOP",
         ];
         let expected_hardforks = [
             OpHardfork::Bedrock,
@@ -363,6 +372,7 @@ mod tests {
             OpHardfork::Granite,
             OpHardfork::Holocene,
             OpHardfork::Isthmus,
+            OpHardfork::Jovian,
             OpHardfork::Interop,
         ];
 
@@ -405,6 +415,7 @@ mod tests {
             op_mainnet_forks[Isthmus],
             ForkCondition::Timestamp(OP_MAINNET_ISTHMUS_TIMESTAMP)
         );
+        assert_eq!(op_mainnet_forks.op_fork_activation(Jovian), ForkCondition::Never);
         assert_eq!(op_mainnet_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 
@@ -436,6 +447,7 @@ mod tests {
             op_sepolia_forks[Isthmus],
             ForkCondition::Timestamp(OP_SEPOLIA_ISTHMUS_TIMESTAMP)
         );
+        assert_eq!(op_sepolia_forks.op_fork_activation(Jovian), ForkCondition::Never);
         assert_eq!(op_sepolia_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 
@@ -473,6 +485,7 @@ mod tests {
             base_mainnet_forks[Isthmus],
             ForkCondition::Timestamp(BASE_MAINNET_ISTHMUS_TIMESTAMP)
         );
+        assert_eq!(base_mainnet_forks.op_fork_activation(Jovian), ForkCondition::Never);
         assert_eq!(base_mainnet_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 
@@ -510,6 +523,7 @@ mod tests {
             base_sepolia_forks[Isthmus],
             ForkCondition::Timestamp(BASE_SEPOLIA_ISTHMUS_TIMESTAMP)
         );
+        assert_eq!(base_sepolia_forks.op_fork_activation(Jovian), ForkCondition::Never);
         assert_eq!(base_sepolia_forks.op_fork_activation(Interop), ForkCondition::Never);
     }
 
