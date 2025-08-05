@@ -214,7 +214,7 @@ pub trait OpHardforks: EthereumHardforks {
 
     /// Returns `true` if [`Jovian`](OpHardfork::Jovian) is active at given block
     /// timestamp.
-    fn is_jovian_active_at_block(&self, timestamp: u64) -> bool {
+    fn is_jovian_active_at_timestamp(&self, timestamp: u64) -> bool {
         self.op_fork_activation(OpHardfork::Jovian).active_at_timestamp(timestamp)
     }
 
