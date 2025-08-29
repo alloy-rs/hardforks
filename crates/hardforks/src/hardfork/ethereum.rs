@@ -617,6 +617,66 @@ pub trait EthereumHardforks {
         self.ethereum_fork_activation(fork).active_at_block(block_number)
     }
 
+    /// Convenience method to check if [`EthereumHardfork::Homestead`] is active at a given block
+    /// number.
+    fn is_homestead_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Homestead, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Tangerine`] is active at a given block
+    /// number.
+    fn is_tangerine_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Tangerine, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::SpuriousDragon`] is active at a given
+    /// block number.
+    fn is_spurious_dragon_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::SpuriousDragon, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Byzantium`] is active at a given block
+    /// number.
+    fn is_byzantium_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Byzantium, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Constantinople`] is active at a given
+    /// block number.
+    fn is_constantinople_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Constantinople, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Petersburg`] is active at a given block
+    /// number.
+    fn is_petersburg_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Petersburg, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Istanbul`] is active at a given block
+    /// number.
+    fn is_istanbul_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Istanbul, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Berlin`] is active at a given block
+    /// number.
+    fn is_berlin_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Berlin, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::London`] is active at a given block
+    /// number.
+    fn is_london_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::London, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Paris`] is active at a given block
+    /// number.
+    fn is_paris_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Paris, block_number)
+    }
+
     /// Convenience method to check if [`EthereumHardfork::Shanghai`] is active at a given
     /// timestamp.
     fn is_shanghai_active_at_timestamp(&self, timestamp: u64) -> bool {
@@ -636,42 +696,6 @@ pub trait EthereumHardforks {
     /// Convenience method to check if [`EthereumHardfork::Osaka`] is active at a given timestamp.
     fn is_osaka_active_at_timestamp(&self, timestamp: u64) -> bool {
         self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Osaka, timestamp)
-    }
-
-    /// Convenience method to check if [`EthereumHardfork::Byzantium`] is active at a given block
-    /// number.
-    fn is_byzantium_active_at_block(&self, block_number: u64) -> bool {
-        self.is_ethereum_fork_active_at_block(EthereumHardfork::Byzantium, block_number)
-    }
-
-    /// Convenience method to check if [`EthereumHardfork::SpuriousDragon`] is active at a given
-    /// block number.
-    fn is_spurious_dragon_active_at_block(&self, block_number: u64) -> bool {
-        self.is_ethereum_fork_active_at_block(EthereumHardfork::SpuriousDragon, block_number)
-    }
-
-    /// Convenience method to check if [`EthereumHardfork::Homestead`] is active at a given block
-    /// number.
-    fn is_homestead_active_at_block(&self, block_number: u64) -> bool {
-        self.is_ethereum_fork_active_at_block(EthereumHardfork::Homestead, block_number)
-    }
-
-    /// Convenience method to check if [`EthereumHardfork::London`] is active at a given block
-    /// number.
-    fn is_london_active_at_block(&self, block_number: u64) -> bool {
-        self.is_ethereum_fork_active_at_block(EthereumHardfork::London, block_number)
-    }
-
-    /// Convenience method to check if [`EthereumHardfork::Constantinople`] is active at a given
-    /// block number.
-    fn is_constantinople_active_at_block(&self, block_number: u64) -> bool {
-        self.is_ethereum_fork_active_at_block(EthereumHardfork::Constantinople, block_number)
-    }
-
-    /// Convenience method to check if [`EthereumHardfork::Paris`] is active at a given block
-    /// number.
-    fn is_paris_active_at_block(&self, block_number: u64) -> bool {
-        self.is_ethereum_fork_active_at_block(EthereumHardfork::Paris, block_number)
     }
 
     /// Convenience method to check if [`EthereumHardfork::Bpo1`] is active at a given timestamp.
