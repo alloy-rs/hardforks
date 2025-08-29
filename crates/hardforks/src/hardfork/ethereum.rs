@@ -698,6 +698,30 @@ pub trait EthereumHardforks {
     fn is_bpo5_active_at_timestamp(&self, timestamp: u64) -> bool {
         self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bpo5, timestamp)
     }
+
+    /// Convenience method to check if [`EthereumHardfork::Berlin`] is active at a given block
+    /// number.
+    fn is_berlin_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Berlin, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Istanbul`] is active at a given block
+    /// number.
+    fn is_istanbul_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Istanbul, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Petersburg`] is active at a given block
+    /// number.
+    fn is_petersburg_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Petersburg, block_number)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Tangerine`] is active at a given block
+    /// number.
+    fn is_tangerine_active_at_block(&self, block_number: u64) -> bool {
+        self.is_ethereum_fork_active_at_block(EthereumHardfork::Tangerine, block_number)
+    }
 }
 
 /// A type allowing to configure activation [`ForkCondition`]s for a given list of
