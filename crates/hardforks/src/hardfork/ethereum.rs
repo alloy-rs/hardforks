@@ -625,7 +625,7 @@ pub trait EthereumHardforks {
         self.is_ethereum_fork_active_at_block(EthereumHardfork::Homestead, block_number)
     }
 
-    /// Convenience method to check if [`EthereumHardfork::TangerineWhistle`] is active at a given
+    /// Convenience method to check if [`EthereumHardfork::Tangerine`] is active at a given
     /// block number.
     fn is_tangerine_whistle_active_at_block(&self, block_number: u64) -> bool {
         self.is_ethereum_fork_active_at_block(EthereumHardfork::Tangerine, block_number)
