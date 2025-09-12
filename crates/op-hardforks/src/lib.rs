@@ -130,8 +130,8 @@ impl OpHardfork {
     /// Base mainnet list of hardforks.
     pub const fn base_mainnet() -> [(Self, ForkCondition); 8] {
         [
-            (Self::Bedrock, ForkCondition::Block(0)),
-            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Bedrock, ForkCondition::Block(BASE_MAINNET_BEDROCK_BLOCK)),
+            (Self::Regolith, ForkCondition::Timestamp(BASE_MAINNET_REGOLITH_TIMESTAMP)),
             (Self::Canyon, ForkCondition::Timestamp(BASE_MAINNET_CANYON_TIMESTAMP)),
             (Self::Ecotone, ForkCondition::Timestamp(BASE_MAINNET_ECOTONE_TIMESTAMP)),
             (Self::Fjord, ForkCondition::Timestamp(BASE_MAINNET_FJORD_TIMESTAMP)),
@@ -144,8 +144,8 @@ impl OpHardfork {
     /// Base Sepolia list of hardforks.
     pub const fn base_sepolia() -> [(Self, ForkCondition); 8] {
         [
-            (Self::Bedrock, ForkCondition::Block(0)),
-            (Self::Regolith, ForkCondition::Timestamp(0)),
+            (Self::Bedrock, ForkCondition::Block(BASE_SEPOLIA_BEDROCK_BLOCK)),
+            (Self::Regolith, ForkCondition::Timestamp(BASE_SEPOLIA_REGOLITH_TIMESTAMP)),
             (Self::Canyon, ForkCondition::Timestamp(BASE_SEPOLIA_CANYON_TIMESTAMP)),
             (Self::Ecotone, ForkCondition::Timestamp(BASE_SEPOLIA_ECOTONE_TIMESTAMP)),
             (Self::Fjord, ForkCondition::Timestamp(BASE_SEPOLIA_FJORD_TIMESTAMP)),
