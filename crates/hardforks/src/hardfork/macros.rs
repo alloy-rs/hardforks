@@ -5,6 +5,7 @@ macro_rules! hardfork {
     ($(#[$enum_meta:meta])* $enum:ident { $( $(#[$meta:meta])* $variant:ident ),* $(,)? }) => {
         $(#[$enum_meta])*
         #[derive(Debug, Copy, Clone, Eq, PartialEq, PartialOrd, Ord, Hash)]
+        #[non_exhaustive]
         pub enum $enum {
             $( $(#[$meta])* $variant ),*
         }

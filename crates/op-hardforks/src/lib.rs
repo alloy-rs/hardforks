@@ -346,6 +346,7 @@ impl Index<EthereumHardfork> for OpChainHardforks {
             Cancun => &self[Ecotone],
             Prague => &self[Isthmus],
             Osaka | Bpo1 | Bpo2 | Bpo3 | Bpo4 | Bpo5 | Amsterdam => panic!("index out of bounds"),
+            _ => unreachable!(),
         }
     }
 }
