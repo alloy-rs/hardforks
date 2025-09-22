@@ -9,7 +9,7 @@ pub const HOODI_PRAGUE_TIMESTAMP: u64 = 1_742_999_832;
 pub const HOODI_OSAKA_TIMESTAMP: u64 = 1_761_677_592;
 
 /// BPO1 hardfork activation timestamp
-pub const HOODI_BPO1_TIMESTAMP: u64 = 1761677592;
+pub const HOODI_BPO1_TIMESTAMP: u64 = 1762365720;
 
 /// BPO2 hardfork activation timestamp
-pub const HOODI_BPO2_TIMESTAMP: u64 = 1762365720;
+pub const HOODI_BPO2_TIMESTAMP: u64 = 1762955544;
