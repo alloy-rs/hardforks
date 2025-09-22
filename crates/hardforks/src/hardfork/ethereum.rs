@@ -410,7 +410,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum mainnet list of hardforks.
-    pub const fn mainnet() -> [(Self, ForkCondition); 19] {
+    pub const fn mainnet() -> [(Self, ForkCondition); 21] {
         [
             (Self::Frontier, ForkCondition::Block(MAINNET_FRONTIER_BLOCK)),
             (Self::Homestead, ForkCondition::Block(MAINNET_HOMESTEAD_BLOCK)),
@@ -438,11 +438,13 @@ impl EthereumHardfork {
             (Self::Cancun, ForkCondition::Timestamp(MAINNET_CANCUN_TIMESTAMP)),
             (Self::Prague, ForkCondition::Timestamp(MAINNET_PRAGUE_TIMESTAMP)),
             (Self::Osaka, ForkCondition::Timestamp(MAINNET_OSAKA_TIMESTAMP)),
+            (Self::Bpo1, ForkCondition::Timestamp(MAINNET_BPO1_TIMESTAMP)),
+            (Self::Bpo2, ForkCondition::Timestamp(MAINNET_BPO2_TIMESTAMP)),
         ]
     }
 
     /// Ethereum sepolia list of hardforks.
-    pub const fn sepolia() -> [(Self, ForkCondition); 17] {
+    pub const fn sepolia() -> [(Self, ForkCondition); 19] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -468,11 +470,13 @@ impl EthereumHardfork {
             (Self::Cancun, ForkCondition::Timestamp(SEPOLIA_CANCUN_TIMESTAMP)),
             (Self::Prague, ForkCondition::Timestamp(SEPOLIA_PRAGUE_TIMESTAMP)),
             (Self::Osaka, ForkCondition::Timestamp(SEPOLIA_OSAKA_TIMESTAMP)),
+            (Self::Bpo1, ForkCondition::Timestamp(SEPOLIA_BPO1_TIMESTAMP)),
+            (Self::Bpo2, ForkCondition::Timestamp(SEPOLIA_BPO2_TIMESTAMP)),
         ]
     }
 
     /// Ethereum holesky list of hardforks.
-    pub const fn holesky() -> [(Self, ForkCondition); 17] {
+    pub const fn holesky() -> [(Self, ForkCondition); 19] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -498,11 +502,13 @@ impl EthereumHardfork {
             (Self::Cancun, ForkCondition::Timestamp(HOLESKY_CANCUN_TIMESTAMP)),
             (Self::Prague, ForkCondition::Timestamp(HOLESKY_PRAGUE_TIMESTAMP)),
             (Self::Osaka, ForkCondition::Timestamp(HOLESKY_OSAKA_TIMESTAMP)),
+            (Self::Bpo1, ForkCondition::Timestamp(HOLESKY_BPO1_TIMESTAMP)),
+            (Self::Bpo2, ForkCondition::Timestamp(HOLESKY_BPO2_TIMESTAMP)),
         ]
     }
 
     /// Ethereum Hoodi list of hardforks.
-    pub const fn hoodi() -> [(Self, ForkCondition); 17] {
+    pub const fn hoodi() -> [(Self, ForkCondition); 19] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -528,6 +534,8 @@ impl EthereumHardfork {
             (Self::Cancun, ForkCondition::Timestamp(0)),
             (Self::Prague, ForkCondition::Timestamp(HOODI_PRAGUE_TIMESTAMP)),
             (Self::Osaka, ForkCondition::Timestamp(HOODI_OSAKA_TIMESTAMP)),
+            (Self::Bpo1, ForkCondition::Timestamp(HOODI_BPO1_TIMESTAMP)),
+            (Self::Bpo2, ForkCondition::Timestamp(HOODI_BPO2_TIMESTAMP)),
         ]
     }
 

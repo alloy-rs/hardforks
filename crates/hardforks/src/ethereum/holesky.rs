@@ -17,3 +17,9 @@ pub const HOLESKY_CANCUN_TIMESTAMP: u64 = 1_707_305_664;
 pub const HOLESKY_PRAGUE_TIMESTAMP: u64 = 1_740_434_112;
 /// Osaka holesky hard fork activation timestamp is 1759308480.
 pub const HOLESKY_OSAKA_TIMESTAMP: u64 = 1_759_308_480;
+
+/// BPO1 hardfork activation timestamp
+pub const HOLESKY_BPO1_TIMESTAMP: u64 = 1759800000;
+
+/// BPO1 hardfork activation timestamp
+pub const HOLESKY_BPO2_TIMESTAMP: u64 = 1760389824;

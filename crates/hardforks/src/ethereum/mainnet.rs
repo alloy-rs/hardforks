@@ -81,3 +81,9 @@ pub const MAINNET_CANCUN_TIMESTAMP: u64 = 1_710_338_135;
 pub const MAINNET_PRAGUE_TIMESTAMP: u64 = 1_746_612_311;
 /// Osaka hard fork activation timestamp is 1764798551.
 pub const MAINNET_OSAKA_TIMESTAMP: u64 = 1_764_798_551;
+
+/// BPO1 hardfork activation timestamp
+pub const MAINNET_BPO1_TIMESTAMP: u64 = 1765978199;
+
+/// BPO1 hardfork activation timestamp
+pub const MAINNET_BPO2_TIMESTAMP: u64 = 1767747671;

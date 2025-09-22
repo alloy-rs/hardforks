@@ -25,3 +25,9 @@ pub const SEPOLIA_CANCUN_TIMESTAMP: u64 = 1_706_655_072;
 pub const SEPOLIA_PRAGUE_TIMESTAMP: u64 = 1_741_159_776;
 /// Osaka sepolia hard fork activation timestamp is 1760427360.
 pub const SEPOLIA_OSAKA_TIMESTAMP: u64 = 1_760_427_360;
+
+/// BPO1 hardfork activation timestamp
+pub const SEPOLIA_BPO1_TIMESTAMP: u64 = 1761017184;
+
+/// BPO1 hardfork activation timestamp
+pub const SEPOLIA_BPO2_TIMESTAMP: u64 = 1761607008;
