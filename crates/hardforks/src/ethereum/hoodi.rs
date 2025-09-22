@@ -11,5 +11,5 @@ pub const HOODI_OSAKA_TIMESTAMP: u64 = 1_761_677_592;
 /// BPO1 hardfork activation timestamp
 pub const HOODI_BPO1_TIMESTAMP: u64 = 1761677592;
 
-/// BPO1 hardfork activation timestamp
+/// BPO2 hardfork activation timestamp
 pub const HOODI_BPO2_TIMESTAMP: u64 = 1762365720;

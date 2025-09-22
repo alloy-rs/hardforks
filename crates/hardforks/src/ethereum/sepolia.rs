@@ -29,5 +29,5 @@ pub const SEPOLIA_OSAKA_TIMESTAMP: u64 = 1_760_427_360;
 /// BPO1 hardfork activation timestamp
 pub const SEPOLIA_BPO1_TIMESTAMP: u64 = 1761017184;
 
-/// BPO1 hardfork activation timestamp
+/// BPO2 hardfork activation timestamp
 pub const SEPOLIA_BPO2_TIMESTAMP: u64 = 1761607008;

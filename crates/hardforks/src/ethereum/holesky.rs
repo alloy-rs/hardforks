@@ -21,5 +21,5 @@ pub const HOLESKY_OSAKA_TIMESTAMP: u64 = 1_759_308_480;
 /// BPO1 hardfork activation timestamp
 pub const HOLESKY_BPO1_TIMESTAMP: u64 = 1759800000;
 
-/// BPO1 hardfork activation timestamp
+/// BPO2 hardfork activation timestamp
 pub const HOLESKY_BPO2_TIMESTAMP: u64 = 1760389824;
