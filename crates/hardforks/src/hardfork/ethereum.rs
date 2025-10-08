@@ -274,7 +274,6 @@ impl EthereumHardfork {
             Self::Shanghai => Some(MAINNET_SHANGHAI_TIMESTAMP),
             Self::Cancun => Some(MAINNET_CANCUN_TIMESTAMP),
             Self::Prague => Some(MAINNET_PRAGUE_TIMESTAMP),
-            Self::Osaka => Some(MAINNET_OSAKA_TIMESTAMP),
             // upcoming hardforks
             _ => None,
         }
@@ -410,7 +409,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum mainnet list of hardforks.
-    pub const fn mainnet() -> [(Self, ForkCondition); 21] {
+    pub const fn mainnet() -> [(Self, ForkCondition); 18] {
         [
             (Self::Frontier, ForkCondition::Block(MAINNET_FRONTIER_BLOCK)),
             (Self::Homestead, ForkCondition::Block(MAINNET_HOMESTEAD_BLOCK)),
@@ -437,9 +436,6 @@ impl EthereumHardfork {
             (Self::Shanghai, ForkCondition::Timestamp(MAINNET_SHANGHAI_TIMESTAMP)),
             (Self::Cancun, ForkCondition::Timestamp(MAINNET_CANCUN_TIMESTAMP)),
             (Self::Prague, ForkCondition::Timestamp(MAINNET_PRAGUE_TIMESTAMP)),
-            (Self::Osaka, ForkCondition::Timestamp(MAINNET_OSAKA_TIMESTAMP)),
-            (Self::Bpo1, ForkCondition::Timestamp(MAINNET_BPO1_TIMESTAMP)),
-            (Self::Bpo2, ForkCondition::Timestamp(MAINNET_BPO2_TIMESTAMP)),
         ]
     }
 
@@ -616,7 +612,6 @@ impl EthereumHardfork {
                 _i if timestamp < MAINNET_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < MAINNET_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < MAINNET_PRAGUE_TIMESTAMP => Self::Cancun,
-                _i if timestamp < MAINNET_OSAKA_TIMESTAMP => Self::Prague,
                 _ => Self::Osaka,
             }),
             NamedChain::Sepolia => Some(match timestamp {
@@ -934,7 +929,6 @@ mod tests {
             (Chain::mainnet(), MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (Chain::mainnet(), MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
             (Chain::mainnet(), MAINNET_PRAGUE_TIMESTAMP, EthereumHardfork::Prague),
-            (Chain::mainnet(), MAINNET_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
             // Sepolia
             // At block 0: London
             (Chain::sepolia(), SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
