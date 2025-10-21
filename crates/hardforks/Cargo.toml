@@ -27,4 +27,7 @@ dyn-clone.workspace = true
 paste = "1.0"
 
 [features]
-serde = ["dep:serde", "alloy-primitives/serde"]
+serde = [
+    "dep:serde",
+    "alloy-primitives/serde",
+]

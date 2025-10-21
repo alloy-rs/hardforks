@@ -166,6 +166,7 @@ impl EthereumHardfork {
     const fn hoodi_activation_block(&self) -> Option<u64> {
         match self {
             Self::Frontier
+            | Self::Homestead
             | Self::Dao
             | Self::Tangerine
             | Self::SpuriousDragon
@@ -358,6 +359,8 @@ impl EthereumHardfork {
             | Self::Cancun => Some(0),
             Self::Prague => Some(HOODI_PRAGUE_TIMESTAMP),
             Self::Osaka => Some(HOODI_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(HOODI_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(HOODI_BPO2_TIMESTAMP),
             _ => None,
         }
     }
@@ -1064,6 +1067,9 @@ mod tests {
                             ForkCondition::Block(bn) => {
                                 assert_eq!(fork.[<$name _activation_block>](), Some(bn));
                             }
+                            ForkCondition::TTD { activation_block_number, .. } => {
+                                assert_eq!(fork.[<$name _activation_block>](), Some(activation_block_number));
+                            }
                             _ => {}
                         }
                     }
@@ -1075,4 +1081,5 @@ mod tests {
     test_chain_config!(mainnet);
     test_chain_config!(sepolia);
     test_chain_config!(holesky);
+    test_chain_config!(hoodi);
 }
