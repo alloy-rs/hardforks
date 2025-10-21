@@ -1055,20 +1055,21 @@ mod tests {
     }
 
     macro_rules! test_chain_config {
-        ($name:ident) => {
-            paste::paste! {
+        ($modname:ident, $ts_fn:ident, $bn_fn:ident) => {
+            mod $modname {
+                use super::*;
                 #[test]
-                fn [<test_ $name _config>]() {
-                    for (fork, condition) in EthereumHardfork::$name() {
+                fn test_chain_config() {
+                    for (fork, condition) in EthereumHardfork::$modname() {
                         match condition {
                             ForkCondition::Timestamp(ts) => {
-                                assert_eq!(fork.[<$name _activation_timestamp>](), Some(ts));
+                                assert_eq!(fork.$ts_fn(), Some(ts));
                             }
                             ForkCondition::Block(bn) => {
-                                assert_eq!(fork.[<$name _activation_block>](), Some(bn));
+                                assert_eq!(fork.$bn_fn(), Some(bn));
                             }
                             ForkCondition::TTD { activation_block_number, .. } => {
-                                assert_eq!(fork.[<$name _activation_block>](), Some(activation_block_number));
+                                assert_eq!(fork.$bn_fn(), Some(activation_block_number));
                             }
                             _ => {}
                         }
@@ -1078,8 +1079,8 @@ mod tests {
         };
     }
 
-    test_chain_config!(mainnet);
-    test_chain_config!(sepolia);
-    test_chain_config!(holesky);
-    test_chain_config!(hoodi);
+    test_chain_config!(mainnet, mainnet_activation_timestamp, mainnet_activation_block);
+    test_chain_config!(sepolia, sepolia_activation_timestamp, sepolia_activation_block);
+    test_chain_config!(holesky, holesky_activation_timestamp, holesky_activation_block);
+    test_chain_config!(hoodi, hoodi_activation_timestamp, hoodi_activation_block);
 }

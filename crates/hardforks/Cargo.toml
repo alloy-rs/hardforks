@@ -23,9 +23,6 @@ serde = { workspace = true, optional = true }
 auto_impl.workspace = true
 dyn-clone.workspace = true
 
-[dev-dependencies]
-paste = "1.0"
-
 [features]
 serde = [
     "dep:serde",
