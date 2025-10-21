@@ -141,6 +141,7 @@ impl EthereumHardfork {
     const fn holesky_activation_block(&self) -> Option<u64> {
         match self {
             Self::Frontier
+            | Self::Homestead
             | Self::Dao
             | Self::Tangerine
             | Self::SpuriousDragon
@@ -301,6 +302,8 @@ impl EthereumHardfork {
             Self::Cancun => Some(SEPOLIA_CANCUN_TIMESTAMP),
             Self::Prague => Some(SEPOLIA_PRAGUE_TIMESTAMP),
             Self::Osaka => Some(SEPOLIA_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(SEPOLIA_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(SEPOLIA_BPO2_TIMESTAMP),
             _ => None,
         }
     }
@@ -327,6 +330,8 @@ impl EthereumHardfork {
             Self::Cancun => Some(HOLESKY_CANCUN_TIMESTAMP),
             Self::Prague => Some(HOLESKY_PRAGUE_TIMESTAMP),
             Self::Osaka => Some(HOLESKY_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(HOLESKY_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(HOLESKY_BPO2_TIMESTAMP),
             _ => None,
         }
     }
@@ -1045,4 +1050,29 @@ mod tests {
             assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
         }
     }
+
+    macro_rules! test_chain_config {
+        ($name:ident) => {
+            paste::paste! {
+                #[test]
+                fn [<test_ $name _config>]() {
+                    for (fork, condition) in EthereumHardfork::$name() {
+                        match condition {
+                            ForkCondition::Timestamp(ts) => {
+                                assert_eq!(fork.[<$name _activation_timestamp>](), Some(ts));
+                            }
+                            ForkCondition::Block(bn) => {
+                                assert_eq!(fork.[<$name _activation_block>](), Some(bn));
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    test_chain_config!(mainnet);
+    test_chain_config!(sepolia);
+    test_chain_config!(holesky);
 }
