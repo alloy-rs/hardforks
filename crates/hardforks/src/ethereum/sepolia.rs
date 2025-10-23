@@ -6,6 +6,10 @@ use alloy_primitives::{U256, uint};
 pub const SEPOLIA_PARIS_BLOCK: u64 = 1_450_409;
 /// Paris sepolia hard fork activation terminal total difficulty is 17_000_000_000_000_000_U256.
 pub const SEPOLIA_PARIS_TTD: U256 = uint!(17_000_000_000_000_000_U256);
+
+/// The final total difficulty of sepolia
+pub const SEPOLIA_PARIS_FINAL_TD: U256 = uint!(17_000_018_015_853_232U256);
+
 /// Paris sepolia fork block is 1735371. See [`ForkCondition::TTD`](crate::ForkCondition::TTD).
 pub const SEPOLIA_PARIS_FORK_BLOCK: u64 = 1_735_371;
 /// Shanghai sepolia hard fork activation block is 2990908.

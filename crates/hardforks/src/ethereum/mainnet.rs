@@ -42,6 +42,9 @@ pub const MAINNET_PRAGUE_BLOCK: u64 = 22_431_084;
 /// Paris hard fork activation terminal total difficulty is 58_750_000_000_000_000_000_000_U256.
 pub const MAINNET_PARIS_TTD: U256 = uint!(58_750_000_000_000_000_000_000_U256);
 
+/// The final total difficulty of mainnet
+pub const MAINNET_PARIS_FINAL_TD: U256 = uint!(58_750_003_716_598_352_816_469U256);
+
 /// Frontier hard fork activation timestamp is 1438226773.
 pub const MAINNET_FRONTIER_TIMESTAMP: u64 = 1_438_226_773;
 /// Homestead hard fork activation timestamp is 1457938193.
