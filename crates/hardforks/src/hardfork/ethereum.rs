@@ -301,6 +301,8 @@ impl EthereumHardfork {
             Self::Cancun => Some(SEPOLIA_CANCUN_TIMESTAMP),
             Self::Prague => Some(SEPOLIA_PRAGUE_TIMESTAMP),
             Self::Osaka => Some(SEPOLIA_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(SEPOLIA_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(SEPOLIA_BPO2_TIMESTAMP),
             _ => None,
         }
     }
@@ -327,6 +329,8 @@ impl EthereumHardfork {
             Self::Cancun => Some(HOLESKY_CANCUN_TIMESTAMP),
             Self::Prague => Some(HOLESKY_PRAGUE_TIMESTAMP),
             Self::Osaka => Some(HOLESKY_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(HOLESKY_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(HOLESKY_BPO2_TIMESTAMP),
             _ => None,
         }
     }
@@ -353,6 +357,8 @@ impl EthereumHardfork {
             | Self::Cancun => Some(0),
             Self::Prague => Some(HOODI_PRAGUE_TIMESTAMP),
             Self::Osaka => Some(HOODI_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(HOODI_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(HOODI_BPO2_TIMESTAMP),
             _ => None,
         }
     }
