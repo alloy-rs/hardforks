@@ -16,3 +16,5 @@ pub const OP_SEPOLIA_GRANITE_TIMESTAMP: u64 = 1_723_478_400;
 pub const OP_SEPOLIA_HOLOCENE_TIMESTAMP: u64 = 1_732_633_200;
 /// Isthmus sepolia hardfork activation timestamp is 1744905600.
 pub const OP_SEPOLIA_ISTHMUS_TIMESTAMP: u64 = 1_744_905_600;
+/// Jovian sepolia hardfork activation timestamp is 1_762_358_401.
+pub const OP_SEPOLIA_JOVIAN_TIMESTAMP: u64 = 1_762_358_401;
