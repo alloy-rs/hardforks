@@ -276,7 +276,9 @@ impl EthereumHardfork {
             Self::Shanghai => Some(MAINNET_SHANGHAI_TIMESTAMP),
             Self::Cancun => Some(MAINNET_CANCUN_TIMESTAMP),
             Self::Prague => Some(MAINNET_PRAGUE_TIMESTAMP),
-            // upcoming hardforks
+            Self::Osaka => Some(MAINNET_OSAKA_TIMESTAMP),
+            Self::Bpo1 => Some(MAINNET_BPO1_TIMESTAMP),
+            Self::Bpo2 => Some(MAINNET_BPO2_TIMESTAMP),
             _ => None,
         }
     }
@@ -417,7 +419,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum mainnet list of hardforks.
-    pub const fn mainnet() -> [(Self, ForkCondition); 18] {
+    pub const fn mainnet() -> [(Self, ForkCondition); 21] {
         [
             (Self::Frontier, ForkCondition::Block(MAINNET_FRONTIER_BLOCK)),
             (Self::Homestead, ForkCondition::Block(MAINNET_HOMESTEAD_BLOCK)),
@@ -444,6 +446,9 @@ impl EthereumHardfork {
             (Self::Shanghai, ForkCondition::Timestamp(MAINNET_SHANGHAI_TIMESTAMP)),
             (Self::Cancun, ForkCondition::Timestamp(MAINNET_CANCUN_TIMESTAMP)),
             (Self::Prague, ForkCondition::Timestamp(MAINNET_PRAGUE_TIMESTAMP)),
+            (Self::Osaka, ForkCondition::Timestamp(MAINNET_OSAKA_TIMESTAMP)),
+            (Self::Bpo1, ForkCondition::Timestamp(MAINNET_BPO1_TIMESTAMP)),
+            (Self::Bpo2, ForkCondition::Timestamp(MAINNET_BPO2_TIMESTAMP)),
         ]
     }
 
@@ -620,7 +625,8 @@ impl EthereumHardfork {
                 _i if timestamp < MAINNET_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < MAINNET_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < MAINNET_PRAGUE_TIMESTAMP => Self::Cancun,
-                _ => Self::Prague,
+                _i if timestamp < MAINNET_OSAKA_TIMESTAMP => Self::Prague,
+                _ => Self::Osaka,
             }),
             NamedChain::Sepolia => Some(match timestamp {
                 _i if timestamp < SEPOLIA_PARIS_TIMESTAMP => Self::London,
