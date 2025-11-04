@@ -20,5 +20,5 @@ pub const OP_MAINNET_GRANITE_TIMESTAMP: u64 = 1_726_070_401;
 pub const OP_MAINNET_HOLOCENE_TIMESTAMP: u64 = 1_736_445_601;
 /// Isthmus hardfork activation timestamp is 1746806401.
 pub const OP_MAINNET_ISTHMUS_TIMESTAMP: u64 = 1_746_806_401;
-/// Jovian hardfork activation timestamp is 1_764_086_401.
-pub const OP_MAINNET_JOVIAN_TIMESTAMP: u64 = 1_764_086_401;
+/// Jovian hardfork activation timestamp is 1_764_691_201 # Tue 2 Dec 2025 16:00:01 UTC
+pub const OP_MAINNET_JOVIAN_TIMESTAMP: u64 = 1_764_691_201;
