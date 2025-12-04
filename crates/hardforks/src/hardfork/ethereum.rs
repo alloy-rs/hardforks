@@ -69,6 +69,11 @@ hardfork!(
 );
 
 impl EthereumHardfork {
+    /// Returns all blob specific hardfork variants.
+    pub const fn bpo_variants() -> &'static [Self] {
+        &[Self::Bpo1, Self::Bpo2, Self::Bpo3, Self::Bpo4, Self::Bpo5]
+    }
+
     /// Retrieves the activation block for the specified hardfork on the given chain.
     pub fn activation_block(&self, chain: Chain) -> Option<u64> {
         if chain == Chain::mainnet() {
