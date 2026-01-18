@@ -48,12 +48,12 @@ hardfork!(
         /// Cancun: <https://github.com/ethereum/execution-specs/blob/master/network-upgrades/mainnet-upgrades/cancun.md>
         Cancun,
         /// Prague.
-        #[default]
         Prague,
         /// Osaka: <https://eips.ethereum.org/EIPS/eip-7607>
         Osaka,
         // BPOs: <https://eips.ethereum.org/EIPS/eip-7892>
         /// BPO 1
+        #[default]
         Bpo1,
         /// BPO 2
         Bpo2,
@@ -631,7 +631,9 @@ impl EthereumHardfork {
                 _i if timestamp < MAINNET_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < MAINNET_PRAGUE_TIMESTAMP => Self::Cancun,
                 _i if timestamp < MAINNET_OSAKA_TIMESTAMP => Self::Prague,
-                _ => Self::Osaka,
+                _i if timestamp < MAINNET_BPO1_TIMESTAMP => Self::Osaka,
+                _i if timestamp < MAINNET_BPO2_TIMESTAMP => Self::Bpo1,
+                _ => Self::Bpo2,
             }),
             NamedChain::Sepolia => Some(match timestamp {
                 _i if timestamp < SEPOLIA_PARIS_TIMESTAMP => Self::London,
@@ -639,19 +641,25 @@ impl EthereumHardfork {
                 _i if timestamp < SEPOLIA_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < SEPOLIA_PRAGUE_TIMESTAMP => Self::Cancun,
                 _i if timestamp < SEPOLIA_OSAKA_TIMESTAMP => Self::Prague,
-                _ => Self::Osaka,
+                _i if timestamp < SEPOLIA_BPO1_TIMESTAMP => Self::Osaka,
+                _i if timestamp < SEPOLIA_BPO2_TIMESTAMP => Self::Bpo1,
+                _ => Self::Bpo2,
             }),
             NamedChain::Holesky => Some(match timestamp {
                 _i if timestamp < HOLESKY_SHANGHAI_TIMESTAMP => Self::Paris,
                 _i if timestamp < HOLESKY_CANCUN_TIMESTAMP => Self::Shanghai,
                 _i if timestamp < HOLESKY_PRAGUE_TIMESTAMP => Self::Cancun,
                 _i if timestamp < HOLESKY_OSAKA_TIMESTAMP => Self::Prague,
-                _ => Self::Osaka,
+                _i if timestamp < HOLESKY_BPO1_TIMESTAMP => Self::Osaka,
+                _i if timestamp < HOLESKY_BPO2_TIMESTAMP => Self::Bpo1,
+                _ => Self::Bpo2,
             }),
             NamedChain::Hoodi => Some(match timestamp {
                 _i if timestamp < HOODI_PRAGUE_TIMESTAMP => Self::Cancun,
                 _i if timestamp < HOODI_OSAKA_TIMESTAMP => Self::Prague,
-                _ => Self::Osaka,
+                _i if timestamp < HOODI_BPO1_TIMESTAMP => Self::Osaka,
+                _i if timestamp < HOODI_BPO2_TIMESTAMP => Self::Bpo1,
+                _ => Self::Bpo2,
             }),
             NamedChain::Arbitrum => Some(match timestamp {
                 _i if timestamp < ARBITRUM_ONE_SHANGHAI_TIMESTAMP => Self::Paris,
@@ -948,6 +956,9 @@ mod tests {
             (Chain::mainnet(), MAINNET_SHANGHAI_TIMESTAMP, EthereumHardfork::Shanghai),
             (Chain::mainnet(), MAINNET_CANCUN_TIMESTAMP, EthereumHardfork::Cancun),
             (Chain::mainnet(), MAINNET_PRAGUE_TIMESTAMP, EthereumHardfork::Prague),
+            (Chain::mainnet(), MAINNET_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
+            (Chain::mainnet(), MAINNET_BPO1_TIMESTAMP, EthereumHardfork::Bpo1),
+            (Chain::mainnet(), MAINNET_BPO2_TIMESTAMP, EthereumHardfork::Bpo2),
             // Sepolia
             // At block 0: London
             (Chain::sepolia(), SEPOLIA_PARIS_TIMESTAMP - 1, EthereumHardfork::London),
@@ -958,6 +969,8 @@ mod tests {
             (Chain::sepolia(), SEPOLIA_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
             (Chain::sepolia(), SEPOLIA_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             (Chain::sepolia(), SEPOLIA_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
+            (Chain::sepolia(), SEPOLIA_BPO1_TIMESTAMP, EthereumHardfork::Bpo1),
+            (Chain::sepolia(), SEPOLIA_BPO2_TIMESTAMP, EthereumHardfork::Bpo2),
             // Holesky
             // At block 0: Paris
             (Chain::holesky(), HOLESKY_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
@@ -968,11 +981,15 @@ mod tests {
             (Chain::holesky(), HOLESKY_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
             (Chain::holesky(), HOLESKY_PRAGUE_TIMESTAMP + 1, EthereumHardfork::Prague),
             (Chain::holesky(), HOLESKY_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
+            (Chain::holesky(), HOLESKY_BPO1_TIMESTAMP, EthereumHardfork::Bpo1),
+            (Chain::holesky(), HOLESKY_BPO2_TIMESTAMP, EthereumHardfork::Bpo2),
             // Hoodi
             // At block 0: Cancun
             (Chain::hoodi(), HOODI_PRAGUE_TIMESTAMP - 1, EthereumHardfork::Cancun),
             (Chain::hoodi(), HOODI_PRAGUE_TIMESTAMP, EthereumHardfork::Prague),
             (Chain::hoodi(), HOODI_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
+            (Chain::hoodi(), HOODI_BPO1_TIMESTAMP, EthereumHardfork::Bpo1),
+            (Chain::hoodi(), HOODI_BPO2_TIMESTAMP, EthereumHardfork::Bpo2),
             // Arbitrum One
             // At block 0: Paris
             (Chain::arbitrum_mainnet(), ARBITRUM_ONE_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
