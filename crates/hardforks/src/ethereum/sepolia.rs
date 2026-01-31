@@ -18,6 +18,8 @@ pub const SEPOLIA_SHANGHAI_BLOCK: u64 = 2_990_908;
 pub const SEPOLIA_CANCUN_BLOCK: u64 = 5_187_023;
 /// Prague sepolia hard fork activation block is 7836331.
 pub const SEPOLIA_PRAGUE_BLOCK: u64 = 7_836_331;
+/// Osaka sepolia hard fork activation block is 9408576.
+pub const SEPOLIA_OSAKA_BLOCK: u64 = 9_408_576;
 
 /// Paris sepolia hard fork activation timestamp is 1633267481.
 pub const SEPOLIA_PARIS_TIMESTAMP: u64 = 1_633_267_481;
