@@ -113,6 +113,7 @@ impl EthereumHardfork {
             Self::Shanghai => Some(MAINNET_SHANGHAI_BLOCK),
             Self::Cancun => Some(MAINNET_CANCUN_BLOCK),
             Self::Prague => Some(MAINNET_PRAGUE_BLOCK),
+            Self::Osaka => Some(MAINNET_OSAKA_BLOCK),
             _ => None,
         }
     }
@@ -138,6 +139,7 @@ impl EthereumHardfork {
             Self::Shanghai => Some(SEPOLIA_SHANGHAI_BLOCK),
             Self::Cancun => Some(SEPOLIA_CANCUN_BLOCK),
             Self::Prague => Some(SEPOLIA_PRAGUE_BLOCK),
+            Self::Osaka => Some(SEPOLIA_OSAKA_BLOCK),
             _ => None,
         }
     }
@@ -188,6 +190,7 @@ impl EthereumHardfork {
             | Self::Shanghai
             | Self::Cancun => Some(0),
             Self::Prague => Some(HOODI_PRAGUE_BLOCK),
+            Self::Osaka => Some(HOODI_OSAKA_BLOCK),
             _ => None,
         }
     }
@@ -603,7 +606,8 @@ impl EthereumHardfork {
             _i if num < MAINNET_SHANGHAI_BLOCK => Self::Paris,
             _i if num < MAINNET_CANCUN_BLOCK => Self::Shanghai,
             _i if num < MAINNET_PRAGUE_BLOCK => Self::Cancun,
-            _ => Self::Prague,
+            _i if num < MAINNET_OSAKA_BLOCK => Self::Prague,
+            _ => Self::Osaka,
         }
     }
 

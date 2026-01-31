@@ -2,6 +2,8 @@
 
 /// Prague hoodi hard fork activation block is 60412.
 pub const HOODI_PRAGUE_BLOCK: u64 = 60412;
+/// Osaka hoodi hard fork activation block is 1507304.
+pub const HOODI_OSAKA_BLOCK: u64 = 1_507_304;
 
 /// Prague hoodi hard fork activation timestamp is 1742999832.
 pub const HOODI_PRAGUE_TIMESTAMP: u64 = 1_742_999_832;
