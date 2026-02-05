@@ -387,7 +387,6 @@ impl Index<EthereumHardfork> for OpChainHardforks {
             Prague => &self[Isthmus],
             // Not activated for now
             Osaka | Bpo1 | Bpo2 | Bpo3 | Bpo4 | Bpo5 | Amsterdam => &ForkCondition::Never,
-            _ => unreachable!(),
         }
     }
 }
