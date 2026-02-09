@@ -36,7 +36,6 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [workspace.dependencies]
 alloy-hardforks = { version = "0.4.7", path = "crates/hardforks", default-features = false }
-alloy-op-hardforks = { version = "0.4.7", path = "crates/op-hardforks", default-features = false }
 
 # ethereum
 alloy-chains = { version = "0.2.0", default-features = false }
