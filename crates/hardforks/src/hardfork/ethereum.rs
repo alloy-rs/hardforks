@@ -1,5 +1,5 @@
 use crate::{
-    ForkCondition,
+    ForkCondition, ForkTimestamps, HardforkActivation,
     arbitrum::{mainnet::*, sepolia::*},
     ethereum::{holesky::*, hoodi::*, mainnet::*, sepolia::*},
     hardfork,
@@ -694,6 +694,35 @@ pub trait EthereumHardforks {
         self.ethereum_fork_activation(fork).active_at_timestamp(timestamp)
     }
 
+    /// Returns the [`HardforkActivation`] status of an [`EthereumHardfork`] at the given block
+    /// timestamps.
+    fn ethereum_fork_activation_at_timestamps(
+        &self,
+        fork: EthereumHardfork,
+        timestamps: ForkTimestamps,
+    ) -> HardforkActivation {
+        self.ethereum_fork_activation(fork).activation_at_timestamps(timestamps)
+    }
+
+    /// Convenience method to check if an [`EthereumHardfork`] is active at a given block timestamp.
+    fn is_ethereum_fork_active_at_timestamps(
+        &self,
+        fork: EthereumHardfork,
+        timestamps: ForkTimestamps,
+    ) -> bool {
+        self.ethereum_fork_activation_at_timestamps(fork, timestamps).is_active()
+    }
+
+    /// Convenience method to check if an [`EthereumHardfork`] transitions at a given block
+    /// timestamp.
+    fn ethereum_fork_transitions_at_timestamps(
+        &self,
+        fork: EthereumHardfork,
+        timestamps: ForkTimestamps,
+    ) -> bool {
+        self.ethereum_fork_activation_at_timestamps(fork, timestamps).is_transition()
+    }
+
     /// Convenience method to check if an [`EthereumHardfork`] is active at a given block number.
     fn is_ethereum_fork_active_at_block(&self, fork: EthereumHardfork, block_number: u64) -> bool {
         self.ethereum_fork_activation(fork).active_at_block(block_number)
@@ -784,6 +813,18 @@ pub trait EthereumHardforks {
     /// timestamp.
     fn is_amsterdam_active_at_timestamp(&self, timestamp: u64) -> bool {
         self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Amsterdam, timestamp)
+    }
+
+    /// Returns the [`HardforkActivation`] status of [`EthereumHardfork::Amsterdam`] at the given
+    /// block timestamp.
+    fn amsterdam_activation_at_timestamps(&self, timestamps: ForkTimestamps) -> HardforkActivation {
+        self.ethereum_fork_activation_at_timestamps(EthereumHardfork::Amsterdam, timestamps)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Amsterdam`] transitions at a given block
+    /// timestamp.
+    fn amsterdam_transitions_at_timestamps(&self, timestamps: ForkTimestamps) -> bool {
+        self.amsterdam_activation_at_timestamps(timestamps).is_transition()
     }
 
     /// Convenience method to check if [`EthereumHardfork::Bpo1`] is active at a given timestamp.
@@ -1084,6 +1125,53 @@ mod tests {
             );
             assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
         }
+    }
+
+    #[test]
+    fn test_ethereum_fork_transitions_at_timestamps() {
+        let hardforks = EthereumChainHardforks::new([(
+            EthereumHardfork::Amsterdam,
+            ForkCondition::Timestamp(10),
+        )]);
+
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamps(
+                EthereumHardfork::Amsterdam,
+                ForkTimestamps::new(9, 8)
+            ),
+            HardforkActivation::NotActive
+        );
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamps(
+                EthereumHardfork::Amsterdam,
+                ForkTimestamps::new(10, 9)
+            ),
+            HardforkActivation::Transitions
+        );
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamps(
+                EthereumHardfork::Amsterdam,
+                ForkTimestamps::new(11, 10)
+            ),
+            HardforkActivation::Active
+        );
+        assert_eq!(
+            hardforks.amsterdam_activation_at_timestamps(ForkTimestamps::new(10, 9)),
+            HardforkActivation::Transitions
+        );
+        assert!(!hardforks.ethereum_fork_transitions_at_timestamps(
+            EthereumHardfork::Amsterdam,
+            ForkTimestamps::new(9, 8)
+        ));
+        assert!(hardforks.ethereum_fork_transitions_at_timestamps(
+            EthereumHardfork::Amsterdam,
+            ForkTimestamps::new(10, 9)
+        ));
+        assert!(!hardforks.ethereum_fork_transitions_at_timestamps(
+            EthereumHardfork::Amsterdam,
+            ForkTimestamps::new(11, 10)
+        ));
+        assert!(hardforks.amsterdam_transitions_at_timestamps(ForkTimestamps::new(10, 9)));
     }
 
     macro_rules! test_chain_config {

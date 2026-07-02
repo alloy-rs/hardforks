@@ -1,5 +1,47 @@
 use alloy_primitives::{BlockNumber, U256};
 
+/// Current block timestamp and its parent block timestamp.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub struct ForkTimestamps {
+    /// The current block timestamp.
+    pub timestamp: u64,
+    /// The parent block timestamp.
+    pub parent_timestamp: u64,
+}
+
+impl ForkTimestamps {
+    /// Creates a new [`ForkTimestamps`].
+    pub const fn new(timestamp: u64, parent_timestamp: u64) -> Self {
+        Self { timestamp, parent_timestamp }
+    }
+}
+
+/// Activation status of a hardfork at a block timestamp.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Default)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum HardforkActivation {
+    /// The hardfork was already active before the current block.
+    Active,
+    /// The hardfork becomes active in the current block.
+    Transitions,
+    /// The hardfork is not active in the current block.
+    #[default]
+    NotActive,
+}
+
+impl HardforkActivation {
+    /// Returns true if the hardfork is active in the current block.
+    pub const fn is_active(self) -> bool {
+        matches!(self, Self::Active | Self::Transitions)
+    }
+
+    /// Returns true if the hardfork becomes active in the current block.
+    pub const fn is_transition(self) -> bool {
+        matches!(self, Self::Transitions)
+    }
+}
+
 /// The condition at which a fork is activated.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Default)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -93,11 +135,43 @@ impl ForkCondition {
         matches!(self, Self::Timestamp(time) if timestamp >= *time)
     }
 
+    /// Returns the hardfork activation status at the given block timestamps.
+    ///
+    /// This will return [`HardforkActivation::NotActive`] for any condition that is not
+    /// timestamp-based.
+    pub const fn activation_at_timestamps(&self, timestamps: ForkTimestamps) -> HardforkActivation {
+        match self {
+            Self::Timestamp(time) if timestamps.timestamp >= *time => {
+                if timestamps.parent_timestamp < *time {
+                    HardforkActivation::Transitions
+                } else {
+                    HardforkActivation::Active
+                }
+            }
+            _ => HardforkActivation::NotActive,
+        }
+    }
+
+    /// Checks whether the fork condition is satisfied at the given block timestamps.
+    ///
+    /// This will return false for any condition that is not timestamp-based.
+    pub const fn active_at_timestamps(&self, timestamps: ForkTimestamps) -> bool {
+        self.activation_at_timestamps(timestamps).is_active()
+    }
+
     /// Checks if the given block is the first block that satisfies the fork condition.
     ///
     /// This will return false for any condition that is not timestamp based.
     pub const fn transitions_at_timestamp(&self, timestamp: u64, parent_timestamp: u64) -> bool {
         matches!(self, Self::Timestamp(time) if timestamp >= *time && parent_timestamp < *time)
+    }
+
+    /// Checks if the block described by the timestamps is the first block that satisfies the fork
+    /// condition.
+    ///
+    /// This will return false for any condition that is not timestamp based.
+    pub const fn transitions_at_timestamps(&self, timestamps: ForkTimestamps) -> bool {
+        self.activation_at_timestamps(timestamps).is_transition()
     }
 
     /// Checks whether the fork condition is satisfied at the given timestamp or number.
@@ -213,8 +287,17 @@ mod tests {
     fn test_active_at_timestamp() {
         // Test if the condition activates at the correct timestamp
         let fork_condition = ForkCondition::Timestamp(12345);
+        let timestamps = ForkTimestamps::new(12345, 12344);
+        assert_eq!(
+            fork_condition.activation_at_timestamps(timestamps),
+            HardforkActivation::Transitions
+        );
         assert!(
             fork_condition.active_at_timestamp(12345),
+            "The condition should be active at timestamp 12345"
+        );
+        assert!(
+            fork_condition.active_at_timestamps(timestamps),
             "The condition should be active at timestamp 12345"
         );
 
@@ -229,9 +312,18 @@ mod tests {
     fn test_transitions_at_timestamp() {
         // Test if the condition transitions at the correct timestamp
         let fork_condition = ForkCondition::Timestamp(12345);
+        let timestamps = ForkTimestamps::new(12345, 12344);
         assert!(
             fork_condition.transitions_at_timestamp(12345, 12344),
             "The condition should transition at timestamp 12345"
+        );
+        assert!(
+            fork_condition.transitions_at_timestamps(timestamps),
+            "The condition should transition at timestamp 12345"
+        );
+        assert_eq!(
+            fork_condition.activation_at_timestamps(ForkTimestamps::new(12346, 12345)),
+            HardforkActivation::Active
         );
 
         // Test if the condition does not transition if the parent timestamp is already the same
