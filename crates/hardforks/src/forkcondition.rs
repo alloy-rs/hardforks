@@ -97,7 +97,31 @@ impl ForkCondition {
     ///
     /// This will return false for any condition that is not timestamp based.
     pub const fn transitions_at_timestamp(&self, timestamp: u64, parent_timestamp: u64) -> bool {
-        matches!(self, Self::Timestamp(time) if timestamp >= *time && parent_timestamp < *time)
+        matches!(
+            self.activation_at_timestamp(timestamp, parent_timestamp),
+            HardforkActivation::Transitions
+        )
+    }
+
+    /// Returns the hardfork activation status at the given timestamp.
+    ///
+    /// This will return [`HardforkActivation::NotActive`] for any condition that is not
+    /// timestamp-based.
+    pub const fn activation_at_timestamp(
+        &self,
+        timestamp: u64,
+        parent_timestamp: u64,
+    ) -> HardforkActivation {
+        match self {
+            Self::Timestamp(time) if timestamp >= *time => {
+                if parent_timestamp < *time {
+                    HardforkActivation::Transitions
+                } else {
+                    HardforkActivation::Active
+                }
+            }
+            _ => HardforkActivation::NotActive,
+        }
     }
 
     /// Checks whether the fork condition is satisfied at the given timestamp or number.
@@ -132,6 +156,19 @@ impl ForkCondition {
             _ => None,
         }
     }
+}
+
+/// Activation status of a hardfork at a block timestamp.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Default)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+pub enum HardforkActivation {
+    /// The hardfork was already active before the current block.
+    Active,
+    /// The hardfork becomes active in the current block.
+    Transitions,
+    /// The hardfork is not active in the current block.
+    #[default]
+    NotActive,
 }
 
 #[cfg(test)]
@@ -243,6 +280,28 @@ mod tests {
         assert!(
             !fork_condition.transitions_at_timestamp(123, 122),
             "The condition should not transition if the parent timestamp is earlier"
+        );
+    }
+
+    #[test]
+    fn test_activation_at_timestamp() {
+        let fork_condition = ForkCondition::Timestamp(12345);
+
+        assert_eq!(
+            fork_condition.activation_at_timestamp(12344, 12343),
+            HardforkActivation::NotActive
+        );
+        assert_eq!(
+            fork_condition.activation_at_timestamp(12345, 12344),
+            HardforkActivation::Transitions
+        );
+        assert_eq!(
+            fork_condition.activation_at_timestamp(12346, 12345),
+            HardforkActivation::Active
+        );
+        assert_eq!(
+            ForkCondition::Block(1).activation_at_timestamp(12345, 12344),
+            HardforkActivation::NotActive
         );
     }
 }
