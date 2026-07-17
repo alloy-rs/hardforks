@@ -65,6 +65,8 @@ hardfork!(
         Bpo5,
         /// Amsterdam: <https://eips.ethereum.org/EIPS/eip-7773>
         Amsterdam,
+        /// Bogota: <https://eips.ethereum.org/EIPS/eip-8081>
+        Bogota
     }
 );
 
@@ -784,6 +786,12 @@ pub trait EthereumHardforks {
     /// timestamp.
     fn is_amsterdam_active_at_timestamp(&self, timestamp: u64) -> bool {
         self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Amsterdam, timestamp)
+    }
+
+    /// Convenience method to check if [`EthereumHardfork::Bogota`] is active at a given
+    /// timestamp.
+    fn is_bogota_active_at_timestamp(&self, timestamp: u64) -> bool {
+        self.is_ethereum_fork_active_at_timestamp(EthereumHardfork::Bogota, timestamp)
     }
 
     /// Convenience method to check if [`EthereumHardfork::Bpo1`] is active at a given timestamp.
