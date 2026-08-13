@@ -3,7 +3,7 @@ members = ["crates/*"]
 resolver = "2"
 
 [workspace.package]
-version = "0.4.7"
+version = "0.4.8"
 edition = "2024"
 rust-version = "1.85"
 authors = ["Alloy Contributors"]
@@ -35,7 +35,7 @@ all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
 [workspace.dependencies]
-alloy-hardforks = { version = "0.4.7", path = "crates/hardforks", default-features = false }
+alloy-hardforks = { version = "0.4.8", path = "crates/hardforks", default-features = false }
 
 # ethereum
 alloy-chains = { version = "0.2.0", default-features = false }
