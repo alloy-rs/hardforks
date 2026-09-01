@@ -1,5 +1,5 @@
 use crate::{
-    ForkCondition,
+    ForkCondition, HardforkActivation,
     arbitrum::{mainnet::*, sepolia::*},
     ethereum::{holesky::*, hoodi::*, mainnet::*, sepolia::*},
     hardfork,
@@ -696,6 +696,16 @@ pub trait EthereumHardforks {
         self.ethereum_fork_activation(fork).active_at_timestamp(timestamp)
     }
 
+    /// Returns the [`HardforkActivation`] status of an [`EthereumHardfork`] at a given timestamp.
+    fn ethereum_fork_activation_at_timestamp(
+        &self,
+        fork: EthereumHardfork,
+        timestamp: u64,
+        parent_timestamp: u64,
+    ) -> HardforkActivation {
+        self.ethereum_fork_activation(fork).activation_at_timestamp(timestamp, parent_timestamp)
+    }
+
     /// Convenience method to check if an [`EthereumHardfork`] is active at a given block number.
     fn is_ethereum_fork_active_at_block(&self, fork: EthereumHardfork, block_number: u64) -> bool {
         self.ethereum_fork_activation(fork).active_at_block(block_number)
@@ -1092,6 +1102,31 @@ mod tests {
             );
             assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
         }
+    }
+
+    #[test]
+    fn test_ethereum_fork_activation_at_timestamp() {
+        let hardforks = EthereumChainHardforks::new([(
+            EthereumHardfork::Amsterdam,
+            ForkCondition::Timestamp(10),
+        )]);
+
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamp(EthereumHardfork::Amsterdam, 9, 8),
+            HardforkActivation::NotActive
+        );
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamp(EthereumHardfork::Amsterdam, 10, 9),
+            HardforkActivation::Transitions
+        );
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamp(EthereumHardfork::Amsterdam, 11, 10),
+            HardforkActivation::Active
+        );
+        assert_eq!(
+            hardforks.ethereum_fork_activation_at_timestamp(EthereumHardfork::Osaka, 10, 9),
+            HardforkActivation::NotActive
+        );
     }
 
     macro_rules! test_chain_config {
