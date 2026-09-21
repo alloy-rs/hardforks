@@ -317,6 +317,7 @@ impl EthereumHardfork {
             Self::Osaka => Some(SEPOLIA_OSAKA_TIMESTAMP),
             Self::Bpo1 => Some(SEPOLIA_BPO1_TIMESTAMP),
             Self::Bpo2 => Some(SEPOLIA_BPO2_TIMESTAMP),
+            Self::Amsterdam => Some(SEPOLIA_AMSTERDAM_TIMESTAMP),
             _ => None,
         }
     }
@@ -463,7 +464,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum sepolia list of hardforks.
-    pub const fn sepolia() -> [(Self, ForkCondition); 19] {
+    pub const fn sepolia() -> [(Self, ForkCondition); 20] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -491,6 +492,7 @@ impl EthereumHardfork {
             (Self::Osaka, ForkCondition::Timestamp(SEPOLIA_OSAKA_TIMESTAMP)),
             (Self::Bpo1, ForkCondition::Timestamp(SEPOLIA_BPO1_TIMESTAMP)),
             (Self::Bpo2, ForkCondition::Timestamp(SEPOLIA_BPO2_TIMESTAMP)),
+            (Self::Amsterdam, ForkCondition::Timestamp(SEPOLIA_AMSTERDAM_TIMESTAMP)),
         ]
     }
 
@@ -649,7 +651,8 @@ impl EthereumHardfork {
                 _i if timestamp < SEPOLIA_OSAKA_TIMESTAMP => Self::Prague,
                 _i if timestamp < SEPOLIA_BPO1_TIMESTAMP => Self::Osaka,
                 _i if timestamp < SEPOLIA_BPO2_TIMESTAMP => Self::Bpo1,
-                _ => Self::Bpo2,
+                _i if timestamp < SEPOLIA_AMSTERDAM_TIMESTAMP => Self::Bpo2,
+                _ => Self::Amsterdam,
             }),
             NamedChain::Holesky => Some(match timestamp {
                 _i if timestamp < HOLESKY_SHANGHAI_TIMESTAMP => Self::Paris,
@@ -983,6 +986,9 @@ mod tests {
             (Chain::sepolia(), SEPOLIA_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
             (Chain::sepolia(), SEPOLIA_BPO1_TIMESTAMP, EthereumHardfork::Bpo1),
             (Chain::sepolia(), SEPOLIA_BPO2_TIMESTAMP, EthereumHardfork::Bpo2),
+            (Chain::sepolia(), SEPOLIA_AMSTERDAM_TIMESTAMP - 1, EthereumHardfork::Bpo2),
+            (Chain::sepolia(), SEPOLIA_AMSTERDAM_TIMESTAMP, EthereumHardfork::Amsterdam),
+            (Chain::sepolia(), SEPOLIA_AMSTERDAM_TIMESTAMP + 1, EthereumHardfork::Amsterdam),
             // Holesky
             // At block 0: Paris
             (Chain::holesky(), HOLESKY_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
@@ -1092,6 +1098,18 @@ mod tests {
             );
             assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
         }
+    }
+
+    #[test]
+    fn sepolia_amsterdam_activation() {
+        let forks = EthereumChainHardforks::sepolia();
+        assert_eq!(
+            EthereumHardfork::Amsterdam.activation_timestamp(Chain::sepolia()),
+            Some(1_791_294_816)
+        );
+        assert!(!forks.is_amsterdam_active_at_timestamp(SEPOLIA_AMSTERDAM_TIMESTAMP - 1));
+        assert!(forks.is_amsterdam_active_at_timestamp(SEPOLIA_AMSTERDAM_TIMESTAMP));
+        assert!(forks.is_amsterdam_active_at_timestamp(SEPOLIA_AMSTERDAM_TIMESTAMP + 1));
     }
 
     macro_rules! test_chain_config {
