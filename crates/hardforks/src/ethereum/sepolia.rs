@@ -37,3 +37,6 @@ pub const SEPOLIA_BPO1_TIMESTAMP: u64 = 1761017184;
 
 /// BPO2 hardfork activation timestamp
 pub const SEPOLIA_BPO2_TIMESTAMP: u64 = 1761607008;
+
+/// Amsterdam sepolia hard fork activation timestamp is 1791294816.
+pub const SEPOLIA_AMSTERDAM_TIMESTAMP: u64 = 1_791_294_816;
