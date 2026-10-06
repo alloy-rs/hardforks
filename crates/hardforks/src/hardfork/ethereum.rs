@@ -142,6 +142,7 @@ impl EthereumHardfork {
             Self::Cancun => Some(SEPOLIA_CANCUN_BLOCK),
             Self::Prague => Some(SEPOLIA_PRAGUE_BLOCK),
             Self::Osaka => Some(SEPOLIA_OSAKA_BLOCK),
+            Self::Amsterdam => Some(SEPOLIA_AMSTERDAM_BLOCK),
             _ => None,
         }
     }
@@ -1103,6 +1104,11 @@ mod tests {
     #[test]
     fn sepolia_amsterdam_activation() {
         let forks = EthereumChainHardforks::sepolia();
+        assert_eq!(EthereumHardfork::Amsterdam.sepolia_activation_block(), Some(11_856_337));
+        assert_eq!(
+            EthereumHardfork::Amsterdam.activation_block(Chain::sepolia()),
+            Some(11_856_337)
+        );
         assert_eq!(
             EthereumHardfork::Amsterdam.activation_timestamp(Chain::sepolia()),
             Some(1_791_294_816)
