@@ -607,7 +607,8 @@ impl EthereumHardfork {
             _i if num < MAINNET_BERLIN_BLOCK => Self::MuirGlacier,
             _i if num < MAINNET_LONDON_BLOCK => Self::Berlin,
             _i if num < MAINNET_ARROW_GLACIER_BLOCK => Self::London,
-            _i if num < MAINNET_PARIS_BLOCK => Self::ArrowGlacier,
+            _i if num < MAINNET_GRAY_GLACIER_BLOCK => Self::ArrowGlacier,
+            _i if num < MAINNET_PARIS_BLOCK => Self::GrayGlacier,
             _i if num < MAINNET_SHANGHAI_BLOCK => Self::Paris,
             _i if num < MAINNET_CANCUN_BLOCK => Self::Shanghai,
             _i if num < MAINNET_PRAGUE_BLOCK => Self::Cancun,
@@ -1098,6 +1099,21 @@ mod tests {
                 Some(fork)
             );
             assert_eq!(fork.activation_timestamp(Chain::mainnet()), Some(timestamp));
+        }
+    }
+
+    #[test]
+    fn test_from_mainnet_block_number() {
+        let test_cases = [
+            (MAINNET_ARROW_GLACIER_BLOCK, EthereumHardfork::ArrowGlacier),
+            (MAINNET_GRAY_GLACIER_BLOCK - 1, EthereumHardfork::ArrowGlacier),
+            (MAINNET_GRAY_GLACIER_BLOCK, EthereumHardfork::GrayGlacier),
+            (MAINNET_PARIS_BLOCK - 1, EthereumHardfork::GrayGlacier),
+            (MAINNET_PARIS_BLOCK, EthereumHardfork::Paris),
+        ];
+
+        for (block, fork) in test_cases {
+            assert_eq!(EthereumHardfork::from_mainnet_block_number(block), fork);
         }
     }
 
