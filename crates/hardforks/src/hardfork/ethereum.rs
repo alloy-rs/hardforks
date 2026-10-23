@@ -375,7 +375,6 @@ impl EthereumHardfork {
             Self::Osaka => Some(HOODI_OSAKA_TIMESTAMP),
             Self::Bpo1 => Some(HOODI_BPO1_TIMESTAMP),
             Self::Bpo2 => Some(HOODI_BPO2_TIMESTAMP),
-            Self::Amsterdam => Some(HOODI_AMSTERDAM_TIMESTAMP),
             _ => None,
         }
     }
@@ -531,7 +530,7 @@ impl EthereumHardfork {
     }
 
     /// Ethereum Hoodi list of hardforks.
-    pub const fn hoodi() -> [(Self, ForkCondition); 20] {
+    pub const fn hoodi() -> [(Self, ForkCondition); 19] {
         [
             (Self::Frontier, ForkCondition::Block(0)),
             (Self::Homestead, ForkCondition::Block(0)),
@@ -559,7 +558,6 @@ impl EthereumHardfork {
             (Self::Osaka, ForkCondition::Timestamp(HOODI_OSAKA_TIMESTAMP)),
             (Self::Bpo1, ForkCondition::Timestamp(HOODI_BPO1_TIMESTAMP)),
             (Self::Bpo2, ForkCondition::Timestamp(HOODI_BPO2_TIMESTAMP)),
-            (Self::Amsterdam, ForkCondition::Timestamp(HOODI_AMSTERDAM_TIMESTAMP)),
         ]
     }
 
@@ -671,8 +669,7 @@ impl EthereumHardfork {
                 _i if timestamp < HOODI_OSAKA_TIMESTAMP => Self::Prague,
                 _i if timestamp < HOODI_BPO1_TIMESTAMP => Self::Osaka,
                 _i if timestamp < HOODI_BPO2_TIMESTAMP => Self::Bpo1,
-                _i if timestamp < HOODI_AMSTERDAM_TIMESTAMP => Self::Bpo2,
-                _ => Self::Amsterdam,
+                _ => Self::Bpo2,
             }),
             NamedChain::Arbitrum => Some(match timestamp {
                 _i if timestamp < ARBITRUM_ONE_SHANGHAI_TIMESTAMP => Self::Paris,
@@ -1012,9 +1009,11 @@ mod tests {
             (Chain::hoodi(), HOODI_OSAKA_TIMESTAMP, EthereumHardfork::Osaka),
             (Chain::hoodi(), HOODI_BPO1_TIMESTAMP, EthereumHardfork::Bpo1),
             (Chain::hoodi(), HOODI_BPO2_TIMESTAMP, EthereumHardfork::Bpo2),
-            (Chain::hoodi(), HOODI_AMSTERDAM_TIMESTAMP - 1, EthereumHardfork::Bpo2),
-            (Chain::hoodi(), HOODI_AMSTERDAM_TIMESTAMP, EthereumHardfork::Amsterdam),
-            (Chain::hoodi(), HOODI_AMSTERDAM_TIMESTAMP + 1, EthereumHardfork::Amsterdam),
+            // Amsterdam's cancelled activation must not change the active fork.
+            (Chain::hoodi(), 1_793_036_567, EthereumHardfork::Bpo2),
+            (Chain::hoodi(), 1_793_036_568, EthereumHardfork::Bpo2),
+            (Chain::hoodi(), 1_793_036_569, EthereumHardfork::Bpo2),
+            (Chain::hoodi(), u64::MAX, EthereumHardfork::Bpo2),
             // Arbitrum One
             // At block 0: Paris
             (Chain::arbitrum_mainnet(), ARBITRUM_ONE_PARIS_TIMESTAMP - 1, EthereumHardfork::Paris),
@@ -1125,17 +1124,17 @@ mod tests {
     }
 
     #[test]
-    fn hoodi_amsterdam_activation() {
+    fn hoodi_amsterdam_not_scheduled() {
         let forks = EthereumChainHardforks::hoodi();
-        // Beacon genesis plus Gloas epoch * slots per epoch * seconds per slot.
-        assert_eq!(HOODI_AMSTERDAM_TIMESTAMP, 1_742_213_400 + 132_352 * 32 * 12);
+        assert_eq!(HOODI_AMSTERDAM_TIMESTAMP, u64::MAX);
+        assert_eq!(EthereumHardfork::Amsterdam.activation_timestamp(Chain::hoodi()), None);
         assert_eq!(
-            EthereumHardfork::Amsterdam.activation_timestamp(Chain::hoodi()),
-            Some(1_793_036_568)
+            forks.ethereum_fork_activation(EthereumHardfork::Amsterdam),
+            ForkCondition::Never
         );
-        assert!(!forks.is_amsterdam_active_at_timestamp(HOODI_AMSTERDAM_TIMESTAMP - 1));
-        assert!(forks.is_amsterdam_active_at_timestamp(HOODI_AMSTERDAM_TIMESTAMP));
-        assert!(forks.is_amsterdam_active_at_timestamp(HOODI_AMSTERDAM_TIMESTAMP + 1));
+        for timestamp in [1_793_036_567, 1_793_036_568, 1_793_036_569, u64::MAX] {
+            assert!(!forks.is_amsterdam_active_at_timestamp(timestamp));
+        }
     }
 
     macro_rules! test_chain_config {

@@ -16,5 +16,5 @@ pub const HOODI_BPO1_TIMESTAMP: u64 = 1762365720;
 /// BPO2 hardfork activation timestamp
 pub const HOODI_BPO2_TIMESTAMP: u64 = 1762955544;
 
-/// Amsterdam hoodi hard fork activation timestamp is 1793036568.
-pub const HOODI_AMSTERDAM_TIMESTAMP: u64 = 1_793_036_568;
+/// Amsterdam on Hoodi is not scheduled. Retained for backwards compatibility.
+pub const HOODI_AMSTERDAM_TIMESTAMP: u64 = u64::MAX;
