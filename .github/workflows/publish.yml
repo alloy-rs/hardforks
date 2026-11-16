@@ -43,7 +43,6 @@ jobs:
         id: packages
         env:
           TAG: ${{ github.ref_name }}
-          LOCKSTEP: "false"
         run: .github/scripts/release-packages.sh "$TAG" >> "$GITHUB_OUTPUT"
       - uses: tempoxyz/gh-actions/actions/cargo-publish@763efe11a9d8333bcbf0bb2f5ab80f21961c48fd # 2026-11-02T08-44-18Z-763efe11
         with:
